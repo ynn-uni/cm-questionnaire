@@ -3,12 +3,12 @@
     <div class="content">
       <div class="likelist flex align-center">
         <i
-          v-for="(item,index) in 4"
+          v-for="(item,index) in 3"
           :key="index"
           class="iconfont icon-shoucang color-origin"
         />
         <i
-          v-for="(item1,index1) in 1"
+          v-for="(item1,index1) in 2"
           :key="'kong'+index1"
           class="iconfont icon-shoucang2 color-origin"
         />
