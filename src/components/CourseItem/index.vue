@@ -44,9 +44,9 @@
         课程题目《运营之光》
       </div>
     </div>
-    <div class="lookmore flex justify-center align-center">
+    <!-- <div class="lookmore flex justify-center align-center">
       <i class="iconfont icon-yousanjiao color-rightarr" />
-    </div>
+    </div> -->
   </div>
 </template>
 
