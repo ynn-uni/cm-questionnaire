@@ -48,6 +48,16 @@ module.exports = {
       }
     }
   },
+
+  // set sass loader
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: '@import "~@/styles/variables.scss";\n@import "~@/styles/mixin.scss";'
+      }
+    }
+  },
+
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test

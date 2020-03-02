@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home app-container">
     <CourseList />
   </div>
 </template>
@@ -22,7 +22,5 @@ export default {
 
 <style lang="scss" scoped>
 .home {
- padding-top: 30px;
- padding-left: 50px;
 }
 </style>
