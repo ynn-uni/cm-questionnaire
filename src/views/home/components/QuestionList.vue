@@ -1,13 +1,13 @@
 <template>
-  <div class="course flex justify-between">
+  <div class="questionlist flex justify-between">
     <CourseItem v-for="(item,index) in 3" :key="index" />
   </div>
 </template>
 
 <script>
-import CourseItem from '@/components/CourseItem'
+import CourseItem from '@/components/QuestionItem'
 export default {
-  name: 'CourseList',
+  name: 'QuestionList',
   components: {
     CourseItem
   },
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .course{
+  .questionlist{
     margin: 30px 0;
   }
 </style>
