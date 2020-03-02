@@ -78,14 +78,37 @@ export const constantRoutes = [
   },
 
   {
-    path: '/form',
+    path: '/survey',
     component: Layout,
+    redirect: '/survey/index',
+    meta: { title: '我的问卷', icon: 'iconfont icon-wenjuan' },
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
+        name: 'Survey',
+        component: () => import('@/views/survey/index'),
         meta: { title: '我的问卷', icon: 'iconfont icon-wenjuan' }
+      },
+      {
+        path: 'create',
+        name: 'Survey Create',
+        hidden: true,
+        component: () => import('@/views/survey/create'),
+        meta: { title: '创建问卷' }
+      },
+      {
+        path: 'detail',
+        name: 'Survey Detail',
+        hidden: true,
+        component: () => import('@/views/survey/detail'),
+        meta: { title: '问卷详情' }
+      },
+      {
+        path: 'result',
+        name: 'Survey Result',
+        hidden: true,
+        component: () => import('@/views/survey/result'),
+        meta: { title: '问卷结果' }
       }
     ]
   },
