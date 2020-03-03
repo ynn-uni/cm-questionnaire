@@ -1,7 +1,7 @@
 <template>
   <div class="survey-radio">
     <el-radio-group>
-      <el-radio v-for="option in options" :key="option.id" :label="option.id">
+      <el-radio v-for="option in options" :key="option.id" :label="option.id" disabled>
         <ContentEditor :value="option.label" class="options-label" />
       </el-radio>
     </el-radio-group>

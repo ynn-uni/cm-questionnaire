@@ -1,6 +1,6 @@
 <template>
   <div class="survey-input">
-    <el-input v-model="content" :placeholder="placeholder" disabled size="small" />
+    <el-input :placeholder="placeholder" disabled size="small" />
   </div>
 </template>
 
@@ -14,9 +14,7 @@ export default {
     }
   },
   data() {
-    return {
-      content: []
-    }
+    return {}
   },
   mounted() {},
   methods: {}

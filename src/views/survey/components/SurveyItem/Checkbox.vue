@@ -1,7 +1,7 @@
 <template>
   <div class="survey-checkbox">
-    <el-checkbox-group v-model="checkList">
-      <el-checkbox v-for="option in options" :key="option.id" :label="option.id">
+    <el-checkbox-group>
+      <el-checkbox v-for="option in options" :key="option.id" :label="option.id" disabled>
         <ContentEditor :value="option.label" class="options-label" />
       </el-checkbox>
     </el-checkbox-group>
@@ -22,9 +22,7 @@ export default {
     }
   },
   data() {
-    return {
-      checkList: []
-    }
+    return {}
   },
   mounted() {},
   methods: {}
