@@ -32,3 +32,49 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+
+ 
+$lg: 'screen and (min-width: 1440px)';
+$md: 'screen and (min-width: 1024px) and (max-width: 1440px)';
+$xs: 'screen and (max-width: 1024px)';
+
+
+@mixin response-courseDetailWidth() {
+  @media #{$lg} {
+    width: 50%;
+  }
+  @media #{$md} {
+    width: 50%;
+  }
+  @media #{$xs} {
+    width: 100%;
+    border: none;
+  }
+}
+@mixin response-selectGroup() {
+  @media #{$lg} {
+    width: 10%;
+  }
+  @media #{$md} {
+    width: 15%;
+    margin-bottom: 30px;
+  }
+  @media #{$xs} {
+    width: 20%;
+    margin-bottom: 30px;
+  }
+}
+@mixin response-selectGroupInput() {
+  @media #{$lg} {
+    width: 15%;
+  }
+  @media #{$md} {
+    width: 20%;
+    margin-bottom: 30px;
+  }
+  @media #{$xs} {
+    width: 25%;
+    margin-bottom: 30px;
+  }
+}
