@@ -17,12 +17,21 @@
           <ContentEditor v-model="title" placeholder="点击编辑问卷标题" />
           <ContentEditor v-model="content" placeholder="点击编辑欢迎语及问卷描述" />
         </el-card>
+
         <el-divider />
+
         <div v-if="questions.length">
           <el-card v-for="(item, index) in questions" :key="index" class="survey-card">
-            <SurveyItem ref="surveyItem" :index="index + 1" :question="item" />
+            <SurveyItem
+              ref="surveyItem"
+              :sequence="index + 1"
+              :question="item"
+              @copy="handleCopyItem"
+              @delete="handleDeleteItem"
+            />
           </el-card>
         </div>
+
         <div v-else class="survey-question-empty">
           <div>
             添加题目，请
@@ -30,7 +39,9 @@
             点击【题型】
           </div>
         </div>
+
         <el-divider />
+
         <el-card>
           <div class="survey-end">
             <ContentEditor
@@ -119,6 +130,18 @@ export default {
           }
       }
       this.questions.push(question)
+    },
+
+    // 删除问卷题目
+    handleDeleteItem(evt) {
+      const { sequence } = evt
+      this.questions.splice(sequence - 1, 1)
+    },
+
+    // 复制题目
+    handleCopyItem(evt) {
+      const { sequence, question } = evt
+      this.questions.splice(sequence - 1, 0, question)
     }
   }
 }
@@ -142,7 +165,7 @@ export default {
   }
   .survey-main {
     flex: 1;
-    margin-left:10px;
+    margin-left: 10px;
     position: relative;
     overflow: hidden;
 
