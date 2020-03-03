@@ -1,25 +1,27 @@
 <template>
-  <div class="item flex align-center">
-    <i class="iconfont icon-wenjuan my-icon" />
-    <div class="info">
-      <div class="title">
-        关于新冠病毒疫情后工业设计发展趋势问卷调查研关于新冠病毒疫情后工业设计发展趋势问卷调查研
-      </div>
-      <div class="other flex align-center justify-between">
-        <div class="date">
-          2020.02.20-2020.03.15
+  <el-col :lg="8" :md="12" :xs="24">
+    <div class="item flex align-center">
+      <i class="iconfont icon-wenjuan my-icon" />
+      <div class="info">
+        <div class="title">
+          关于新冠病毒疫情后工业设计发展趋势问卷调查研关于新冠病毒疫情后工业设计发展趋势问卷调查研
         </div>
-        <div class="collect flex align-center">
-          <i class="iconfont icon-shoucang1" />
-          取消收藏
-        </div>
-        <div class="share flex align-center">
-          <i class="iconfont icon-fenxiang" />
-          取消收藏
+        <div class="other flex align-center justify-between">
+          <div class="date">
+            2020.02.20-2020.03.15
+          </div>
+          <div class="collect" :class="collect?'active':''" @click.stop="handelCollect">
+            <i class="iconfont icon-shoucang1" />
+            {{ collect?'取消收藏':'收藏' }}
+          </div>
+          <div class="share flex align-center">
+            <i class="iconfont icon-fenxiang" />
+            分享问卷
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </el-col>
 </template>
 
 <script>
@@ -33,11 +35,13 @@ export default {
   },
   data() {
     return {
-
+      collect: false
     }
   },
   methods: {
-
+    handelCollect() {
+      this.collect = !this.collect
+    }
   }
 }
 </script>
@@ -46,11 +50,12 @@ export default {
   .item{
     cursor: pointer;
     padding: 20px;
-    width: 30%;
     height:85px;
     border-radius:4px;
     border:1px solid rgba(181,181,181,1);
-
+    margin-bottom: 30px;
+    width: 100%;
+    // @include response-itemWidth();
     .my-icon{
       color:$primaryColor;
       font-size: 44px;
@@ -75,12 +80,18 @@ export default {
         .collect,.share{
           color: $textSecondary;
           line-height: 20px;
+          width: 80px;
           i{
             font-size: 20px;
             color:$textPrimary;
             margin-right: 2px;
           }
         }
+        .active{
+           i{
+            color:#FFEC0F;
+           }
+          }
         .share{
           color: $primaryColor;
         }

@@ -13,8 +13,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import CourseList from './components/CourseList'
-import QuestionList from './components/QuestionList'
+import CourseList from '@/components/CourseList'
+import QuestionList from '@/components/QuestionList'
 export default {
   name: 'Dashboard',
   components: {
@@ -33,7 +33,7 @@ export default {
 .home {
   .title{
     font-size: 20px;
-    color: #4a4a4a;
+    color: $textPrimary;
   }
 }
 </style>

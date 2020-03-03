@@ -1,6 +1,8 @@
 <template>
   <div class="course flex justify-between">
-    <CourseItem v-for="(item,index) in 3" :key="index" />
+    <el-row :gutter="20">
+      <CourseItem v-for="(item,index) in 5" :key="index" />
+    </el-row>
   </div>
 </template>
 
@@ -30,6 +32,11 @@ export default {
 
 <style scoped lang="scss">
   .course{
-    margin: 30px 0;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    width: 100%;
+    .el-row{
+      width: 100%;
+    }
   }
 </style>

@@ -1,26 +1,16 @@
 <template>
-  <el-popover
-    trigger="hover"
-    placement="right"
-  >
-    <div class="bref">
-      <div class="title">
-        运营之光
-      </div>
-      <div class="dis">
-        已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦已经类名称建瓯市JF皮皮皮皮的烦烦烦烦烦烦
-      </div>
-    </div>
-    <div slot="reference" class="item flex">
+
+  <el-col :lg="8" :md="12" :xs="24">
+    <div class="item flex" @click="handelDetail('1')">
       <img class="ci-img" src="http://dummyimage.com/150x200" alt="">
       <div class="info">
         <div class="title flex justify-between align-center">
           <div class="title-text">
             运营之光
           </div>
-          <div class="collect">
+          <div class="collect" :class="collect?'active':''" @click.stop="handelCollect">
             <i class="iconfont icon-shoucang1" />
-            取消收藏
+            {{ collect?'取消收藏':'收藏' }}
           </div>
         </div>
         <div class="info-item">
@@ -36,10 +26,13 @@
           学    分：4分
         </div>
         <div class="other-option flex justify-between">
-          <el-button type="success">
+          <el-tag
+            type="success"
+            effect="dark"
+          >
             进行中
-          </el-button>
-          <el-button type="primary">
+          </el-tag>
+          <el-button type="primary" class="btn-enter" @click.stop="open">
             申请加入
           </el-button>
 
@@ -48,7 +41,8 @@
       </div>
 
     </div>
-  </el-popover>
+  </el-col>
+
 </template>
 
 <script>
@@ -62,23 +56,37 @@ export default {
   },
   data() {
     return {
-
+      collect: false
     }
   },
   methods: {
 
+    handelDetail(id) {
+      this.$router.push('/coursedetail/index')
+    },
+    open() {
+      this.$prompt('请输入邀请码', {
+        cancelButtonText: '取消',
+        confirmButtonText: '申请加入'
+      }).then(({ value }) => {
+        this.$message({
+          type: 'success',
+          message: '加入成功'
+        })
+      }).catch(() => {
+      })
+    },
+    handelCollect() {
+      this.collect = !this.collect
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  span{
-    display: block;
-    width: 30%;
-    height: 240px;
-  }
   .item{
     cursor: pointer;
+    margin-bottom: 30px;
     padding: 20px;
     width: 100%;
     height: 240px;
@@ -100,11 +108,19 @@ export default {
         .collect{
           font-size: 14px;
           color: $textSecondary;
+          width: 80px;
           i{
             font-size: 20px;
             color:$textPrimary;
           }
+
         }
+        .active{
+           i{
+            color:#FFEC0F;
+           }
+          }
+
       }
       .info-item{
         font-size: 14px;
@@ -112,9 +128,7 @@ export default {
       .other-option{
         height: 30px;
         margin-top: 18px;
-       .el-button{
-        padding: 0 20px;
-       }
+
       }
 
     }

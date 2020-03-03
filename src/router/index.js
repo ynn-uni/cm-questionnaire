@@ -56,27 +56,33 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
+    path: '/course',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '我的课程', icon: 'iconfont icon-kecheng' },
+    redirect: '/course/index',
+    name: 'Course',
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'iconfont icon-kecheng' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'index',
+        name: 'Course',
+        component: () => import('@/views/course/index'),
+        meta: { title: '我的课程', icon: 'iconfont icon-kecheng' }
       }
     ]
   },
 
+  {
+    path: '/coursedetail',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'CourseDetail',
+        component: () => import('@/views/coursedetail/index'),
+        meta: { title: '课程详情', icon: 'iconfont icon-kecheng' },
+        hidden: true
+      }
+    ]
+  },
   {
     path: '/form',
     component: Layout,
