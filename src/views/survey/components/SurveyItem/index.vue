@@ -3,7 +3,7 @@
     <div class="survey-item-header">
       <div class="flex">
         <span class="survey-index">{{ sequence }}</span>
-        <ContentEditor :value="question.title" class="survey-item-title" />
+        <ContentEditor v-model="question.title" class="survey-item-title" />
       </div>
       <div class="survey-item-action">
         <i class="el-icon-copy-document" @click="handleCopy" />
