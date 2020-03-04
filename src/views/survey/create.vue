@@ -45,11 +45,11 @@
         <el-card>
           <div class="survey-end">
             <ContentEditor
-              v-model="title"
+              v-model="suffix"
               class="survey-end-content"
-              placeholder="您已完成本次问卷，感谢您的帮助与支持"
+              placeholder="点击填写结束语"
             />
-            <el-button type="primary" size="small">发布</el-button>
+            <el-button type="primary" size="small" @click="handlePublishSurvey">发布</el-button>
           </div>
         </el-card>
       </div>
@@ -72,8 +72,9 @@ export default {
   data() {
     return {
       id: shortid.generate(),
-      title: '',
+      title: '问卷标题',
       content: '',
+      suffix: '您已完成本次问卷，感谢您的帮助与支持',
       questions: []
     }
   },
@@ -142,6 +143,18 @@ export default {
     handleCopyItem(evt) {
       const { sequence, question } = evt
       this.questions.splice(sequence - 1, 0, question)
+    },
+
+    // 发布问卷
+    handlePublishSurvey() {
+      const { title, content, questions, suffix } = this
+      const survey = {
+        title,
+        content,
+        suffix,
+        questions
+      }
+      console.log(survey)
     }
   }
 }
