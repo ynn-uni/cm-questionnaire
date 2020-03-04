@@ -1,6 +1,11 @@
 <template>
   <div class="content-editor">
-    <el-input :value="value" :placeholder="placeholder" size="small" @input="handleChange" />
+    <el-input
+      v-model.trim="tempValue"
+      :placeholder="placeholder"
+      size="small"
+      @change="handleChange"
+    />
   </div>
 </template>
 
@@ -18,12 +23,22 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      tempValue: ''
+    }
   },
-  mounted() {},
+  mounted() {
+    this.tempValue = this.value
+  },
   methods: {
-    handleChange(value) {
-      this.$emit('input', value)
+    handleChange() {
+      if (this.tempValue) {
+        this.$emit('input', this.tempValue)
+      } else {
+        // hack, 当空值时，使用原有值
+        this.tempValue = this.value
+        this.$emit('input', this.value)
+      }
     }
   }
 }
