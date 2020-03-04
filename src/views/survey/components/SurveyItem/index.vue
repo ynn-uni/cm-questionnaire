@@ -45,10 +45,25 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      isFocus: false
+    }
   },
   mounted() {},
+  destroyed() {
+    document.body.removeEventListener('click', this.handleEleBlur)
+  },
   methods: {
+    handleClick() {
+      this.isFocus = true
+      document.body.addEventListener('click', this.handleEleBlur)
+    },
+    handleEleBlur(evt) {
+      // 检查是否包含于该根节点
+      if (!this.$el.contains(evt.target)) {
+        this.isFocus = false
+      }
+    },
     handleDelete() {
       this.$confirm('删除后题目无法恢复, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -87,6 +102,7 @@ export default {
 
 <style lang="scss" scoped>
 .survey-item {
+  border: 2px solid transparent;
   .survey-item-header {
     display: flex;
     justify-content: space-between;
@@ -123,6 +139,10 @@ export default {
     }
   }
 
+
+  &.is-focus {
+    border: 2px solid $--color-primary;
+  }
   & + .survey-item {
     margin-top: 20px;
   }
