@@ -11,7 +11,7 @@
     <el-divider />
     <div v-if="survey.suffix" class="form-tips">{{ survey.suffix }}</div>
     <div class="survey-form-action">
-      <el-button type="primary" size="medium">提交</el-button>
+      <el-button type="primary" size="medium" @click="submitForm">提交</el-button>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@
 <script>
 import FormItem from './FormItem'
 export default {
-  name: 'SurveyDetail',
+  name: 'SurveyForm',
   provide() {
     return {
       provideData: this
@@ -54,6 +54,25 @@ export default {
           result[id] = []
         } else {
           result[id] = ''
+        }
+      })
+      return result
+    },
+    submitForm() {
+      this.$refs.formInfo.validate(valid => {
+        if (valid) {
+          const data = this.formatResult(this.formInfo)
+          alert(JSON.stringify(data))
+        }
+      })
+    },
+    formatResult(data) {
+      const result = {}
+      const { questions } = this.survey
+      questions.forEach(q => {
+        result[q.id] = {
+          type: q.type,
+          data: data[q.id]
         }
       })
       return result
