@@ -2,7 +2,6 @@
 
 ```js
 survey: {
-  id: '',
   title: '',
   content: '',
   questions: [
