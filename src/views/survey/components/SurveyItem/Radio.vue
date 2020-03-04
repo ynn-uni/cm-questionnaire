@@ -1,8 +1,10 @@
 <template>
   <div class="survey-radio">
     <el-radio-group>
-      <el-radio v-for="option in options" :key="option.id" :label="option.id" disabled>
-        <ContentEditor v-model="option.label" class="options-label" />
+      <el-radio v-for="(option, index) in options" :key="option.id" :label="option.id" disabled>
+        <ContentEditor v-model="option.label" class="option-label" />
+        <!-- <i class="option-action el-icon-setting" /> -->
+        <i class="option-action el-icon-remove-outline" @click="handleDeleteOption(index)" />
       </el-radio>
     </el-radio-group>
   </div>
@@ -25,19 +27,42 @@ export default {
     return {}
   },
   mounted() {},
-  methods: {}
+  methods: {
+    handleDeleteOption(evt) {
+      // hack，操作prop的options
+      this.options.splice(evt, 1)
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .survey-radio {
+  .el-radio-group {
+    display: block;
+  }
   .el-radio {
     display: block;
     margin-top: 10px;
   }
-  .options-label {
+  .option-label {
     display: inline-block;
     width: 400px;
+  }
+  .el-radio:hover {
+    .option-action {
+      display: inline-block;
+    }
+  }
+  .option-action {
+    display: none;
+    color: #999;
+    margin-right: 10px;
+    line-height: 32px;
+    &:hover {
+      cursor: pointer;
+      color: $--color-primary;
+    }
   }
 }
 </style>
