@@ -15,7 +15,14 @@
       <SurveyCheckbox v-if="question.type === 2" :options="question.options" />
       <SurveyInput v-if="question.type === 3" :placeholder="question.placeholder" />
     </div>
-  </div>
+    <div v-if="isFocus && (question.type === 1 || question.type === 2)" class="quick-action">
+      <div class="quick-action-item" @click="handleAddOption">
+        <i class="el-icon-plus" />添加单个选项
+      </div>
+      <div class="quick-action-item">
+        <i class="el-icon-document" />批量添加选项
+      </div>
+    </div>
   </el-card>
 </template>
 
@@ -63,6 +70,14 @@ export default {
       if (!this.$el.contains(evt.target)) {
         this.isFocus = false
       }
+    },
+    handleAddOption() {
+      const length = this.question.options.length
+      this.question.options.push({
+        id: shortid.generate(),
+        label: `选项${length + 1}`,
+        has_open: false
+      })
     },
     handleDelete() {
       this.$confirm('删除后题目无法恢复, 是否继续?', '提示', {
@@ -139,6 +154,25 @@ export default {
     }
   }
 
+  .quick-action {
+    display: flex;
+    margin-top: 20px;
+    padding: 0 30px;
+    font-size: 14px;
+    color: $--color-primary;
+    .quick-action-item {
+      margin-right: 30px;
+      padding: 4px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      i {
+        margin-right: 5px;
+      }
+      &:hover {
+        background: #eee;
+      }
+    }
+  }
 
   &.is-focus {
     border: 2px solid $--color-primary;
