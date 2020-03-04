@@ -6,18 +6,22 @@
         <div class="title">欢迎使用可用性量表数据分析平台</div>
       </div>
 
-      <div class="input-group flex">
+      <div class="input-group flex align-center">
         <span>+86</span>
         <input v-model="tel" type="text" placeholder="请输入您的手机号">
       </div>
 
       <div class="input-Group flex justify-between">
         <input v-model="code" type="text" placeholder="请输入您的手机验证码">
-        <el-button @click="login">发送验证码</el-button>
+        <el-button @click="login">{{time>0?time+'秒':'发送验证码'}}</el-button>
         <!-- <button></button> -->
       </div>
-
-      <el-checkbox label="我已阅读并同意云坊服务协议和隐私政策" name="type" />
+      <div class="checkbox flex">
+        <el-checkbox v-model="check" name="type" />
+        <span>我已阅读并同意云坊服务协议和隐私政策</span>
+      </div>
+        
+      
 
       <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">下一步</el-button>
 
@@ -37,8 +41,10 @@ export default {
       passwordType: 'password',
       redirect: undefined,
       tel: '18323084462',
+      check:false,
       code: null,
-      identifier: null
+      identifier: null,
+      time:0
     }
   },
   watch: {
@@ -52,9 +58,10 @@ export default {
   methods: {
     login() {
       getSmsCode({ 'mobile': this.tel }).then((res) => {
-        console.log(res)
+        this.cutDown(120)
         this.identifier = res.data.identifier
       })
+      
     },
     handleLogin() {
       const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTVmN2FiYjBjOWRhIiwiaWF0IjoxNTgzMzE1NjQzLCJuYmYiOjE1ODMzMTU2NDMsImV4cCI6MTU4MzMyMjg0MywiaWQiOjEsInR5cGUiOjEsIm1vYmlsZSI6IjE4MzIzMDg0NDYyIiwidHJ1ZW5hbWUiOm51bGx9.e8l_ydoRodvPKWnAX4uov4V9RHQwM2jcQU3jXtm2F64'
@@ -68,6 +75,16 @@ export default {
       //   setToken(res.data.token)
       //   this.$router.push({ path: this.redirect || '/' })
       // })
+    },
+    cutDown(time){
+      this.time=time;
+      timer=setInterval(()=>{
+        if(this.time>0){
+          this.time=this.time-1
+        }else{
+          clearInterval(timer)
+        }
+      },1000)
     }
   }
 }
@@ -96,7 +113,7 @@ $light_gray:#eee;
       display: block;
       width: 67px;
       height: 100%;
-      line-height: 40px;
+      line-height: 36px;
       text-align: center;
       border-right: 1px solid #979797;
     }
@@ -131,6 +148,13 @@ $light_gray:#eee;
       border:none;
       background:rgba(255,174,65,1);
       border-radius:8px;
+    }
+  }
+  .checkbox{
+    font-size: 14px;
+    color: #fff;
+    span{
+      margin-left: 4px;
     }
   }
   .login-form {

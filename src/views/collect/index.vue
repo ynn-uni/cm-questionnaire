@@ -46,7 +46,7 @@ export default {
 <style lang="scss" scoped>
 .course{
   .title-tab{
-    font-size: 20px;
+    font-size: 18px;
     color: $textPrimary;
     .tab{
       margin-right: 100px;

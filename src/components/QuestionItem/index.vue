@@ -1,5 +1,5 @@
 <template>
-  <el-col :lg="8" :md="12" :xs="24">
+  <el-col :xl="8" :lg="12" :xs="24">
     <div class="item flex align-center">
       <i class="iconfont icon-wenjuan my-icon" />
       <div class="info">

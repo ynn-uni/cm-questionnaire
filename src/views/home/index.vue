@@ -32,7 +32,7 @@ export default {
 <style lang="scss" scoped>
 .home {
   .title{
-    font-size: 20px;
+    font-size: 18px;
     color: $textPrimary;
   }
 }

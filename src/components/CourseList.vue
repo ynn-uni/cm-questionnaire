@@ -14,10 +14,7 @@ export default {
     CourseItem
   },
   props: {
-    isActive: {
-      type: Boolean,
-      default: false
-    }
+   
   },
   data() {
     return {

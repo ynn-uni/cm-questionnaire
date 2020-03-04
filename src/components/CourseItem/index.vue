@@ -1,6 +1,6 @@
 <template>
 
-  <el-col :lg="8" :md="12" :xs="24">
+  <el-col :xl="8" :lg="12" :xs="24">
     <div class="item flex" @click="handelDetail('1')">
       <img class="ci-img" src="http://dummyimage.com/150x200" alt="">
       <div class="info">
@@ -32,12 +32,15 @@
           >
             进行中
           </el-tag>
-          <el-button v-permission="1" type="primary" class="btn-enter" @click.stop="open">
+          <el-button  type="primary" class="btn-enter" @click.stop="open">
+            申请加入
+          </el-button>
+          <!-- <el-button v-permission="1" type="primary" class="btn-enter" @click.stop="open">
             申请加入
           </el-button>
           <el-button v-permission="2" type="primary" class="btn-enter" @click.stop="open">
             邀请学生
-          </el-button>
+          </el-button> -->
 
         </div>
 

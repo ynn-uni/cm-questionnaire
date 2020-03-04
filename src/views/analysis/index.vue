@@ -28,7 +28,7 @@ export default {
 <style lang="scss" scoped>
 .analysis{
   .title{
-    font-size: 20px;
+    font-size: 18px;
     color: $textPrimary;
   }
 }
