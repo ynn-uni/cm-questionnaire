@@ -16,7 +16,7 @@ import { mapGetters } from 'vuex'
 import CourseList from '@/components/CourseList'
 import QuestionList from '@/components/QuestionList'
 export default {
-  name: 'Dashboard',
+  name: 'Home',
   components: {
     CourseList,
     QuestionList

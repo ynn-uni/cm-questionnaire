@@ -1,89 +1,44 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" class="login-form flex" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <div class="title">欢迎使用可用性量表数据分析平台</div>
       </div>
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+      <div class="input-group flex">
+        <span>+86</span>
+        <input v-model="tel" type="text" placeholder="请输入您的手机号">
       </div>
+
+      <div class="input-Group flex justify-between">
+        <input v-model="code" type="text" placeholder="请输入您的手机验证码">
+        <el-button @click="login">发送验证码</el-button>
+        <!-- <button></button> -->
+      </div>
+
+      <el-checkbox label="我已阅读并同意云坊服务协议和隐私政策" name="type" />
+
+      <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">下一步</el-button>
 
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-
+import { getSmsCode, checkSmsCode } from '@/api/user'
+// import { getSmsCode } from '@/api/user'
+import { setToken } from '@/utils/auth'
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
-      },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      tel: '18323084462',
+      code: null,
+      identifier: null
     }
   },
   watch: {
@@ -95,82 +50,28 @@ export default {
     }
   },
   methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
+    login() {
+      getSmsCode({ 'mobile': this.tel }).then((res) => {
+        console.log(res)
+        this.identifier = res.data.identifier
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+      const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTVmN2FiYjBjOWRhIiwiaWF0IjoxNTgzMzE1NjQzLCJuYmYiOjE1ODMzMTU2NDMsImV4cCI6MTU4MzMyMjg0MywiaWQiOjEsInR5cGUiOjEsIm1vYmlsZSI6IjE4MzIzMDg0NDYyIiwidHJ1ZW5hbWUiOm51bGx9.e8l_ydoRodvPKWnAX4uov4V9RHQwM2jcQU3jXtm2F64'
+      this.$store.commit('user/updateToken', token)
+      setToken(token)
+      this.$router.push({ path: '/' })
+
+      // checkSmsCode({ 'mobile': this.tel, 'code': this.code, 'identifier': this.identifier }).then((res) => {
+      //   console.log(res.data.token)
+      //   this.$store.commit('user/updateToken', res.data.token)
+      //   setToken(res.data.token)
+      //   this.$router.push({ path: this.redirect || '/' })
+      // })
     }
   }
 }
 </script>
-
-<style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-$bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
-</style>
 
 <style lang="scss" scoped>
 $bg:#2d3a4b;
@@ -180,58 +81,86 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  background:linear-gradient(359deg,rgba(0,83,255,1) 0%,rgba(119,210,253,1) 100%);
   overflow: hidden;
-
-  .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
+  .input-group{
+    width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    height: 40px;
+    font-size: 16px;
+    color: #8F959E;
+    padding: 4px 0;
+    margin-bottom: 50px;
+    span{
+      display: block;
+      width: 67px;
+      height: 100%;
+      line-height: 40px;
+      text-align: center;
+      border-right: 1px solid #979797;
+    }
+    input{
+      border:none;
+      outline: none;
+      padding-left: 10px;
+      color: #8F959E;
     }
   }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
+  .input-Group{
+    width: 400px;
+    margin-bottom: 100px;
+     input{
+      width: 300px;
+      height: 40px;
+      line-height: 36px;
+      border:none;
+      outline: none;
+      padding-left: 10px;
+      color: #8F959E;
+      border-radius: 5px;
+    }
+    button{
+      padding: 0;
+      width:92px;
+      height:40px;
+      line-height: 40px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+      border:none;
+      background:rgba(255,174,65,1);
+      border-radius:8px;
+    }
+  }
+  .login-form {
+    position: fixed;
+    right: 200px;
+    bottom: 200px;
+    width: 600px;
+    flex-direction: column;
+    align-items: center;
+    .login-btn{
+      width: 340px;
+      background-color: #FFAE41;
+    }
+    .el-checkbox{
+        font-size: 14px;
+        color: #fff;
+        margin-bottom: 21px;
+    }
   }
 
   .title-container {
     position: relative;
 
     .title {
-      font-size: 26px;
+      font-size: 30px;
       color: $light_gray;
       margin: 0px auto 40px auto;
       text-align: center;
-      font-weight: bold;
     }
   }
 
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
 }
 </style>

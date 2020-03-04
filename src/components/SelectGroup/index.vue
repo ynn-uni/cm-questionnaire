@@ -37,6 +37,10 @@
       placeholder="请输入课程名称"
       suffix-icon="el-icon-search"
     />
+    <div v-permission="2" class="add flex" @click="handelAddCourse">
+      <i class="iconfont icon-tj" />
+      添加课程
+    </div>
   </div>
 </template>
 
@@ -71,7 +75,9 @@ export default {
     }
   },
   methods: {
-
+    handelAddCourse() {
+      this.$router.push('/addcourse/index')
+    }
   }
 }
 </script>
@@ -88,6 +94,20 @@ export default {
     .el-input{
       width: 20%;
       @include response-selectGroupInput();
+    }
+    .add{
+      font-size: 16px;
+      color: $primaryColor;
+      cursor: pointer;
+      i{
+        margin-left: 80px;
+        margin-right: 4px;
+        line-height: 16px;
+        font-size: 12px;
+        display: block;
+        color: $primaryColor;
+        border: 1px solid $primaryColor;
+      }
     }
   }
 </style>

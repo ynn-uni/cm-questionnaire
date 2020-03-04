@@ -32,8 +32,11 @@
           >
             进行中
           </el-tag>
-          <el-button type="primary" class="btn-enter" @click.stop="open">
+          <el-button v-permission="1" type="primary" class="btn-enter" @click.stop="open">
             申请加入
+          </el-button>
+          <el-button v-permission="2" type="primary" class="btn-enter" @click.stop="open">
+            邀请学生
           </el-button>
 
         </div>
@@ -46,6 +49,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'CourseItem',
   props: {
@@ -58,6 +62,9 @@ export default {
     return {
       collect: false
     }
+  },
+  mounted() {
+    // console.log(permission)
   },
   methods: {
 

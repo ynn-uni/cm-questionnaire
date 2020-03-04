@@ -5,6 +5,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import { getUserInfo } from './api/user'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -19,14 +20,16 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
-
+  console.log(hasToken, 'obobob')
   if (hasToken) {
+    myGetUserInfo()
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
+      const hasGetUserInfo = store.getters.userInfo
+
       if (hasGetUserInfo) {
         next()
       } else {
@@ -57,6 +60,12 @@ router.beforeEach(async(to, from, next) => {
     }
   }
 })
+function myGetUserInfo() {
+  getUserInfo().then((res) => {
+    console.log('获取用户信息', res)
+    store.commit('user/updateUserInfo', res.data)
+  })
+}
 
 router.afterEach(() => {
   // finish progress bar
