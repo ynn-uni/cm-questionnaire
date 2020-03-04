@@ -1,5 +1,5 @@
 <template>
-  <div class="survey-item">
+  <el-card class="survey-item" :class="{'is-focus': isFocus}" @click.native="handleClick">
     <div class="survey-item-header">
       <div class="flex">
         <span class="survey-index">{{ sequence }}</span>
@@ -16,6 +16,7 @@
       <SurveyInput v-if="question.type === 3" :placeholder="question.placeholder" />
     </div>
   </div>
+  </el-card>
 </template>
 
 <script>

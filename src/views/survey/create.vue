@@ -21,15 +21,15 @@
         <el-divider />
 
         <div v-if="questions.length">
-          <el-card v-for="(item, index) in questions" :key="index" class="survey-card">
-            <SurveyItem
-              ref="surveyItem"
-              :sequence="index + 1"
-              :question="item"
-              @copy="handleCopyItem"
-              @delete="handleDeleteItem"
-            />
-          </el-card>
+          <SurveyItem
+            v-for="(item, index) in questions"
+            :key="index"
+            ref="surveyItem"
+            :sequence="index + 1"
+            :question="item"
+            @copy="handleCopyItem"
+            @delete="handleDeleteItem"
+          />
         </div>
 
         <div v-else class="survey-question-empty">
