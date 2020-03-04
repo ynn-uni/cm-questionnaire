@@ -2,7 +2,7 @@
   <div class="survey-checkbox">
     <el-checkbox-group>
       <el-checkbox v-for="option in options" :key="option.id" :label="option.id" disabled>
-        <ContentEditor :value="option.label" class="options-label" />
+        <ContentEditor v-model="option.label" class="options-label" />
       </el-checkbox>
     </el-checkbox-group>
   </div>
@@ -17,7 +17,7 @@ export default {
   },
   props: {
     options: {
-      type: [Array, Object],
+      type: Array,
       default: () => []
     }
   },
