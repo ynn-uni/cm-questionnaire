@@ -73,9 +73,7 @@ export default {
       return {}
     }
   },
-  methods: {
-    handleChange(value) {}
-  }
+  methods: {}
 }
 </script>
 
