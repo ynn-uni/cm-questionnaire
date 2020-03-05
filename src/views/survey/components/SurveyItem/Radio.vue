@@ -1,11 +1,16 @@
 <template>
   <div class="survey-radio">
     <el-radio-group>
-      <el-radio v-for="(option, index) in options" :key="option.id" :label="option.id" disabled>
-        <ContentEditor v-model="option.label" class="option-label" />
-        <!-- <i class="option-action el-icon-setting" /> -->
-        <i class="option-action el-icon-remove-outline" @click="handleDeleteOption(index)" />
-      </el-radio>
+      <draggable v-model="options" handle=".el-icon-rank">
+        <transition-group>
+          <el-radio v-for="(option, index) in options" :key="option.id" :label="option.id" disabled>
+            <ContentEditor v-model="option.label" class="option-label" />
+            <i class="option-action el-icon-rank" />
+            <!-- <i class="option-action el-icon-setting" /> -->
+            <i class="option-action el-icon-remove-outline" @click="handleDeleteOption(index)" />
+          </el-radio>
+        </transition-group>
+      </draggable>
     </el-radio-group>
   </div>
 </template>
