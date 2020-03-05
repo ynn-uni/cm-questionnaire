@@ -21,7 +21,12 @@
         <el-divider />
 
         <div v-if="questions.length">
-          <draggable v-model="questions" handle=".el-icon-rank">
+          <draggable
+            v-model="questions"
+            handle=".el-icon-rank"
+            @choose="disableTip = true"
+            @unchoose="disableTip = false"
+          >
             <transition-group>
               <SurveyItem
                 v-for="(item, index) in questions"
@@ -29,6 +34,7 @@
                 ref="surveyItem"
                 :sequence="index + 1"
                 :question="item"
+                :disable-tip="disableTip"
                 @copy="handleCopyItem"
                 @delete="handleDeleteItem"
               />
@@ -81,7 +87,8 @@ export default {
       title: '问卷标题',
       content: '',
       suffix: '您已完成本次问卷，感谢您的帮助与支持',
-      questions: []
+      questions: [],
+      disableTip: false
     }
   },
   mounted() {},

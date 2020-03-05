@@ -6,9 +6,15 @@
         <ContentEditor v-model="question.title" class="survey-item-title" />
       </div>
       <div class="survey-item-action">
-        <i class="el-icon-rank" />
-        <i class="el-icon-copy-document" @click="handleCopy" />
-        <i class="el-icon-delete-solid" @click="handleDelete" />
+        <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">
+          <i class="el-icon-rank" />
+        </el-tooltip>
+        <el-tooltip content="复制" placement="top" effect="light" :disabled="disableTip">
+          <i class="el-icon-copy-document" @click="handleCopy" />
+        </el-tooltip>
+        <el-tooltip content="删除" placement="top" effect="light" :disabled="disableTip">
+          <i class="el-icon-delete-solid" @click="handleDelete" />
+        </el-tooltip>
       </div>
     </div>
     <div class="question-content">
@@ -50,6 +56,10 @@ export default {
     question: {
       type: Object,
       default: () => {}
+    },
+    disableTip: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
