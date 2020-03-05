@@ -21,15 +21,19 @@
         <el-divider />
 
         <div v-if="questions.length">
-          <SurveyItem
-            v-for="(item, index) in questions"
-            :key="index"
-            ref="surveyItem"
-            :sequence="index + 1"
-            :question="item"
-            @copy="handleCopyItem"
-            @delete="handleDeleteItem"
-          />
+          <draggable v-model="questions" handle=".el-icon-rank">
+            <transition-group>
+              <SurveyItem
+                v-for="(item, index) in questions"
+                :key="index"
+                ref="surveyItem"
+                :sequence="index + 1"
+                :question="item"
+                @copy="handleCopyItem"
+                @delete="handleDeleteItem"
+              />
+            </transition-group>
+          </draggable>
         </div>
 
         <div v-else class="survey-question-empty">
@@ -59,6 +63,7 @@
 </template>
 
 <script>
+import Draggable from 'vuedraggable'
 import ContentEditor from '@/components/ContentEditor'
 import SurveyItem from './components/SurveyItem'
 import shortid from 'shortid'
@@ -66,6 +71,7 @@ import shortid from 'shortid'
 export default {
   name: 'SurveyCreate',
   components: {
+    Draggable,
     ContentEditor,
     SurveyItem
   },

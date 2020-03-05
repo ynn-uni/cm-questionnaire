@@ -6,6 +6,7 @@
         <ContentEditor v-model="question.title" class="survey-item-title" />
       </div>
       <div class="survey-item-action">
+        <i class="el-icon-rank" />
         <i class="el-icon-copy-document" @click="handleCopy" />
         <i class="el-icon-delete-solid" @click="handleDelete" />
       </div>
