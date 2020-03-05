@@ -13,15 +13,13 @@
 
       <div class="input-Group flex justify-between">
         <input v-model="code" type="text" placeholder="请输入您的手机验证码">
-        <el-button @click="login">{{time>0?time+'秒':'发送验证码'}}</el-button>
+        <el-button @click="login">{{ time>0?time+'秒':'发送验证码' }}</el-button>
         <!-- <button></button> -->
       </div>
       <div class="checkbox flex">
         <el-checkbox v-model="check" name="type" />
         <span>我已阅读并同意云坊服务协议和隐私政策</span>
       </div>
-        
-      
 
       <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">下一步</el-button>
 
@@ -30,6 +28,7 @@
 </template>
 
 <script>
+import { Message } from 'element-ui'
 import { getSmsCode, checkSmsCode } from '@/api/user'
 // import { getSmsCode } from '@/api/user'
 import { setToken } from '@/utils/auth'
@@ -41,10 +40,10 @@ export default {
       passwordType: 'password',
       redirect: undefined,
       tel: '18323084462',
-      check:false,
+      check: false,
       code: null,
       identifier: null,
-      time:0
+      time: 0
     }
   },
   watch: {
@@ -61,30 +60,36 @@ export default {
         this.cutDown(120)
         this.identifier = res.data.identifier
       })
-      
     },
     handleLogin() {
-      const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTVmN2FiYjBjOWRhIiwiaWF0IjoxNTgzMzE1NjQzLCJuYmYiOjE1ODMzMTU2NDMsImV4cCI6MTU4MzMyMjg0MywiaWQiOjEsInR5cGUiOjEsIm1vYmlsZSI6IjE4MzIzMDg0NDYyIiwidHJ1ZW5hbWUiOm51bGx9.e8l_ydoRodvPKWnAX4uov4V9RHQwM2jcQU3jXtm2F64'
-      this.$store.commit('user/updateToken', token)
-      setToken(token)
-      this.$router.push({ path: '/' })
-
-      // checkSmsCode({ 'mobile': this.tel, 'code': this.code, 'identifier': this.identifier }).then((res) => {
-      //   console.log(res.data.token)
-      //   this.$store.commit('user/updateToken', res.data.token)
-      //   setToken(res.data.token)
-      //   this.$router.push({ path: this.redirect || '/' })
-      // })
+      // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTVmN2FiYjBjOWRhIiwiaWF0IjoxNTgzMzE1NjQzLCJuYmYiOjE1ODMzMTU2NDMsImV4cCI6MTU4MzMyMjg0MywiaWQiOjEsInR5cGUiOjEsIm1vYmlsZSI6IjE4MzIzMDg0NDYyIiwidHJ1ZW5hbWUiOm51bGx9.e8l_ydoRodvPKWnAX4uov4V9RHQwM2jcQU3jXtm2F64'
+      // this.$store.commit('user/updateToken', token)
+      // setToken(token)
+      // this.$router.push({ path: '/' })
+      if (this.tel && this.code && this.identifier) {
+        checkSmsCode({ 'mobile': this.tel, 'code': this.code, 'identifier': this.identifier }).then((res) => {
+          console.log(res.data.token)
+          this.$store.commit('user/updateToken', res.data.token)
+          setToken(res.data.token)
+          this.$router.push({ path: this.redirect || '/' })
+        })
+      } else {
+        Message({
+          message: '请输入电话号和验证码',
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
     },
-    cutDown(time){
-      this.time=time;
-      timer=setInterval(()=>{
-        if(this.time>0){
-          this.time=this.time-1
-        }else{
+    cutDown(time) {
+      this.time = time
+      var timer = setInterval(() => {
+        if (this.time > 0) {
+          this.time = this.time - 1
+        } else {
           clearInterval(timer)
         }
-      },1000)
+      }, 1000)
     }
   }
 }
