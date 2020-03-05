@@ -59,37 +59,33 @@ export const constantRoutes = [
     path: '/course',
     component: Layout,
     redirect: '/course/index',
+    meta: { title: '我的课程', icon: 'iconfont icon-kecheng' },
     children: [
       {
         path: 'index',
         name: 'Course',
         component: () => import('@/views/course/index'),
         meta: { title: '我的课程', icon: 'iconfont icon-kecheng' }
-      }
-    ]
-  },
-  {
-    path: '/addcourse',
-    component: Layout,
-    children: [
+      },
       {
-        path: 'index',
-        name: 'AddCourse',
-        component: () => import('@/views/course/AddCourse'),
-        meta: { title: '课程详情', icon: 'iconfont icon-kecheng' },
-        hidden: true
-      }
-    ]
-  },
-  {
-    path: '/coursedetail',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
+        path: 'coursedetail',
         name: 'CourseDetail',
         component: () => import('@/views/coursedetail/index'),
         meta: { title: '课程详情', icon: 'iconfont icon-kecheng' },
+        hidden: true
+      },
+      {
+        path: 'addcourse',
+        name: 'AddCourse',
+        component: () => import('@/views/course/AddCourse'),
+        meta: { title: '添加课程', icon: 'iconfont icon-kecheng' },
+        hidden: true
+      },
+      {
+        path: 'editcourse',
+        name: 'EditCourse',
+        component: () => import('@/views/course/EditCourse'),
+        meta: { title: '编辑课程', icon: 'iconfont icon-kecheng' },
         hidden: true
       }
     ]

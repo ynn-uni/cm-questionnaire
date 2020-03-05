@@ -1,7 +1,6 @@
 import { getAction, postAction } from '@/utils/request'
 
 export function getSmsCode(data = {}) {
-  console.log(data)
   return getAction('/Common/getSmsCode', data)
 }
 export function checkSmsCode(data = {}) {
@@ -10,6 +9,7 @@ export function checkSmsCode(data = {}) {
 export function getUserInfo(data = {}) {
   return getAction('/User/getUserInfo', data)
 }
+
 // export function getInfo(token) {
 //   return request({
 //     url: '/vue-admin-template/user/info',

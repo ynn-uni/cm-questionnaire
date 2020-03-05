@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     handelAddCourse() {
-      this.$router.push('/addcourse/index')
+      this.$router.push('/course/addcourse')
     }
   }
 }

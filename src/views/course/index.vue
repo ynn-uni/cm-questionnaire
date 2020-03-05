@@ -27,7 +27,7 @@
       </div>
     </div>
     <div v-permission="2">
-      <div  class="title-tab flex">
+      <div class="title-tab flex">
         我的课程
       </div>
       <SelectGroup />
