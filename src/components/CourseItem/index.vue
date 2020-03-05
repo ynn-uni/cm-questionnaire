@@ -1,7 +1,7 @@
 <template>
 
   <el-col :xl="8" :lg="12" :xs="24">
-    <div class="item flex" @click="handelDetail(info.id)">
+    <div class="item flex" @click.stop="handelDetail(info.id)">
       <img class="ci-img" :src="info.cover" alt="">
       <div class="info">
         <div class="title flex justify-between align-center">
@@ -44,7 +44,7 @@
           <el-button v-if="info.status==1" v-permission="1" type="primary" class="btn-enter" @click.stop="open">
             申请加入
           </el-button>
-          <el-button v-if="info.status==1" v-permission="2" type="primary" class="btn-enter" @click.stop="open">
+          <el-button v-if="info.status==1" v-permission="2" type="primary" class="btn-enter" @click.stop="getCode">
             邀请学生
           </el-button>
 
@@ -53,6 +53,25 @@
       </div>
 
     </div>
+    <el-dialog
+      title="请复制您的验证码"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :show-close="false"
+      :close-on-click-modal="false"
+    >
+      <div class="code">code</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click.stop="dialogVisible = false">取 消</el-button>
+        <el-button
+          v-clipboard:copy="1111"
+          v-clipboard:success="onCopy"
+          v-clipboard:error="onError"
+          type="primary"
+          @click.stop="dialogVisible = false"
+        >复制</el-button>
+      </span>
+    </el-dialog>
   </el-col>
 
 </template>
@@ -69,7 +88,8 @@ export default {
   },
   data() {
     return {
-      collect: false
+      collect: false,
+      dialogVisible: false
       // info: {}
     }
   },
@@ -77,7 +97,18 @@ export default {
     this.info.cover = process.env.VUE_APP_STATIC_IMG + this.info.cover
   },
   methods: {
-
+    getCode() {
+      this.dialogVisible = true
+    },
+    onCopy(e) {
+      this.$message({
+        type: 'success',
+        message: '复制成功'
+      })
+    },
+    onError(e) {
+      console.log('复制失败！')
+    },
     handelDetail(id) {
       this.$router.push({ path: '/course/coursedetail', query: { id }})
     },
@@ -91,6 +122,11 @@ export default {
           message: '加入成功'
         })
       }).catch(() => {
+      })
+    },
+    creatCode() {
+      this.$alert('code', '请复制您的邀请码', {
+        center: true
       })
     },
     handelCollect() {
@@ -150,6 +186,13 @@ export default {
 
     }
 
+  }
+  .code{
+    margin: 0 auto;
+    width: 100px;
+    text-align: center;
+    padding-bottom: 2px;
+    border-bottom: 1px solid $textSecondary;
   }
   .bref{
     height: 220px;

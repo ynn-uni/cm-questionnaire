@@ -64,7 +64,7 @@
               已结束
             </el-tag>
             <div v-permission="2" class="other-option flex justify-between">
-              <el-button type="primary" class="btn-enter" @click="open">
+              <el-button v-if="data.status==1" type="primary" class="btn-enter" @click="open">
                 邀请学生
               </el-button>
               <el-button type="primary" class="btn-enter" @click="editCourse">

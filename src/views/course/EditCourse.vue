@@ -64,7 +64,8 @@ export default {
   },
   methods: {
     handelEditCourse() {
-      this.sizeForm.status = this.sizeForm.status === '进行中' ? 1 : 2
+      var status = this.sizeForm.status
+      this.sizeForm.status = status === '进行中' ? 1 : status === '已结束' ? 2 : status
       editCourse(this.sizeForm).then((res) => {
         if (res.status === 200) {
           console.log(res)

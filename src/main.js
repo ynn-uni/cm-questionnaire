@@ -23,6 +23,9 @@ import permission from '@/directive/permission/index.js'
  * Currently MockJs will be used in the production environment,
  * please remove it before going online ! ! !
  */
+import VueClipboard from 'vue-clipboard2'
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
 if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
