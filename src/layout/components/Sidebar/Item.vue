@@ -21,7 +21,7 @@ export default {
     }
 
     if (title) {
-      vnodes.push(<span slot='title' class='margin-left-5'>{(title)}</span>)
+      vnodes.push(<span slot='title' style='margin-left: 5px;'>{(title)}</span>)
     }
     return vnodes
   }
