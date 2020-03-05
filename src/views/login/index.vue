@@ -13,8 +13,7 @@
 
       <div class="input-Group flex justify-between">
         <input v-model="code" type="text" placeholder="请输入您的手机验证码">
-        <el-button @click="login">{{ time>0?time+'秒':'发送验证码' }}</el-button>
-        <!-- <button></button> -->
+        <el-button @click="fetchSmsCode">{{ time>0?time+'秒':'发送验证码' }}</el-button>
       </div>
       <div class="checkbox flex">
         <el-checkbox v-model="check" name="type" />
@@ -28,9 +27,7 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
 import { getSmsCode, checkSmsCode } from '@/api/user'
-// import { getSmsCode } from '@/api/user'
 import { setToken } from '@/utils/auth'
 export default {
   name: 'Login',
@@ -39,8 +36,8 @@ export default {
       loading: false,
       passwordType: 'password',
       redirect: undefined,
-      tel: '18323084462',
-      check: false,
+      tel: '18686123492',
+      check: true,
       code: null,
       identifier: null,
       time: 0
@@ -55,30 +52,28 @@ export default {
     }
   },
   methods: {
-    login() {
+    fetchSmsCode() {
+      if (this.time > 0) return
       getSmsCode({ 'mobile': this.tel }).then((res) => {
         this.cutDown(120)
         this.identifier = res.data.identifier
       })
     },
     handleLogin() {
-      // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTVmN2FiYjBjOWRhIiwiaWF0IjoxNTgzMzE1NjQzLCJuYmYiOjE1ODMzMTU2NDMsImV4cCI6MTU4MzMyMjg0MywiaWQiOjEsInR5cGUiOjEsIm1vYmlsZSI6IjE4MzIzMDg0NDYyIiwidHJ1ZW5hbWUiOm51bGx9.e8l_ydoRodvPKWnAX4uov4V9RHQwM2jcQU3jXtm2F64'
+      // const token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTYwNzM0NjBlZTJkIiwiaWF0IjoxNTgzMzc5MjcwLCJuYmYiOjE1ODMzNzkyNzAsImV4cCI6MTU4MzM4NjQ3MCwiaWQiOjIsInR5cGUiOjEsIm1vYmlsZSI6IjE4Njg2MTIzNDkyIiwidHJ1ZW5hbWUiOm51bGx9.4uEwpXQByrmMaEdezcxui_J7flt5tkqp3_OuCrocPhQ'
       // this.$store.commit('user/updateToken', token)
       // setToken(token)
       // this.$router.push({ path: '/' })
+      if (!this.check) return
       if (this.tel && this.code && this.identifier) {
         checkSmsCode({ 'mobile': this.tel, 'code': this.code, 'identifier': this.identifier }).then((res) => {
-          console.log(res.data.token)
-          this.$store.commit('user/updateToken', res.data.token)
-          setToken(res.data.token)
+          const token = 'Bearer ' + res.data.token
+          this.$store.commit('user/updateToken', token)
+          setToken(token)
           this.$router.push({ path: this.redirect || '/' })
         })
       } else {
-        Message({
-          message: '请输入电话号和验证码',
-          type: 'error',
-          duration: 5 * 1000
-        })
+        this.$message.error('请输入电话号和验证码')
       }
     },
     cutDown(time) {
