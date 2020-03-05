@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="info-item">
-          授课老师：{{ info.user }}
+          授课老师：{{ info.truename }}
         </div>
         <div class="info-item">
           课    时：{{ info.hour }}
@@ -74,7 +74,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.info)
+    this.info.cover = process.env.VUE_APP_STATIC_IMG + this.info.cover
   },
   methods: {
 

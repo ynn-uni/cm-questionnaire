@@ -39,10 +39,11 @@ module.exports = {
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         target: `http://192.168.1.65:9501`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
+        changeOrigin: true
+      },
+      [process.env.VUE_APP_STATIC_IMG]: {
+        target: `http://192.168.1.65:9501`,
+        changeOrigin: true
       }
     }
 

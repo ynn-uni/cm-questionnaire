@@ -36,7 +36,7 @@ export default {
       loading: false,
       passwordType: 'password',
       redirect: undefined,
-      tel: '18686123492',
+      tel: '18323084462',
       check: true,
       code: null,
       identifier: null,

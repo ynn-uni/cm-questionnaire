@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="info-item">
-            授课老师：许娜
+            授课老师：{{ data.truename }}
           </div>
           <div class="info-item">
             课    时：{{ data.hour }}
@@ -125,6 +125,7 @@ export default {
     getCourseDetails({ id: this.$route.query.id }).then((res) => {
       console.log(res)
       this.data = res.data
+      this.data.cover = process.env.VUE_APP_STATIC_IMG + this.data.cover
     })
   },
   methods: {

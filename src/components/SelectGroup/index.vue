@@ -1,6 +1,6 @@
 <template>
   <div class="selectgroup flex align-center">
-    <el-select v-model="value" placeholder="授课老师">
+    <!-- <el-select v-model="value" placeholder="授课老师">
       <el-option
         v-for="item in options"
         :key="item.value"
@@ -31,7 +31,7 @@
         :label="item.label"
         :value="item.value"
       />
-    </el-select>
+    </el-select> -->
     <el-input
       v-model="value"
       placeholder="请输入课程名称"

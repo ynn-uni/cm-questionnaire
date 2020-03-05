@@ -3,7 +3,6 @@
     <el-upload
       list-type="picture-card"
       name="image"
-      :headers="headers"
       :multiple="false"
       :limit="limit"
       :action="actionUrl"
@@ -25,6 +24,7 @@
 </template>
 
 <script>
+import setting from '@/settings'
 export default {
   name: 'UploadImage',
   props: {
@@ -63,11 +63,14 @@ export default {
     }
   },
   mounted() {
-    if (this.value) {
-      this.fileList.push({
-        url: `${process.env.VUE_APP_BASE_API}${this.value}`
-      })
-    }
+    setTimeout(() => {
+      if (this.value) {
+        this.fileList.push({
+          // url: this.value
+          url: `${setting.staticUrl}${this.value}`
+        })
+      }
+    }, 1000)
   },
   methods: {
     handleSuccess(response, file) {
