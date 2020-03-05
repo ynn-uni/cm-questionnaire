@@ -1,7 +1,7 @@
 <template>
   <div class="addcourse app-container">
     <div class="title">
-      新增课程
+      编辑课程
     </div>
     <div class="content">
       <el-form ref="form" :model="sizeForm" label-width="80px" size="mini">
@@ -27,7 +27,7 @@
           <el-input v-model="sizeForm.describe" type="textarea" />
         </el-form-item>
         <el-form-item size="large">
-          <el-button type="primary" @click="handelAddCourse">提交</el-button>
+          <el-button type="primary" @click="handelEditCourse">修改</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import { addCourse } from '@/api/course'
+import { Message } from 'element-ui'
+import { editCourse, getCourseDetails } from '@/api/course'
 export default {
   name: 'SelectGroup',
   props: {
@@ -44,24 +45,24 @@ export default {
   },
   data() {
     return {
-      sizeForm: {
-        title: 'test',
-        cover: 'http://dummyimage.com/150x200',
-        hour: '40',
-        check: '考核+笔试',
-        credit: '4',
-        describe: 'test',
-        status: '1',
-        sort: '1'
-      }
+      sizeForm: {}
 
     }
   },
+  mounted() {
+    getCourseDetails({ id: this.$route.query.id }).then((res) => {
+      this.sizeForm = res.data
+      this.sizeForm.status = this.sizeForm.status === 1 ? '进行中' : '已结束'
+      // this.data = res.data
+    })
+  },
   methods: {
-    handelAddCourse() {
-      console.log(this.sizeForm)
-      addCourse(this.sizeForm).then((res) => {
-        console.log(res)
+    handelEditCourse() {
+      editCourse(this.sizeForm).then((res) => {
+        if (res.status === 200) {
+          console.log(res)
+          this.$message.success('修改成功')
+        }
       })
       // if (this.sizeForm.courseName && this.courseTimer && this.courseSource && this.courseType && this.courseStartTime && this.courseEndTime && this.courseDis) {
       //   console.log('nnn')

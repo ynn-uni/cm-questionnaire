@@ -1,11 +1,17 @@
 <template>
   <div class="home app-container">
-    <div class="title">
+    <div v-permission="1" class="title">
       推荐课程
     </div>
+    <div v-permission="2" class="title">
+      我的课程
+    </div>
     <CourseList />
-    <div class="title">
+    <div v-permission="1" class="title">
       推荐问卷
+    </div>
+    <div v-permission="2" class="title">
+      我的问卷
     </div>
     <QuestionList />
   </div>

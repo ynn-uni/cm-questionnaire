@@ -5,13 +5,13 @@
     </div>
     <div class="item flex">
       <div class="item-left flex">
-        <img class="ci-img" src="http://dummyimage.com/150x200" alt="">
+        <img class="ci-img" :src="data.cover" alt="">
         <div class="info">
           <div class="title flex justify-between align-center">
             <div class="title-text">
-              运营之光
+              {{ data.title }}
             </div>
-            <div class="collect" :class="collect?'active':''" @click="handelCollect">
+            <div v-permission="1" class="collect" :class="collect?'active':''" @click="handelCollect">
               <i class="iconfont icon-shoucang1" />
               {{ collect?'取消收藏':'收藏' }}
             </div>
@@ -20,25 +20,57 @@
             授课老师：许娜
           </div>
           <div class="info-item">
-            课    时：40课时
+            课    时：{{ data.hour }}
           </div>
           <div class="info-item">
-            考核方式：笔试+作业
+            考核方式：{{ data.check }}
           </div>
           <div class="info-item">
-            学    分：4分
+            学    分：{{ data.credit }}
           </div>
-          <div class="other-option flex justify-between">
+          <div v-permission="1" class="other-option flex justify-between">
             <el-tag
+              v-if="data.status==1"
               type="success"
               effect="dark"
             >
               进行中
             </el-tag>
-            <el-button type="primary" class="btn-enter" @click="open">
+            <el-tag
+              v-if="data.status==2"
+              type="info"
+              effect="dark"
+            >
+              已结束
+            </el-tag>
+            <el-button v-permission="1" type="primary" class="btn-enter" @click="open">
               申请加入
             </el-button>
 
+          </div>
+          <div v-permission="2" class="other-option">
+            <el-tag
+              v-if="data.status==1"
+              type="success"
+              effect="dark"
+            >
+              进行中
+            </el-tag>
+            <el-tag
+              v-if="data.status==2"
+              type="info"
+              effect="dark"
+            >
+              已结束
+            </el-tag>
+            <div v-permission="2" class="other-option flex justify-between">
+              <el-button type="primary" class="btn-enter" @click="open">
+                邀请学生
+              </el-button>
+              <el-button type="primary" class="btn-enter" @click="editCourse">
+                编辑课程
+              </el-button>
+            </div>
           </div>
 
         </div>
@@ -48,8 +80,7 @@
           课程介绍
         </div>
         <div class="content">
-          什么是用户体验度量？首先我们来看看何为度量？度量是一种测量或评价特定现象或事物的方法，让评测对象可观察、可量化，可变成一个数字或能够以某种方式予以计算的方法。
-          那么运用到可用性研究领域，可用性度量的定义是它是一套可靠的测量体系，能够使被测量事物（内容与人及其行为或态度有关）能代表用户体验的某些方面，并以数字表示出来，并且可以持续观察、跟踪、和优化。即衡量和提升产品用户体验的质量。相信大家不少人应该听过谷歌的HEART模型和蚂蚁金服的PTECH模型.....
+          {{ data.describe }}
         </div>
       </div>
     </div>
@@ -57,8 +88,11 @@
       课程问卷
     </div>
     <QuestionList />
-    <div class="title">
+    <div v-permission="1" class="title">
       我的同学
+    </div>
+    <div v-permission="2" class="title">
+      我的学生
     </div>
     <ClassMate />
   </div>
@@ -68,6 +102,7 @@
 import { mapGetters } from 'vuex'
 import QuestionList from '@/components/QuestionList'
 import ClassMate from './components/ClassMate'
+import { getCourseDetails } from '@/api/course'
 export default {
   name: 'CourseDetail',
   components: {
@@ -76,13 +111,21 @@ export default {
   },
   data() {
     return {
-      collect: false
+      collect: false,
+      data: {}
     }
   },
   computed: {
     ...mapGetters([
       'name'
     ])
+  },
+  mounted() {
+    console.log(this.$route.query.id)
+    getCourseDetails({ id: this.$route.query.id }).then((res) => {
+      console.log(res)
+      this.data = res.data
+    })
   },
   methods: {
     handelCollect() {
@@ -99,6 +142,9 @@ export default {
         })
       }).catch(() => {
       })
+    },
+    editCourse() {
+      this.$router.push({ path: '/course/editcourse', query: { id: this.data.id }})
     }
   }
 
@@ -115,6 +161,7 @@ export default {
     margin: 30px 0;
     padding: 20px;
     width: 100%;
+    height: 280px;
     flex-wrap: wrap;
     box-shadow:2px 2px 8px 2px rgba(217,224,227,0.5);
     .item-left{
@@ -123,7 +170,7 @@ export default {
       border-right: 2px solid #ebebeb;
         .ci-img{
           width: 150px;
-          height: 200px;
+          height: 230px;
           margin-right: 20px;
         }
       .info{
@@ -157,8 +204,7 @@ export default {
           }
           .other-option{
             height: 30px;
-            margin-top: 18px;
-
+            margin-top: 8px;
           }
 
         }
