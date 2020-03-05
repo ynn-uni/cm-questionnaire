@@ -51,9 +51,6 @@ export default {
   },
   data() {
     return {
-      headers: {
-        token: 'Bearer ' + this.$store.getters.token
-      },
       dialogImageUrl: '',
       dialogVisible: false,
       fileList: [],
