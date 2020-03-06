@@ -222,6 +222,7 @@ export default {
   }
   .survey-main {
     flex: 1;
+    min-width: 600px;
     margin-left: 10px;
     position: relative;
     overflow: hidden;
