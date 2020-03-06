@@ -23,12 +23,22 @@
     </div>
     <div v-if="question.type === 3">
       <el-input
+        v-if="question.nativetype !== 'number'"
         v-model="provideData.formInfo[question.id]"
         :placeholder="question.placeholder"
+        :type="question.nativetype"
         v-bind="getInputAttrs()"
       >
         <template v-if="question && question.append" slot="append">{{ question.append }}</template>
-      </el-input>
+      </el-input></div></el-form-item></template>
+      <el-input
+        v-if="question.nativetype === 'number'"
+        v-model.number="provideData.formInfo[question.id]"
+        :placeholder="question.placeholder"
+        type="number"
+      >
+        <template v-if="question && question.append" slot="append">{{ question.append }}</template>
+      </template>
     </div>
   </el-form-item>
 </template>
@@ -49,17 +59,18 @@ export default {
   },
   computed: {
     rules() {
-      const { type } = this.question
+      const { type, nativetype } = this.question
       if (type === 1) {
         return this.getRadioRules()
       }
       if (type === 2) {
         return this.getCheckboxRules()
       }
-      if (type === 3) {
+      if (type === 3 && nativetype === 'number') {
+        return this.getInputNumberRules()
+      } else {
         return this.getInputRules()
       }
-      return {}
     }
   },
   methods: {
@@ -115,8 +126,62 @@ export default {
       }
       return rules
     },
-        }
+    getInputRules() {
+      const rules = []
+      const { required, minlength, maxlength, nativetype } = this.question
+      rules.push({
+        required,
+        message: '请填写',
+        trigger: 'blur'
+      })
+      if (minlength) {
+        const message = maxlength
+          ? `长度在 ${minlength} 到 ${maxlength} 个字符`
+          : `长度大于 ${minlength} 个字符`
+        rules.push({
+          type: 'string',
+          min: minlength,
+          message,
+          trigger: 'blur'
+        })
       }
+      if (nativetype === 'tel') {
+        rules.push({
+          pattern: /^1[3-9]\d{9}$/,
+          message: '号码格式不正确'
+        })
+      }
+      if (nativetype === 'email') {
+        rules.push({
+          type: 'email',
+          message: '邮箱格式不正确',
+          trigger: ['blur', 'change']
+        })
+      }
+      return rules
+    },
+    getInputNumberRules() {
+      const rules = []
+      const { required, minlength, maxlength } = this.question
+      const message = maxlength
+        ? `数值在 ${minlength} 到 ${maxlength} 之间`
+        : `数值大于 ${minlength} `
+      rules.push({
+        required,
+        message: '请填写',
+        trigger: 'blur'
+      })
+      if (minlength) {
+        rules.push({
+          type: 'number',
+          min: minlength,
+          max: maxlength,
+          message,
+          trigger: 'blur'
+        })
+      }
+      return rules
+    }
   }
 }
 </script>
