@@ -64,7 +64,11 @@
         </el-card>
       </div>
     </div>
-    <el-card class="settings-wrap" />
+    <div id="surveySetting" class="settings-wrap">
+      <el-card v-if="focusIndex != null">
+        <SurveySetting :question="questions[focusIndex]" :sequence="focusIndex + 1" />
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -72,6 +76,7 @@
 import Draggable from 'vuedraggable'
 import ContentEditor from '@/components/ContentEditor'
 import SurveyItem from './components/SurveyItem'
+import SurveySetting from './components/SurveySetting'
 import shortid from 'shortid'
 
 export default {
@@ -79,7 +84,8 @@ export default {
   components: {
     Draggable,
     ContentEditor,
-    SurveyItem
+    SurveyItem,
+    SurveySetting
   },
   data() {
     return {
@@ -177,18 +183,20 @@ export default {
 .survey-wrap {
   display: flex;
   background: #efefef;
-  .question-type,
-  .settings-wrap {
-    flex: 0 0 200px;
-  }
-
   .question-type {
+    flex: 0 0 200px;
     .question-btn-wrap {
       width: 100%;
       margin-top: 20px;
       .el-button {
         width: 100%;
       }
+    }
+  }
+  .settings-wrap {
+    flex: 0 0 300px;
+    .el-card {
+      height: 100%;
     }
   }
   .survey-main {
