@@ -7,6 +7,7 @@ export default {
       id: 'hImeAEuH',
       title: '单选题标题',
       type: 1,
+      required: true,
       options: [
         {
           id: 'AtJK6hlCC',
@@ -24,7 +25,10 @@ export default {
       id: 'ceNBfmul',
       title: '多选题标题',
       type: 2,
+      required: true,
       column: 3,
+      min: 2,
+      max: 3,
       options: [
         {
           id: 'Qhd24vCg4',
@@ -49,15 +53,30 @@ export default {
       ]
     },
     {
+      id: 'sFhIr4vs',
+      title: '填空题标题',
+      placeholder: '提示内容',
+      type: 3,
+      required: true,
+      nativetype: 'text',
+      minlength: 2,
+      maxlength: 11
+    },
+    {
       id: 'sFhIr4va',
       title: '填空题标题',
       placeholder: '提示内容',
-      type: 3
+      type: 3,
+      required: true,
+      nativetype: 'number',
+      minlength: 2,
+      maxlength: 11
     },
     {
       id: '7qr8jTGs',
       title: '多选题标题',
       type: 2,
+      required: true,
       options: [
         {
           id: 'KgNiMB2GD',
@@ -75,6 +94,7 @@ export default {
       id: 'XKZiP97MP',
       title: '单选题标题',
       type: 1,
+      required: true,
       options: [
         {
           id: 'ZDRfnIu2e',
