@@ -1,15 +1,15 @@
 <template>
   <div class="survey-radio">
-    <el-radio-group>
-      <draggable
-        :list="options"
-        handle=".el-icon-rank"
-        chosen-class="radio-ghost"
-        @choose="disableTip = true"
-        @unchoose="disableTip = false"
-      >
-        <transition-group>
-          <el-radio v-for="(option, index) in options" :key="option.id" :label="option.id" disabled>
+    <draggable
+      :list="options"
+      handle=".el-icon-rank"
+      chosen-class="radio-ghost"
+      @choose="disableTip = true"
+      @unchoose="disableTip = false"
+    >
+      <transition-group>
+        <el-col v-for="(option, index) in options" :key="option.id" :span="24 / column">
+          <el-radio :label="option.id" disabled>
             <ContentEditor v-model="option.label" class="option-label" />
             <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">
               <i class="option-action el-icon-rank" />
@@ -19,9 +19,9 @@
               <i class="option-action el-icon-remove-outline" @click="handleDeleteOption(index)" />
             </el-tooltip>
           </el-radio>
-        </transition-group>
-      </draggable>
-    </el-radio-group>
+        </el-col>
+      </transition-group>
+    </draggable></div></template>
   </div>
 </template>
 
@@ -35,6 +35,10 @@ export default {
     ContentEditor
   },
   props: {
+    column: {
+      type: Number,
+      default: 1
+    },
     options: {
       type: Array,
       default: () => []
@@ -56,7 +60,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.survey-radio {
+.survey-radio::v-deep {
   .el-radio-group {
     display: block;
   }
@@ -65,18 +69,24 @@ export default {
     margin-top: 5px;
     padding: 2px 10px;
   }
+  .el-radio__label {
+    display: inline-block;
+    width: 100%;
+    padding-right: 80px;
+  }
   .option-label {
     display: inline-block;
     width: 400px;
+    max-width: 100%;
   }
   .el-radio:hover {
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    background: #efefef;
     .option-action {
       display: inline-block;
     }
   }
   .radio-ghost {
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    background: #efefef;
     background-color: #fff;
   }
   .option-action {

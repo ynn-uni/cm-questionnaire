@@ -1,20 +1,15 @@
 <template>
   <div class="survey-checkbox">
-    <el-checkbox-group>
-      <draggable
-        :list="options"
-        handle=".el-icon-rank"
-        chosen-class="checkbox-ghost"
-        @choose="disableTip = true"
-        @unchoose="disableTip = false"
-      >
-        <transition-group>
-          <el-checkbox
-            v-for="(option, index) in options"
-            :key="option.id"
-            :label="option.id"
-            disabled
-          >
+    <draggable
+      :list="options"
+      handle=".el-icon-rank"
+      chosen-class="checkbox-ghost"
+      @choose="disableTip = true"
+      @unchoose="disableTip = false"
+    >
+      <transition-group>
+        <el-col v-for="(option, index) in options" :key="option.id" :span="24 / column">
+          <el-checkbox :label="option.id" disabled>
             <ContentEditor v-model="option.label" class="option-label" />
             <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">
               <i class="option-action el-icon-rank" />
@@ -24,9 +19,9 @@
               <i class="option-action el-icon-remove-outline" @click="handleDeleteOption(index)" />
             </el-tooltip>
           </el-checkbox>
-        </transition-group>
-      </draggable>
-    </el-checkbox-group>
+        </el-col>
+      </transition-group>
+    </draggable>
   </div>
 </template>
 
@@ -40,6 +35,10 @@ export default {
     ContentEditor
   },
   props: {
+    column: {
+      type: Number,
+      default: 1
+    },
     options: {
       type: Array,
       default: () => []
@@ -55,36 +54,38 @@ export default {
     handleDeleteOption(evt) {
       // hack，操作prop的options
       this.options.splice(evt, 1)
-    },
-    handleUpdateList(evt) {
-      console.log(evt)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.survey-checkbox {
+.survey-checkbox::v-deep {
   .el-checkbox {
     display: block;
     margin-top: 10px;
   }
+  .el-checkbox__label {
+    width: 100%;
+    padding-right: 80px;
+  }
   .option-label {
     display: inline-block;
     width: 400px;
+    max-width: 100%;
   }
   .el-checkbox {
-    margin-top: 5px;
+    margin-top: 0px;
     padding: 2px 10px;
   }
   .el-checkbox:hover {
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    background: #efefef;
     .option-action {
       display: inline-block;
     }
   }
   .checkbox-ghost {
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    background: #efefef;
     background-color: #fff;
   }
   .option-action {
