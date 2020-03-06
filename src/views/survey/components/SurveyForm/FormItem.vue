@@ -13,7 +13,7 @@
       </el-radio-group>
     </div>
     <div v-if="question.type === 2">
-      <el-checkbox-group v-model="provideData.formInfo[question.id]">
+      <el-checkbox-group v-model="provideData.formInfo[question.id]" v-bind="getCheckboxAttrs()">
         <el-row :gutter="20">
           <el-col v-for="item in question.options" :key="item.id" :span="24 / question.column">
             <el-checkbox :label="item.id">{{ item.label }}</el-checkbox>
@@ -46,8 +46,39 @@ export default {
   computed: {
     rules() {
       const { type } = this.question
-      const required = true
       if (type === 1) {
+        return this.getRadioRules()
+      }
+      if (type === 2) {
+        return this.getCheckboxRules()
+      }
+      if (type === 3) {
+        return this.getInputRules()
+      }
+      return {}
+    }
+  },
+  methods: {
+    getCheckboxAttrs() {
+      const { max } = this.question
+      const attr = {}
+      if (max) {
+        attr.max = max
+      }
+      return attr
+    },
+    getInputAttrs() {
+      const { minlength, maxlength } = this.question
+      const attr = {}
+      if (minlength) {
+        attr.minlength = minlength
+      }
+      if (maxlength) {
+        attr.maxlength = maxlength
+        attr['show-word-limit'] = true
+      }
+      return attr
+    },
         return {
           required,
           message: '请选择',
@@ -70,10 +101,7 @@ export default {
           trigger: 'blur'
         }
       }
-      return {}
-    }
-  },
-  methods: {}
+  }
 }
 </script>
 
