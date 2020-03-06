@@ -79,26 +79,38 @@ export default {
       }
       return attr
     },
-        return {
-          required,
-          message: '请选择',
-          trigger: 'change'
-        }
+    getRadioRules() {
+      const { required } = this.question
+      return {
+        required,
+        message: '请选择',
+        trigger: 'change'
       }
-      if (type === 2) {
-        return {
+    },
+    getCheckboxRules() {
+      const rules = []
+      const { required, min, max } = this.question
+      if (required || min) {
+        rules.push({
           required,
           type: 'array',
-          message: '请选择',
+          message: `至少选择 ${min || 1} 个选项`,
           trigger: 'change'
-        }
+        })
       }
-
-      if (type === 3) {
-        return {
-          required,
-          message: '请填写',
-          trigger: 'blur'
+      if (min) {
+        const message = max
+          ? `选择 ${min} 到 ${max} 个选项`
+          : `至少选择 ${min || 1} 个选项`
+        rules.push({
+          type: 'array',
+          min,
+          message,
+          trigger: 'change'
+        })
+      }
+      return rules
+    },
         }
       }
   }
