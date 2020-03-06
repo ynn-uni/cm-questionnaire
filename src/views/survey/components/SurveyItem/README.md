@@ -12,11 +12,11 @@ survey: {
       type: '题目的类型，包括单选，多选，填空',
       attrs: {
         required: '是否必填',
-        // column: 'Number, 选项布局',
-        // radio
+        // radio or checkbox
+        column: 'Number, 选项布局',
         // checkbox
-        min: '',
-        max: '',
+        min: 0,
+        max: 0,
         // input
         input_type: '',
         char_count: '',
