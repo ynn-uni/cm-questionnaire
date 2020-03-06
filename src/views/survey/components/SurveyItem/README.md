@@ -18,10 +18,9 @@ survey: {
         min: 0,
         max: 0,
         // input
-        nativetype: '',
+        nativetype: '', // tel, email, text, number
         minlength: '',
         maxlength: '',
-        append: 'String',
         placeholder: '提示内容'
       },
       options: [
