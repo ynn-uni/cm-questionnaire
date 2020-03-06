@@ -74,12 +74,16 @@ export default {
   methods: {
     handleClick() {
       this.isFocus = true
+      this.$emit('focus', this.sequence - 1)
       document.body.addEventListener('click', this.handleEleBlur)
     },
     handleEleBlur(evt) {
-      // 检查是否包含于该根节点
+      // 检查点击是否包含于该根节点, 且不在设置区域
+      const settingDom = document.getElementById('surveySetting')
+      if (settingDom.contains(evt.target)) return
       if (!this.$el.contains(evt.target)) {
         this.isFocus = false
+        this.$emit('blur', this.sequence - 1)
       }
     },
     handleAddOption() {

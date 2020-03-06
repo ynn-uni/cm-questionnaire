@@ -26,15 +26,18 @@
             handle=".el-icon-rank"
             @choose="disableTip = true"
             @unchoose="disableTip = false"
+            @end="handleDragEndFocus"
           >
             <transition-group>
               <SurveyItem
                 v-for="(item, index) in questions"
-                :key="index"
+                :key="item.id"
                 ref="surveyItem"
                 :sequence="index + 1"
                 :question="item"
                 :disable-tip="disableTip"
+                @blur="handleBlurItem"
+                @focus="handleFocusItem"
                 @copy="handleCopyItem"
                 @delete="handleDeleteItem"
               />
@@ -94,7 +97,8 @@ export default {
       content: '',
       suffix: '您已完成本次问卷，感谢您的帮助与支持',
       questions: [],
-      disableTip: false
+      disableTip: false,
+      focusIndex: null
     }
   },
   mounted() {},
@@ -150,6 +154,23 @@ export default {
           }
       }
       this.questions.push(question)
+    },
+    // 问题聚焦时，显示设置
+    handleFocusItem(evt) {
+      this.focusIndex = evt
+    },
+    // 问题失焦时，隐藏设置
+    handleBlurItem(evt) {
+      if (evt === this.focusIndex) {
+        this.focusIndex = null
+      }
+    },
+
+    // 拖动时变换焦点
+    handleDragEndFocus(evt) {
+      if (this.focusIndex !== null && this.focusIndex === evt.oldIndex) {
+        this.focusIndex = evt.newIndex
+      }
     },
 
     // 删除问卷题目
