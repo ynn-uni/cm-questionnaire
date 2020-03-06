@@ -22,7 +22,11 @@
       </el-checkbox-group>
     </div>
     <div v-if="question.type === 3">
-      <el-input v-model="provideData.formInfo[question.id]" :placeholder="question.placeholder">
+      <el-input
+        v-model="provideData.formInfo[question.id]"
+        :placeholder="question.placeholder"
+        v-bind="getInputAttrs()"
+      >
         <template v-if="question && question.append" slot="append">{{ question.append }}</template>
       </el-input>
     </div>
