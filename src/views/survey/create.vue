@@ -183,10 +183,12 @@ export default {
   }
 
   .question-type {
-    display: flex;
     .question-btn-wrap {
-      flex: 0 0 50%;
-      margin-top: 10px;
+      width: 100%;
+      margin-top: 20px;
+      .el-button {
+        width: 100%;
+      }
     }
   }
   .survey-main {
