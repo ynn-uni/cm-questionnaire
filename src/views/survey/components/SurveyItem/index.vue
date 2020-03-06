@@ -18,8 +18,8 @@
       </div>
     </div>
     <div class="question-content">
-      <SurveyRadio v-if="question.type === 1" :options="question.options" />
-      <SurveyCheckbox v-if="question.type === 2" :options="question.options" />
+      <SurveyRadio v-if="question.type === 1" :options="question.options" :column="question.column" />
+      <SurveyCheckbox v-if="question.type === 2" :options="question.options" :column="question.column" />
       <SurveyInput v-if="question.type === 3" :placeholder="question.placeholder" />
     </div>
     <div v-if="isFocus && (question.type === 1 || question.type === 2)" class="quick-action">
@@ -148,7 +148,7 @@ export default {
       color: #666;
       line-height: 32px;
       > i {
-        margin-right: 20px;
+        margin-right: 15px;
         font-size: 18px;
         cursor: pointer;
         &:hover {
@@ -158,7 +158,9 @@ export default {
     }
   }
   .question-content {
+    margin: 5px 0;
     padding-left: 30px;
+    overflow: hidden;
     .el-radio {
       display: block;
       margin-top: 10px;
@@ -171,7 +173,7 @@ export default {
 
   .quick-action {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 0 30px;
     font-size: 14px;
     color: $--color-primary;
