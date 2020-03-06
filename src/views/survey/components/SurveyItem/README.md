@@ -21,6 +21,7 @@ survey: {
         nativetype: '', // tel, email, text, number
         minlength: '',
         maxlength: '',
+        append: 'String',
         placeholder: '提示内容'
       },
       options: [
