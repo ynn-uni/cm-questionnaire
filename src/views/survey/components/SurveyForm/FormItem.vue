@@ -30,7 +30,7 @@
         v-bind="getInputAttrs()"
       >
         <template v-if="question && question.append" slot="append">{{ question.append }}</template>
-      </el-input></div></el-form-item></template>
+      </el-input>
       <el-input
         v-if="question.nativetype === 'number'"
         v-model.number="provideData.formInfo[question.id]"
@@ -38,7 +38,7 @@
         type="number"
       >
         <template v-if="question && question.append" slot="append">{{ question.append }}</template>
-      </template>
+      </el-input>
     </div>
   </el-form-item>
 </template>
