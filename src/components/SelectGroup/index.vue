@@ -84,17 +84,17 @@ export default {
 
 <style lang="scss" scoped>
   .selectgroup{
-    padding: 20px 0;
+    // padding: 20px 0;
     flex-wrap: wrap;
     .el-select{
       width: 10%;
       margin-right: 80px;
       @include response-selectGroup();
     }
-    .el-input{
-      width: 20%;
-      @include response-selectGroupInput();
-    }
+    // .el-input{
+    //   width:200px;
+    //   // @include response-selectGroupInput();
+    // }
     .add{
       font-size: 16px;
       color: $primaryColor;

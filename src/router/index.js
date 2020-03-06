@@ -72,7 +72,10 @@ export const constantRoutes = [
         name: 'CourseDetail',
         component: () => import('@/views/coursedetail/index'),
         meta: { title: '课程详情', icon: 'iconfont icon-kecheng' },
-        hidden: true
+        hidden: true,
+        children: [
+
+        ]
       },
       {
         path: 'addcourse',

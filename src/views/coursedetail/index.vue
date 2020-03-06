@@ -5,7 +5,7 @@
     </div>
     <div class="item flex">
       <div class="item-left flex">
-        <img class="ci-img" :src="data.cover" alt="">
+        <img class="ci-img" :src="baseUrl+data.cover" alt="">
         <div class="info">
           <div class="title flex justify-between align-center">
             <div class="title-text">
@@ -43,7 +43,7 @@
             >
               已结束
             </el-tag>
-            <el-button v-permission="1" type="primary" class="btn-enter" @click="open">
+            <el-button v-permission="1" type="primary" class="btn-enter" @click="showAdd">
               申请加入
             </el-button>
 
@@ -64,7 +64,7 @@
               已结束
             </el-tag>
             <div v-permission="2" class="other-option flex justify-between">
-              <el-button v-if="data.status==1" type="primary" class="btn-enter" @click="open">
+              <el-button v-if="data.status==1" type="primary" class="btn-enter" @click="getCode">
                 邀请学生
               </el-button>
               <el-button type="primary" class="btn-enter" @click="editCourse">
@@ -75,6 +75,41 @@
 
         </div>
       </div>
+      <el-dialog
+        title="请复制您的验证码"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :show-close="false"
+        :close-on-click-modal="false"
+      >
+        <div class="code">{{ data.code }}</div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click.stop="dialogVisible = false">取 消</el-button>
+          <el-button
+            v-clipboard:copy="data.code"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+            type="primary"
+            @click.stop="dialogVisible = false"
+          >复制</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog
+        title="请输入课程邀请码"
+        :visible.sync="dialogVisible1"
+        width="30%"
+        :show-close="false"
+        :close-on-click-modal="false"
+      >
+        <input v-model="code" type="text" class="addcode">
+        <span slot="footer" class="dialog-footer">
+          <el-button @click.stop="dialogVisible1 = false">取 消</el-button>
+          <el-button
+            type="primary"
+            @click.stop="handelAddCourse"
+          >申请加入</el-button>
+        </span>
+      </el-dialog>
       <div class="bref">
         <div class="dis-title">
           课程介绍
@@ -102,7 +137,7 @@
 import { mapGetters } from 'vuex'
 import QuestionList from '@/components/QuestionList'
 import ClassMate from './components/ClassMate'
-import { getCourseDetails } from '@/api/course'
+import { getCourseDetails, joinCourse } from '@/api/course'
 export default {
   name: 'CourseDetail',
   components: {
@@ -112,7 +147,11 @@ export default {
   data() {
     return {
       collect: false,
-      data: {}
+      data: {},
+      dialogVisible: false,
+      dialogVisible1: false,
+      code: '',
+      baseUrl: process.env.VUE_APP_STATIC_IMG
     }
   },
   computed: {
@@ -120,33 +159,51 @@ export default {
       'name'
     ])
   },
+
   mounted() {
     console.log(this.$route.query.id)
     getCourseDetails({ id: this.$route.query.id }).then((res) => {
       console.log(res)
       this.data = res.data
-      this.data.cover = process.env.VUE_APP_STATIC_IMG + this.data.cover
     })
   },
   methods: {
     handelCollect() {
       this.collect = !this.collect
     },
-    open() {
-      this.$prompt('请输入邀请码', {
-        cancelButtonText: '取消',
-        confirmButtonText: '申请加入'
-      }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message: '加入成功'
-        })
-      }).catch(() => {
-      })
-    },
     editCourse() {
       this.$router.push({ path: '/course/editcourse', query: { id: this.data.id }})
+    },
+    getCode() {
+      this.dialogVisible = true
+    },
+    onCopy(e) {
+      this.$message({
+        type: 'success',
+        message: '复制成功'
+      })
+    },
+    onError(e) {
+      console.log('复制失败！')
+    },
+    showAdd() {
+      this.dialogVisible1 = true
+    },
+    handelAddCourse() {
+      if (this.code) {
+        const code = this.code
+        joinCourse({ code }).then((res) => {
+          console.log(res)
+          if (res.status === 200) {
+            this.$message.success('加入成功')
+          }
+        })
+        this.dialogVisible1 = true
+      } else {
+        this.$message.error('未填写邀请码')
+      }
     }
+
   }
 
 }
@@ -162,12 +219,12 @@ export default {
     margin: 30px 0;
     padding: 20px;
     width: 100%;
-    height: 280px;
+    // height: 280px;
     flex-wrap: wrap;
     box-shadow:2px 2px 8px 2px rgba(217,224,227,0.5);
     .item-left{
       @include response-courseDetailWidth();
-       height: 200px;
+      //  height: 200px;
       border-right: 2px solid #ebebeb;
         .ci-img{
           width: 150px;
@@ -211,6 +268,24 @@ export default {
         }
 
     }
+    .code{
+    margin: 0 auto;
+    width: 200px;
+    text-align: center;
+    padding-bottom: 2px;
+    border-bottom: 1px solid $textSecondary;
+  }
+  .addcode{
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    border:1px solid $textSecondary;
+    display: block;
+    margin: 0 auto;
+    padding-left: 5px;
+    outline: none;
+
+  }
     .bref{
       @include response-courseDetailWidth();
        height: 200px;

@@ -18,3 +18,16 @@ export function teacherGetCourse(data = {}) {
 export function getCourseDetails(data = {}) {
   return getAction('/Course/getCourseDetails', data)
 }
+
+// 获取所有课程列表 /Course/getCourseList
+export function getCourseList(data = {}) {
+  return getAction('/Course/getCourseList', data)
+}
+// 获取学生课程列表 /Student/getCourseList
+export function getStudentCourseList(data = {}) {
+  return getAction('/Course/getStudentCourseList', data)
+}
+// 加入课程 /Course/joinCourse
+export function joinCourse(data = {}) {
+  return getAction('/Course/joinCourse', data)
+}

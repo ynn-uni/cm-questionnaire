@@ -2,7 +2,7 @@
 
   <el-col :xl="8" :lg="12" :xs="24">
     <div class="item flex" @click.stop="handelDetail(info.id)">
-      <img class="ci-img" :src="info.cover" alt="">
+      <img class="ci-img" :src="baseUrl+info.cover" alt="">
       <div class="info">
         <div class="title flex justify-between align-center">
           <div class="title-text">
@@ -10,7 +10,7 @@
           </div>
           <div v-permission="1" class="collect" :class="collect?'active':''" @click.stop="handelCollect">
             <i class="iconfont icon-shoucang1" />
-            {{ collect?'取消收藏':'收藏' }}
+            {{ collect==1?'取消收藏':'收藏' }}
           </div>
         </div>
         <div class="info-item">
@@ -41,7 +41,7 @@
             已结束
           </el-tag>
 
-          <el-button v-if="info.status==1" v-permission="1" type="primary" class="btn-enter" @click.stop="open">
+          <el-button v-if="info.status==1" v-permission="1" type="primary" class="btn-enter" @click.stop="showAdd">
             申请加入
           </el-button>
           <el-button v-if="info.status==1" v-permission="2" type="primary" class="btn-enter" @click.stop="getCode">
@@ -60,16 +60,35 @@
       :show-close="false"
       :close-on-click-modal="false"
     >
-      <div class="code">code</div>
+      <div class="code">{{ info.code }}</div>
       <span slot="footer" class="dialog-footer">
         <el-button @click.stop="dialogVisible = false">取 消</el-button>
         <el-button
-          v-clipboard:copy="1111"
+          v-clipboard:copy="info.code"
           v-clipboard:success="onCopy"
           v-clipboard:error="onError"
           type="primary"
           @click.stop="dialogVisible = false"
         >复制</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="请输入课程邀请码"
+      :visible.sync="dialogVisible1"
+      width="30%"
+      :show-close="false"
+      :close-on-click-modal="false"
+    >
+      <input v-model="code" type="text" class="addcode">
+      <span slot="footer" class="dialog-footer">
+        <el-button @click.stop="dialogVisible1 = false">取 消</el-button>
+        <el-button
+          v-clipboard:copy="info.code"
+          v-clipboard:success="onCopy"
+          v-clipboard:error="onError"
+          type="primary"
+          @click.stop="handelAddCourse"
+        >申请加入</el-button>
       </span>
     </el-dialog>
   </el-col>
@@ -84,17 +103,23 @@ export default {
     info: {
       type: Object,
       default: () => {}
+    },
+    type1: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       collect: false,
-      dialogVisible: false
-      // info: {}
+      dialogVisible: false,
+      dialogVisible1: false,
+      code: '',
+      baseUrl: process.env.VUE_APP_STATIC_IMG
     }
   },
   mounted() {
-    this.info.cover = process.env.VUE_APP_STATIC_IMG + this.info.cover
+    // this.info.cover = process.env.VUE_APP_STATIC_IMG + this.info.cover
   },
   methods: {
     getCode() {
@@ -112,23 +137,17 @@ export default {
     handelDetail(id) {
       this.$router.push({ path: '/course/coursedetail', query: { id }})
     },
-    open() {
-      this.$prompt('请输入邀请码', {
-        cancelButtonText: '取消',
-        confirmButtonText: '申请加入'
-      }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message: '加入成功'
-        })
-      }).catch(() => {
-      })
+    showAdd() {
+      this.dialogVisible1 = true
     },
-    creatCode() {
-      this.$alert('code', '请复制您的邀请码', {
-        center: true
-      })
+    handelAddCourse() {
+      if (this.code) {
+        this.dialogVisible1 = true
+      } else {
+        this.$message.error('未填写邀请码')
+      }
     },
+
     handelCollect() {
       this.collect = !this.collect
     }
@@ -189,10 +208,18 @@ export default {
   }
   .code{
     margin: 0 auto;
-    width: 100px;
+    width: 200px;
     text-align: center;
     padding-bottom: 2px;
     border-bottom: 1px solid $textSecondary;
+  }
+  .addcode{
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    border:1px solid $textSecondary;
+    display: block;
+    margin: 0 auto;
   }
   .bref{
     height: 220px;

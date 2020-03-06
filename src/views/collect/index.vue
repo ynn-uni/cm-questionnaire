@@ -8,7 +8,7 @@
         收藏问卷
       </div>
     </div>
-    <SelectGroup />
+    <SelectGroup v-permission="1" />
     <div v-if="status==0" class="courselist">
       <CourseList />
     </div>

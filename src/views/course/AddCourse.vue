@@ -70,11 +70,15 @@ export default {
   },
   methods: {
     handelAddCourse() {
-      addCourse(this.sizeForm).then((res) => {
-      })
-      // if (this.sizeForm.courseName && this.courseTimer && this.courseSource && this.courseType && this.courseStartTime && this.courseEndTime && this.courseDis) {
-      //   console.log('nnn')
-      // }
+      if (this.sizeForm.courseName && this.sizeForm.courseTimer && this.sizeForm.courseSource && this.sizeForm.courseType && this.sizeForm.courseStartTime && this.sizeForm.courseEndTime && this.sizeForm.courseDis && this.sizeForm.cover) {
+        addCourse(this.sizeForm).then((res) => {
+          if (res.status === 200) {
+            this.$message.success('添加成功')
+          }
+        })
+      } else {
+        this.$message.error('请输入完整的课程信息')
+      }
     },
     getImgPath(path) {
       this.sizeForm.cover = path

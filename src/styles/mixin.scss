@@ -50,6 +50,7 @@ $xs: 'screen and (max-width: 1024px)';
   @media #{$xs} {
     width: 100%;
     border: none;
+    margin-bottom: 30px;
   }
 }
 @mixin response-selectGroup() {

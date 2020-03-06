@@ -1,7 +1,7 @@
 <template>
   <div class="questionlist">
     <el-row :gutter="20">
-      <CourseItem v-for="(item,index) in 5" :key="index" />
+      <CourseItem v-for="(item,index) in 3" :key="index" />
     </el-row>
   </div>
 </template>

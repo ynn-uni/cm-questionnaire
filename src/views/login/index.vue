@@ -23,6 +23,11 @@
       <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">下一步</el-button>
 
     </el-form>
+    <img src="@/assets/images/logo.png" alt="">
+    <div class="loginimg">
+      <img src="@/assets/images/login.png" alt="">
+    </div>
+    <!-- <img src="@/assets/images/login.png" alt=""> -->
   </div>
 </template>
 
@@ -36,7 +41,7 @@ export default {
       loading: false,
       passwordType: 'password',
       redirect: undefined,
-      tel: '18323084462',
+      tel: '17318413017', // 173 1841 3017
       check: true,
       code: null,
       identifier: null,
@@ -100,6 +105,8 @@ $light_gray:#eee;
   width: 100%;
   background:linear-gradient(359deg,rgba(0,83,255,1) 0%,rgba(119,210,253,1) 100%);
   overflow: hidden;
+  padding-top: 60px;
+  padding-left: 114px;
   .input-group{
     width: 400px;
     background-color: #fff;
@@ -118,6 +125,7 @@ $light_gray:#eee;
       border-right: 1px solid #979797;
     }
     input{
+      width: 300px;
       border:none;
       outline: none;
       padding-left: 10px;
@@ -185,6 +193,12 @@ $light_gray:#eee;
       text-align: center;
     }
   }
-
+  .loginimg{
+    margin-top: 100px;
+    margin-left: 80px;
+    //  @media #{$md} {
+    //   width: 50%;
+    // }
+  }
 }
 </style>
