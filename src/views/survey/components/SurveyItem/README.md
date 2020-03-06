@@ -18,8 +18,9 @@ survey: {
         min: 0,
         max: 0,
         // input
-        input_type: '',
-        char_count: '',
+        nativetype: '',
+        minlength: '',
+        maxlength: '',
         append: 'String',
         placeholder: '提示内容'
       },
