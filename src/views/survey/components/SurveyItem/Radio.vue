@@ -2,7 +2,7 @@
   <div class="survey-radio">
     <el-radio-group>
       <draggable
-        v-model="options"
+        :list="options"
         handle=".el-icon-rank"
         chosen-class="radio-ghost"
         @choose="disableTip = true"

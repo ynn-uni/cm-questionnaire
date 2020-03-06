@@ -2,7 +2,7 @@
   <div class="survey-checkbox">
     <el-checkbox-group>
       <draggable
-        v-model="options"
+        :list="options"
         handle=".el-icon-rank"
         chosen-class="checkbox-ghost"
         @choose="disableTip = true"
@@ -55,6 +55,9 @@ export default {
     handleDeleteOption(evt) {
       // hack，操作prop的options
       this.options.splice(evt, 1)
+    },
+    handleUpdateList(evt) {
+      console.log(evt)
     }
   }
 }
