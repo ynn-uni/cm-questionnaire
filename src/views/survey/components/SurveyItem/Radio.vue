@@ -21,7 +21,7 @@
           </el-radio>
         </el-col>
       </transition-group>
-    </draggable></div></template>
+    </draggable>
   </div>
 </template>
 
