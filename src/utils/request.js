@@ -61,7 +61,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     Message({
-      message: error.msg,
+      message: error.msg || '未知错误，请联系管理员！',
       type: 'error',
       duration: 5 * 1000
     })
