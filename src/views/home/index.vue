@@ -1,18 +1,8 @@
 <template>
   <div class="home app-container">
-    <div v-permission="1" class="title">
-      推荐课程
-    </div>
-    <CourseList v-permission="1" :type="'all'" />
-    <div v-permission="2" class="title flex justify-between" @click="handelMore">
-      我的课程
-      <div class="lookmore">
-        查看更多
-        <i class="iconfont icon-arrow-right" />
-        <i class="iconfont icon-arrow-right" />
-      </div>
-    </div>
-    <CourseList v-permission="2" :type="'all'" />
+    <TeacherCourse v-permission="2" />
+    <AllCourse v-permission="1" />
+
     <div v-permission="1" class="title">
       推荐问卷
     </div>
@@ -21,37 +11,39 @@
       我的问卷
     </div>
     <QuestionList v-permission="2" :type="'my'" />
-    <div class="title flex justify-between">
+    <!-- <div class="title flex justify-between">
       问卷统计
       <el-date-picker
         v-model="date"
         type="month"
         placeholder="选择月"
       />
-    </div>
-    <div class="charts">
+    </div> -->
+    <!-- <div class="charts">
 
       <VeLine
         :data="chartData"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import CourseList from '@/components/CourseList'
+import TeacherCourse from './components/teacherCourse'
+import AllCourse from './components/allCourse'
 import QuestionList from '@/components/QuestionList'
-import VeLine from 'v-charts/lib/line.common'
+// import VeLine from 'v-charts/lib/line.common'
 export default {
   name: 'Home',
   components: {
-    CourseList,
     QuestionList,
-    VeLine
+    TeacherCourse,
+    AllCourse
   },
   data() {
     return {
+      courseList: [],
       date: '',
       chartData: {
         columns: ['日期', '问卷一', '问卷二', '问卷三'],
@@ -68,16 +60,19 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'name'
+      'userInfo'
     ])
   },
   mounted() {
-
+    console.log(this.userInfo.type)
+    if (this.userInfo.type === 2) {
+      this.getTeacherCourse(1, 3)
+    } else if (this.userInfo.type === 1) {
+      this.getAllCourse(1, 3)
+    }
   },
   methods: {
-    handelMore() {
-      this.$router.push('/course')
-    }
+
   }
 }
 </script>

@@ -8,10 +8,10 @@
           <div class="title-text">
             {{ info.title }}
           </div>
-          <div v-permission="1" class="collect" :class="info.collect?'active':''" @click.stop="handelCollect(info.id)">
+          <!-- <div v-permission="1" class="collect" :class="info.collect?'active':''" @click.stop="handelCollect(info.id)">
             <i class="iconfont icon-shoucang1" />
             {{ info.collect==1?'取消收藏':'收藏' }}
-          </div>
+          </div> -->
         </div>
         <div class="info-item">
           授课老师：{{ info.truename }}
@@ -101,11 +101,8 @@ export default {
     info: {
       type: Object,
       default: () => {}
-    },
-    type1: {
-      type: String,
-      default: ''
     }
+
   },
   data() {
     return {
@@ -226,6 +223,8 @@ export default {
     border:1px solid $textSecondary;
     display: block;
     margin: 0 auto;
+    outline: none;
+    padding-left: 5px;
   }
   .bref{
     height: 220px;

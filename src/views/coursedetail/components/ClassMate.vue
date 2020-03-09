@@ -1,10 +1,10 @@
 <template>
   <div class="list flex">
     <el-row :gutter="100">
-      <el-col v-for="(item,index) in 10" :key="index" :lg="4" :md="6" :xs="8">
+      <el-col v-for="(item,index) in newstudents" :key="index" :lg="4" :md="6" :xs="8">
         <div class="classmate flex align-center">
-          <img src="" alt="">
-          name
+          <img :src="item.user.mobile">
+          {{ item.user.truename }}
         </div>
       </el-col>
     </el-row>
@@ -13,13 +13,41 @@
 </template>
 
 <script>
+import Identicon from 'identicon.js'
 export default {
   name: 'ClassMate',
-  props: {},
+  props: {
+    students: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
 
     }
+  },
+  computed: {
+    newstudents() {
+      if (this.students.length > 0) {
+        for (var i = 0; i < this.students.length; i++) {
+          var { mobile } = this.students[i].user
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          this.students[i].user.mobile = 'data:image/png;base64,' + new Identicon('user' + mobile, 420)
+        }
+        return this.students
+      }
+      return []
+    }
+  },
+  mounted() {
+    // if (this.students.length > 0) {
+    //   for (var i = 0; i < this.students.length; i++) {
+    //     const { mobile } = this.students[i].user
+    //     this.students[i].user.mobile = 'data:image/png;base64,' + new Identicon('user' + mobile, 420)
+    //   }
+    // }
+    console.log('kkk')
   },
   methods: {
   }
@@ -40,9 +68,9 @@ export default {
       width:48px;
       height:48px;
       background:rgba(30,135,240,0.1);
-      border:2px solid rgba(19,127,157,1);
+      // border:2px solid rgba(19,127,157,1);
       border-radius: 50%;
-      margin-right: 30px;
+      // margin-right: 30px;
     }
   }
 }

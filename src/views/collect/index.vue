@@ -1,16 +1,19 @@
 <template>
   <div class="app-container course">
-    <div class="title-tab flex">
-      <div class="tab" :class="status==0?'active':''" @click="activeTab(0)">
-        收藏课程
+    <div class=" flex justify-between">
+      <div class="title-tab flex">
+        <div class="tab" :class="status==0?'active':''" @click="activeTab(0)">
+          收藏课程
+        </div>
+        <div class="tab" :class="status==1?'active':''" @click="activeTab(1)">
+          收藏问卷
+        </div>
       </div>
-      <div class="tab" :class="status==1?'active':''" @click="activeTab(1)">
-        收藏问卷
-      </div>
+      <SelectGroup v-permission="1" />
     </div>
-    <SelectGroup v-permission="1" />
+
     <div v-if="status==0" class="courselist">
-      <CourseList />
+      <CourseList :type="'collect'" />
     </div>
     <div v-if="status==1" class="courselist">
       <QuestionList />

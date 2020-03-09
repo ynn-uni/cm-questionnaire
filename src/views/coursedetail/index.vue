@@ -11,10 +11,10 @@
             <div class="title-text">
               {{ data.title }}
             </div>
-            <div v-permission="1" class="collect" :class="data.collect?'active':''" @click="handelCollect(data.id)">
+            <!-- <div v-permission="1" class="collect" :class="data.collect?'active':''" @click="handelCollect(data.id)">
               <i class="iconfont icon-shoucang1" />
               {{ data.collect?'取消收藏':'收藏' }}
-            </div>
+            </div> -->
           </div>
           <div class="info-item">
             授课老师：{{ data.truename }}
@@ -43,7 +43,7 @@
             >
               已结束
             </el-tag>
-            <el-button v-permission="1" type="primary" class="btn-enter" @click="showAdd">
+            <el-button v-if="data.join==0" v-permission="1" type="primary" class="btn-enter" @click="showAdd">
               申请加入
             </el-button>
 
@@ -124,12 +124,12 @@
     </div>
     <QuestionList />
     <div v-permission="1" class="title">
-      我的同学
+      课程同学
     </div>
     <div v-permission="2" class="title">
       我的学生
     </div>
-    <ClassMate />
+    <ClassMate :students="data.students" />
   </div>
 </template>
 
@@ -164,6 +164,7 @@ export default {
   mounted() {
     console.log(this.$route.query.id)
     getCourseDetails({ id: this.$route.query.id }).then((res) => {
+      console.log(res)
       this.data = res
     })
   },
