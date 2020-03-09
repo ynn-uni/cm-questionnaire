@@ -65,7 +65,7 @@ export default {
     handelEditCourse() {
       var status = this.sizeForm.status
       this.sizeForm.status = status === '进行中' ? 1 : status === '已结束' ? 2 : status
-      editCourse(this.sizeForm).then(() => {
+      editCourse(this.sizeForm).then((res) => {
         this.$message.success('修改成功')
       })
       // if (this.sizeForm.courseName && this.courseTimer && this.courseSource && this.courseType && this.courseStartTime && this.courseEndTime && this.courseDis) {

@@ -191,7 +191,8 @@ export default {
     handelAddCourse() {
       if (this.code) {
         const code = this.code
-        joinCourse({ code }).then(() => {
+        joinCourse({ code }).then((res) => {
+          this.data.join = 1
           this.$message.success('加入成功')
         })
         this.dialogVisible1 = true

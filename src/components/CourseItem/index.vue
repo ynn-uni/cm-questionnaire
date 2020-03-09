@@ -8,9 +8,9 @@
           <div class="title-text">
             {{ info.title }}
           </div>
-          <div v-permission="1" class="collect" :class="collect?'active':''" @click.stop="handelCollect">
+          <div v-permission="1" class="collect" :class="info.collect?'active':''" @click.stop="handelCollect(info.id)">
             <i class="iconfont icon-shoucang1" />
-            {{ collect==1?'取消收藏':'收藏' }}
+            {{ info.collect==1?'取消收藏':'收藏' }}
           </div>
         </div>
         <div class="info-item">
@@ -41,7 +41,7 @@
             已结束
           </el-tag>
 
-          <el-button v-if="info.status==1" v-permission="1" type="primary" class="btn-enter" @click.stop="showAdd">
+          <el-button v-if="info.status==1&&info.join==0" v-permission="1" type="primary" class="btn-enter" @click.stop="showAdd">
             申请加入
           </el-button>
           <el-button v-if="info.status==1" v-permission="2" type="primary" class="btn-enter" @click.stop="getCode">
@@ -96,7 +96,8 @@
 </template>
 
 <script>
-
+import { joinCourse } from '@/api/course'
+import { addCousetOrCancleCollectrse } from '@/api/collect'
 export default {
   name: 'CourseItem',
   props: {
@@ -142,14 +143,21 @@ export default {
     },
     handelAddCourse() {
       if (this.code) {
+        joinCourse({ code: this.code }).then((res) => {
+          this.$message.success('加入成功')
+          this.info.join = 1
+        })
         this.dialogVisible1 = true
       } else {
         this.$message.error('未填写邀请码')
       }
     },
 
-    handelCollect() {
-      this.collect = !this.collect
+    handelCollect(id) {
+      addCousetOrCancleCollectrse({ type: 1, xid: id }).then((res) => {
+        this.collect = !this.collect
+        this.$message.success('收藏成功')
+      })
     }
   }
 }
