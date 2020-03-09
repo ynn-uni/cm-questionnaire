@@ -21,15 +21,28 @@
         <el-divider />
 
         <div v-if="questions.length">
-          <SurveyItem
-            v-for="(item, index) in questions"
-            :key="index"
-            ref="surveyItem"
-            :sequence="index + 1"
-            :question="item"
-            @copy="handleCopyItem"
-            @delete="handleDeleteItem"
-          />
+          <draggable
+            v-model="questions"
+            handle=".el-icon-rank"
+            @choose="disableTip = true"
+            @unchoose="disableTip = false"
+            @end="handleDragEndFocus"
+          >
+            <transition-group>
+              <SurveyItem
+                v-for="(item, index) in questions"
+                :key="item.id"
+                ref="surveyItem"
+                :sequence="index + 1"
+                :question="item"
+                :disable-tip="disableTip"
+                @blur="handleBlurItem"
+                @focus="handleFocusItem"
+                @copy="handleCopyItem"
+                @delete="handleDeleteItem"
+              />
+            </transition-group>
+          </draggable>
         </div>
 
         <div v-else class="survey-question-empty">
@@ -54,20 +67,28 @@
         </el-card>
       </div>
     </div>
-    <el-card class="settings-wrap" />
+    <div id="surveySetting" class="settings-wrap">
+      <el-card v-if="focusIndex != null">
+        <SurveySetting :question="questions[focusIndex]" :sequence="focusIndex + 1" />
+      </el-card>
+    </div>
   </div>
 </template>
 
 <script>
+import Draggable from 'vuedraggable'
 import ContentEditor from '@/components/ContentEditor'
 import SurveyItem from './components/SurveyItem'
+import SurveySetting from './components/SurveySetting'
 import shortid from 'shortid'
 
 export default {
   name: 'SurveyCreate',
   components: {
+    Draggable,
     ContentEditor,
-    SurveyItem
+    SurveyItem,
+    SurveySetting
   },
   data() {
     return {
@@ -75,7 +96,9 @@ export default {
       title: '问卷标题',
       content: '',
       suffix: '您已完成本次问卷，感谢您的帮助与支持',
-      questions: []
+      questions: [],
+      disableTip: false,
+      focusIndex: null
     }
   },
   mounted() {},
@@ -132,6 +155,23 @@ export default {
       }
       this.questions.push(question)
     },
+    // 问题聚焦时，显示设置
+    handleFocusItem(evt) {
+      this.focusIndex = evt
+    },
+    // 问题失焦时，隐藏设置
+    handleBlurItem(evt) {
+      if (evt === this.focusIndex) {
+        this.focusIndex = null
+      }
+    },
+
+    // 拖动时变换焦点
+    handleDragEndFocus(evt) {
+      if (this.focusIndex !== null && this.focusIndex === evt.oldIndex) {
+        this.focusIndex = evt.newIndex
+      }
+    },
 
     // 删除问卷题目
     handleDeleteItem(evt) {
@@ -164,20 +204,25 @@ export default {
 .survey-wrap {
   display: flex;
   background: #efefef;
-  .question-type,
-  .settings-wrap {
-    flex: 0 0 200px;
-  }
-
   .question-type {
-    display: flex;
+    flex: 0 0 200px;
     .question-btn-wrap {
-      flex: 0 0 50%;
-      margin-top: 10px;
+      width: 100%;
+      margin-top: 20px;
+      .el-button {
+        width: 100%;
+      }
+    }
+  }
+  .settings-wrap {
+    flex: 0 0 300px;
+    .el-card {
+      height: 100%;
     }
   }
   .survey-main {
     flex: 1;
+    min-width: 600px;
     margin-left: 10px;
     position: relative;
     overflow: hidden;

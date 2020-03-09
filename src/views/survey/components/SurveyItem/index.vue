@@ -6,13 +6,20 @@
         <ContentEditor v-model="question.title" class="survey-item-title" />
       </div>
       <div class="survey-item-action">
-        <i class="el-icon-copy-document" @click="handleCopy" />
-        <i class="el-icon-delete-solid" @click="handleDelete" />
+        <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">
+          <i class="el-icon-rank" />
+        </el-tooltip>
+        <el-tooltip content="复制" placement="top" effect="light" :disabled="disableTip">
+          <i class="el-icon-copy-document" @click="handleCopy" />
+        </el-tooltip>
+        <el-tooltip content="删除" placement="top" effect="light" :disabled="disableTip">
+          <i class="el-icon-delete-solid" @click="handleDelete" />
+        </el-tooltip>
       </div>
     </div>
     <div class="question-content">
-      <SurveyRadio v-if="question.type === 1" :options="question.options" />
-      <SurveyCheckbox v-if="question.type === 2" :options="question.options" />
+      <SurveyRadio v-if="question.type === 1" :options="question.options" :column="question.column" />
+      <SurveyCheckbox v-if="question.type === 2" :options="question.options" :column="question.column" />
       <SurveyInput v-if="question.type === 3" :placeholder="question.placeholder" />
     </div>
     <div v-if="isFocus && (question.type === 1 || question.type === 2)" class="quick-action">
@@ -49,6 +56,10 @@ export default {
     question: {
       type: Object,
       default: () => {}
+    },
+    disableTip: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -63,12 +74,16 @@ export default {
   methods: {
     handleClick() {
       this.isFocus = true
+      this.$emit('focus', this.sequence - 1)
       document.body.addEventListener('click', this.handleEleBlur)
     },
     handleEleBlur(evt) {
-      // 检查是否包含于该根节点
+      // 检查点击是否包含于该根节点, 且不在设置区域
+      const settingDom = document.getElementById('surveySetting')
+      if (settingDom.contains(evt.target)) return
       if (!this.$el.contains(evt.target)) {
         this.isFocus = false
+        this.$emit('blur', this.sequence - 1)
       }
     },
     handleAddOption() {
@@ -133,7 +148,7 @@ export default {
       color: #666;
       line-height: 32px;
       > i {
-        margin-right: 20px;
+        margin-right: 15px;
         font-size: 18px;
         cursor: pointer;
         &:hover {
@@ -143,7 +158,9 @@ export default {
     }
   }
   .question-content {
+    margin: 5px 0;
     padding-left: 30px;
+    overflow: hidden;
     .el-radio {
       display: block;
       margin-top: 10px;
@@ -156,7 +173,7 @@ export default {
 
   .quick-action {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 0 30px;
     font-size: 14px;
     color: $--color-primary;
