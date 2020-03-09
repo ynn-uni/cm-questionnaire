@@ -27,9 +27,7 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getUserInfo().then(response => {
-        const { data } = response
-
+      getUserInfo().then(data => {
         if (!data) {
           reject('获取用户信息失败，请重新登录')
         }

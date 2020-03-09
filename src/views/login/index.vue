@@ -61,7 +61,7 @@ export default {
       if (this.time > 0) return
       getSmsCode({ 'mobile': this.tel }).then((res) => {
         this.cutDown(120)
-        this.identifier = res.data.identifier
+        this.identifier = res.identifier
       })
     },
     handleLogin() {
@@ -72,7 +72,7 @@ export default {
       if (!this.check) return
       if (this.tel && this.code && this.identifier) {
         checkSmsCode({ 'mobile': this.tel, 'code': this.code, 'identifier': this.identifier }).then((res) => {
-          const token = 'Bearer ' + res.data.token
+          const token = 'Bearer ' + res.token
           this.$store.commit('user/updateToken', token)
           setToken(token)
           this.$router.push({ path: this.redirect || '/' })

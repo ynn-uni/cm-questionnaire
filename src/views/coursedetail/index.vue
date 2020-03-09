@@ -163,8 +163,7 @@ export default {
   mounted() {
     console.log(this.$route.query.id)
     getCourseDetails({ id: this.$route.query.id }).then((res) => {
-      console.log(res)
-      this.data = res.data
+      this.data = res
     })
   },
   methods: {
@@ -192,11 +191,8 @@ export default {
     handelAddCourse() {
       if (this.code) {
         const code = this.code
-        joinCourse({ code }).then((res) => {
-          console.log(res)
-          if (res.status === 200) {
-            this.$message.success('加入成功')
-          }
+        joinCourse({ code }).then(() => {
+          this.$message.success('加入成功')
         })
         this.dialogVisible1 = true
       } else {

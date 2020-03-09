@@ -71,10 +71,8 @@ export default {
   methods: {
     handelAddCourse() {
       if (this.sizeForm.courseName && this.sizeForm.courseTimer && this.sizeForm.courseSource && this.sizeForm.courseType && this.sizeForm.courseStartTime && this.sizeForm.courseEndTime && this.sizeForm.courseDis && this.sizeForm.cover) {
-        addCourse(this.sizeForm).then((res) => {
-          if (res.status === 200) {
-            this.$message.success('添加成功')
-          }
+        addCourse(this.sizeForm).then(() => {
+          this.$message.success('添加成功')
         })
       } else {
         this.$message.error('请输入完整的课程信息')

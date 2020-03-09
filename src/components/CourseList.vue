@@ -65,20 +65,20 @@ export default {
     },
     getTeacherCourse(page, size) {
       teacherGetCourse({ page, size }).then((res) => {
-        this.courseList = res.data.data
+        this.courseList = res.data
         console.log(this.courseList)
       })
     },
     getAllCourse(page, size) {
       getCourseList({ page, size }).then((res) => {
         console.log(res)
-        this.courseList = res.data.data
+        this.courseList = res.data
       })
     },
     getStudentCourse(page, size) {
       getStudentCourseList({ page, size }).then((res) => {
         console.log(res)
-        this.courseList = res.data.data
+        this.courseList = res.data
       })
     },
     changeType() {

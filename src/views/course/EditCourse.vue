@@ -57,20 +57,16 @@ export default {
   },
   mounted() {
     getCourseDetails({ id: this.$route.query.id }).then((res) => {
-      this.sizeForm = res.data
+      this.sizeForm = res
       this.sizeForm.status = this.sizeForm.status === 1 ? '进行中' : '已结束'
-      // this.data = res.data
     })
   },
   methods: {
     handelEditCourse() {
       var status = this.sizeForm.status
       this.sizeForm.status = status === '进行中' ? 1 : status === '已结束' ? 2 : status
-      editCourse(this.sizeForm).then((res) => {
-        if (res.status === 200) {
-          console.log(res)
-          this.$message.success('修改成功')
-        }
+      editCourse(this.sizeForm).then(() => {
+        this.$message.success('修改成功')
       })
       // if (this.sizeForm.courseName && this.courseTimer && this.courseSource && this.courseType && this.courseStartTime && this.courseEndTime && this.courseDis) {
       //   console.log('nnn')
