@@ -11,9 +11,9 @@
             <div class="title-text">
               {{ data.title }}
             </div>
-            <div v-permission="1" class="collect" :class="collect?'active':''" @click="handelCollect">
+            <div v-permission="1" class="collect" :class="data.collect?'active':''" @click="handelCollect(data.id)">
               <i class="iconfont icon-shoucang1" />
-              {{ collect?'取消收藏':'收藏' }}
+              {{ data.collect?'取消收藏':'收藏' }}
             </div>
           </div>
           <div class="info-item">
@@ -138,6 +138,7 @@ import { mapGetters } from 'vuex'
 import QuestionList from '@/components/QuestionList'
 import ClassMate from './components/ClassMate'
 import { getCourseDetails, joinCourse } from '@/api/course'
+import { addCousetOrCancleCollectrse } from '@/api/collect'
 export default {
   name: 'CourseDetail',
   components: {
@@ -167,9 +168,6 @@ export default {
     })
   },
   methods: {
-    handelCollect() {
-      this.collect = !this.collect
-    },
     editCourse() {
       this.$router.push({ path: '/course/editcourse', query: { id: this.data.id }})
     },
@@ -195,10 +193,16 @@ export default {
           this.data.join = 1
           this.$message.success('加入成功')
         })
-        this.dialogVisible1 = true
+        this.dialogVisible1 = false
       } else {
         this.$message.error('未填写邀请码')
       }
+    },
+    handelCollect(id) {
+      addCousetOrCancleCollectrse({ type: 1, xid: id }).then((res) => {
+        this.data.collect = this.data.collect === 1 ? 0 : 1
+        this.$message.success(this.data.collect === 1 ? '收藏成功' : '取消收藏成功')
+      })
     }
 
   }

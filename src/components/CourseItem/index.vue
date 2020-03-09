@@ -83,9 +83,6 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click.stop="dialogVisible1 = false">取 消</el-button>
         <el-button
-          v-clipboard:copy="info.code"
-          v-clipboard:success="onCopy"
-          v-clipboard:error="onError"
           type="primary"
           @click.stop="handelAddCourse"
         >申请加入</el-button>
@@ -131,6 +128,7 @@ export default {
         type: 'success',
         message: '复制成功'
       })
+      this.dialogVisible = false
     },
     onError(e) {
       console.log('复制失败！')
@@ -147,7 +145,7 @@ export default {
           this.$message.success('加入成功')
           this.info.join = 1
         })
-        this.dialogVisible1 = true
+        this.dialogVisible1 = false
       } else {
         this.$message.error('未填写邀请码')
       }
@@ -155,8 +153,8 @@ export default {
 
     handelCollect(id) {
       addCousetOrCancleCollectrse({ type: 1, xid: id }).then((res) => {
-        this.collect = !this.collect
-        this.$message.success('收藏成功')
+        this.info.collect = this.info.collect === 1 ? 0 : 1
+        this.$message.success(this.info.collect === 1 ? '收藏成功' : '取消收藏成功')
       })
     }
   }
