@@ -20,6 +20,26 @@ export function createSurvey(data = {}) {
  * 分享问卷
  * @param {*} data
  */
-export function shareSurvey(data) {
+export function shareSurvey(data = {}) {
   return postAction('/Questionnaire/shareQuestionnaire', data)
 }
+
+/**
+ * 获取我创建的问卷列表
+ * @param {*} data
+ * page 当前页码
+ * size 每页条数
+ */
+export function getMySurveyList(data = {}) {
+  return postAction('/Questionnaire/getCreateQuestionnaireList', data)
+}
+/**
+ * 获取我分享的问卷列表
+ * @param {*} data
+ * page 当前页码
+ * size 每页条数
+ */
+export function getShareSurveyList(data = {}) {
+  return postAction('/Questionnaire/getShareQuestionnaireList', data)
+}
+
