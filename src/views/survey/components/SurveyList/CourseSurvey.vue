@@ -5,22 +5,15 @@
         <QuestionItem :detail="item" />
       </el-col>
     </el-row>
-    <Pagination
-      :page-count="pageCount"
-      :page.sync="curPage"
-      :size.sync="size"
-      @pagination="getCourseSurveyList"
-    />
   </div>
 </template>
 
 <script>
 import { getCourseSurveyList } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
-import Pagination from '@/components/Pagination'
 export default {
   name: 'CourseSurveyList',
-  components: { QuestionItem, Pagination },
+  components: { QuestionItem },
   data() {
     return {
       // 分页
@@ -43,8 +36,7 @@ export default {
   methods: {
     getCourseSurveyList() {
       getCourseSurveyList({ page: this.curPage, size: this.size }).then(res => {
-        this.pageCount = res.page
-        this.surveyList = res.data
+        this.surveyList = res
       })
     }
   }
