@@ -1,9 +1,9 @@
 <template>
   <div class="teachercourse">
-    <div class=" title flex justify-between" @click="handelMore">
+    <div class=" title flex justify-between">
       我的课程
-      <el-link :underline="false" icon="iconfont icon-tj" class="add" @click="handelMore">
-        添加课程
+      <el-link class="survey-add" type="primary" :underline="false" @click="handleAddCourse">
+        <i class="el-icon-plus" /> 添加问卷
       </el-link>
 
     </div>
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
 
-    handelMore() {
+    handleAddCourse() {
       this.$router.push('/course/addcourse')
     },
     getTeacherCourse(page, size) {
@@ -63,16 +63,13 @@ export default {
   .title{
     font-size: 18px;
     color: $textPrimary;
-    .lookmore{
-      font-size: 14px;
-      cursor: pointer;
-      i{
-        font-size: 10px;
-      }
-      &:hover{
-        color: $primaryColor;
-      }
+    .survey-add {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    i {
+      border: 1px solid currentColor;
     }
+  }
 
   }
   .courselist{
