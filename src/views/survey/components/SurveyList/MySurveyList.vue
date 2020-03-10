@@ -8,6 +8,7 @@
         <QuestionItem :detail="item" />
       </el-col>
     </el-row>
+    <Pagination :page-count="pageCount" :page.sync="curPage" :size.sync="size" @pagination="getMySurveyList" />
     <el-dialog title="添加问卷" :visible.sync="dialogVisible" width="30%">
       <span>请选择课程：</span>
       <el-select v-model="courseId" placeholder="请选择">
@@ -30,14 +31,18 @@
 import { getStudentCourseList } from '@/api/course'
 import { getMySurveyList } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'MySurveyList',
-  components: { QuestionItem },
+  components: { QuestionItem, Pagination },
   data() {
     return {
       courseId: '',
       courseList: [],
       surveyList: [],
+      pageCount: 0,
+      curPage: 1,
+      size: 9,
       dialogVisible: false,
       column: {
         xs: 24,
@@ -53,8 +58,9 @@ export default {
   },
   methods: {
     getMySurveyList() {
-      getMySurveyList({ page: 1, size: 3 }).then(res => {
+      getMySurveyList({ page: this.curPage, size: this.size }).then(res => {
         this.surveyList = res.data
+        this.pageCount = res.page
       })
     },
     handleCourseSelect() {
