@@ -9,13 +9,13 @@
       :page-count="pageCount"
       :page.sync="curPage"
       :size.sync="size"
-      @pagination="getShareSurveyList"
+      @pagination="getCourseSurveyList"
     />
   </div>
 </template>
 
 <script>
-import { getShareSurveyList } from '@/api/survey'
+import { getCourseSurveyList } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
 import Pagination from '@/components/Pagination'
 export default {
@@ -38,11 +38,11 @@ export default {
     }
   },
   mounted() {
-    this.getShareSurveyList()
+    this.getCourseSurveyList()
   },
   methods: {
-    getShareSurveyList() {
-      getShareSurveyList({ page: this.curPage, size: this.size }).then(res => {
+    getCourseSurveyList() {
+      getCourseSurveyList({ page: this.curPage, size: this.size }).then(res => {
         this.pageCount = res.page
         this.surveyList = res.data
       })
