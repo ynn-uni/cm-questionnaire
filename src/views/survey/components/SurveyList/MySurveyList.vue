@@ -8,7 +8,12 @@
         <QuestionItem :detail="item" />
       </el-col>
     </el-row>
-    <Pagination :page-count="pageCount" :page.sync="curPage" :size.sync="size" @pagination="getMySurveyList" />
+    <Pagination
+      :page-count="pageCount"
+      :page.sync="curPage"
+      :size.sync="size"
+      @pagination="getMySurveyList"
+    />
     <el-dialog title="添加问卷" :visible.sync="dialogVisible" width="30%">
       <span>请选择课程：</span>
       <el-select v-model="courseId" placeholder="请选择">
@@ -40,6 +45,7 @@ export default {
       courseId: '',
       courseList: [],
       surveyList: [],
+      // 分页
       pageCount: 0,
       curPage: 1,
       size: 9,

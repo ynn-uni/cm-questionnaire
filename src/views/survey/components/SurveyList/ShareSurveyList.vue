@@ -5,20 +5,28 @@
         <QuestionItem :detail="item" />
       </el-col>
     </el-row>
+    <Pagination
+      :page-count="pageCount"
+      :page.sync="curPage"
+      :size.sync="size"
+      @pagination="getShareSurveyList"
+    />
   </div>
 </template>
 
 <script>
 import { getShareSurveyList } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'ShareSurveyList',
-  components: { QuestionItem },
+  components: { QuestionItem, Pagination },
   data() {
     return {
-      size: 8,
-      curPage: 0,
-      totalPage: 0,
+      // 分页
+      pageCount: 0,
+      curPage: 1,
+      size: 9,
       surveyList: [],
       column: {
         xs: 24,
@@ -35,8 +43,7 @@ export default {
   methods: {
     getShareSurveyList() {
       getShareSurveyList({ page: this.curPage, size: this.size }).then(res => {
-        console.log(res)
-        this.totalPage = res.page
+        this.pageCount = res.page
         this.surveyList = res.data
       })
     }
