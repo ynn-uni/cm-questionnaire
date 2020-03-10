@@ -8,7 +8,7 @@
       <el-tag v-if="detail.status === 1" type="success" effect="dark">进行中</el-tag>
       <el-tag v-if="detail.status === 0" type="danger" effect="dark">已结束</el-tag>
       <el-link
-        v-if="detail.share === 1"
+        v-if="detail.share === 0"
         type="primary"
         :underline="false"
         @click.stop.prevent="shareSurvey"
@@ -77,7 +77,8 @@ export default {
       })
     },
     shareSurvey() {
-      shareSurvey({ qid: 1 }).then(res => {
+      shareSurvey({ qid: this.detail.id }).then(res => {
+        this.$message.success()
         console.log(res)
       })
     },
