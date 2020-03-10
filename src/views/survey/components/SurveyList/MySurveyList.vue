@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { getStudentCourseList } from '@/api/course'
+import { getStudentCourseList, getTeacherCourseList } from '@/api/course'
 import { getMySurveyList } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
 import Pagination from '@/components/Pagination'
@@ -70,7 +70,9 @@ export default {
       })
     },
     handleCourseSelect() {
-      getStudentCourseList({ page: 1, size: 100 }).then(res => {
+      const role = this.$store.getters.userInfo.type
+      const getCourseMethod = role === 2 ? getTeacherCourseList : getStudentCourseList
+      getCourseMethod({ page: 1, size: 100 }).then(res => {
         this.courseList = res.data
         this.dialogVisible = true
       })
