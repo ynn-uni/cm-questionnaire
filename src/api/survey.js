@@ -15,7 +15,14 @@ import { getAction, postAction } from '@/utils/request'
 export function createSurvey(data = {}) {
   return postAction('/Questionnaire/addQuestionnaire', data)
 }
-
+/**
+ * 获取问卷详情
+ * @param {*} data
+ * id 问卷id
+ */
+export function getSurveyDetail(data = {}) {
+  return getAction('/Questionnaire/getQuestionnaireDetails', data)
+}
 /**
  * 分享问卷
  * @param {*} data
@@ -44,11 +51,8 @@ export function getShareSurveyList(data = {}) {
 }
 /**
  * 获取所有课程的问卷列表
- * @param {*} data
- * page 当前页码
- * size 每页条数
  */
-export function getCourseSurveyList(data = {}) {
-  return postAction('/Questionnaire/getCourseQuestionnaireList', data)
+export function getCourseSurveyList() {
+  return getAction('/Questionnaire/getCourseQuestionnaireList')
 }
 

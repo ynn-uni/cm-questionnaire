@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <SurveyForm :survey="surveyData" />
+    <SurveyForm v-if="surveyData" :survey="surveyData" />
   </div>
 </template>
 
 <script>
+import { getSurveyDetail } from '@/api/survey'
 import SurveyForm from './components/SurveyForm'
-import surveyData from './data/data'
 
 export default {
   name: 'SurveyDetail',
@@ -15,11 +15,28 @@ export default {
   },
   data() {
     return {
-      surveyData
+      id: '',
+      uid: '',
+      surveyData: null
     }
   },
-  mounted() {},
-  methods: {}
+  mounted() {
+    this.handleRouteQuery()
+    this.getSurveyDetail()
+  },
+  methods: {
+    handleRouteQuery() {
+      const query = this.$route.query
+      const { id } = query
+      this.id = id
+    },
+    getSurveyDetail() {
+      getSurveyDetail({ id: this.id }).then(res => {
+        console.log(res)
+        this.surveyData = res
+      })
+    }
+  }
 }
 </script>
 
