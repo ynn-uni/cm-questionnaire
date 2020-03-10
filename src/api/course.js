@@ -11,7 +11,7 @@ export function editCourse(data = {}) {
   return postAction('/Course/editCourse', data)
 }
 
-export function teacherGetCourse(data = {}) {
+export function getTeacherCourseList(data = {}) {
   return getAction('/Course/getTeacherCourseList', data)
 }
 // /Course/getCourseDetails

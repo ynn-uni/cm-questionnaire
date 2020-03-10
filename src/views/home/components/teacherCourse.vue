@@ -26,7 +26,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { teacherGetCourse } from '@/api/course'
+import { getTeacherCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
 export default {
   name: 'Home',
@@ -52,7 +52,7 @@ export default {
       this.$router.push('/course')
     },
     getTeacherCourse(page, size) {
-      teacherGetCourse({ page, size }).then((res) => {
+      getTeacherCourseList({ page, size }).then((res) => {
         this.courseList = res.data
       })
     }
