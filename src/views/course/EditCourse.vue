@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.addcourse{
+.addcourse::v-deep{
   .title{
       font-size: 20px;
       color: $textPrimary;
@@ -96,15 +96,15 @@ export default {
     border-radius:9px;
     border:1px solid rgba(229,229,229,1);
     position: relative;
-    /deep/.el-input__inner{
+    .el-input__inner{
       font-size: 16px;
       color: $textSecondary;
     }
-    /deep/.el-textarea__inner{
+    .el-textarea__inner{
       width: 580px;
       height: 300px;
     }
-     /deep/.el-input__inner{
+     .el-input__inner{
       // border:none;
       // border-radius: 0px;
       border: 1px solid #d8d8d8;
@@ -114,6 +114,10 @@ export default {
       position: absolute;
       top: 30px;
       right: 200px;
+      width: 178px;
+      height: 178px;
+      border: 1px dashed $textSecondary;
+      border-radius: 5px;
     }
   }
 }

@@ -48,9 +48,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.course{
- /deep/.el-tabs__item {
+.course::v-deep{
+ .el-tabs__item {
    font-size: 18px;
  }
+ .el-tabs__nav-wrap::after{
+    content: none;
+  }
 }
 </style>

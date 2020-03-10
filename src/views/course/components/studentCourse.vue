@@ -7,40 +7,51 @@
       <div v-else class="nodata">
         暂无数据
       </div>
+      <Pagination
+        v-if="courseList.length>0"
+        :page-count="pageCount"
+        :page.sync="curPage"
+        :size.sync="size"
+        @pagination="getStudentCourse"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getStudentCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'Home',
   components: {
-    CourseItem
+    CourseItem,
+    Pagination
   },
   data() {
     return {
       courseList: [],
-      date: ''
+      // 分页
+      pageCount: 0,
+      curPage: 1,
+      size: 9,
+      column: {
+        xs: 24,
+        sm: 12,
+        md: 8,
+        lg: 8,
+        xl: 8
+      }
     }
   },
-  computed: {
-    ...mapGetters([
-      'userInfo'
-    ])
-  },
   mounted() {
-    this.getStudentCourse(1, 9)
+    this.getStudentCourse()
   },
   methods: {
-    handelMore() {
-      this.$router.push('/course')
-    },
-    getStudentCourse(page, size) {
-      getStudentCourseList({ page, size }).then((res) => {
+    getStudentCourse() {
+      getStudentCourseList({ page: this.curPage, size: this.size }).then((res) => {
         this.courseList = res.data
+        this.pageCount = res.page
       })
     }
   }

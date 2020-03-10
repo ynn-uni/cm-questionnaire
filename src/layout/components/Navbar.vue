@@ -26,6 +26,33 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-dialog
+        title="个人资料"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="handleClose"
+        :close-on-click-modal="false"
+      >
+        <div class="userinfo flex justify-center align-center">
+          <img :src="getHashAvatar" class="user-avatar">
+          <div class="info">
+            <div class="name">账户角色：{{ userInfo.type==1?'学生':'老师' }}</div>
+            <div class="name">手机号：{{ userInfo.mobile }}</div>
+            <div class="name flex justify-center align-center">
+              真实姓名：<span v-if="!isEdit" class="truename">{{ userInfo.truename }}</span>
+              <input v-if="isEdit" v-model="userInfo.truename" type="text">
+              <i class="el-icon-edit edit" @click="changeEdit" />
+              <span class="ed">({{ isEdit?'取消编辑':'点击编辑' }})</span>
+            </div>
+
+          </div>
+        </div>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="saveTruename">保存</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -40,6 +67,12 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      dialogVisible: false,
+      isEdit: false
+    }
+  },
   computed: {
     ...mapGetters(['sidebar', 'userInfo']),
     getHashAvatar() {
@@ -51,6 +84,9 @@ export default {
     }
   },
   methods: {
+    changeEdit() {
+      this.isEdit = !this.isEdit
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -59,7 +95,15 @@ export default {
       console.log('login')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
-    handleEditUser() {}
+    handleEditUser() {
+      this.dialogVisible = true
+    },
+    handleClose() {
+      this.dialogVisible = false
+    },
+    saveTruename() {
+
+    }
   }
 }
 </script>
@@ -71,7 +115,37 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-
+  .userinfo{
+    img{
+      width: 144px;
+      height: 144px;
+      border-radius: 50%;
+      margin-right: 60px;
+    }
+    .info{
+      .edit{
+        margin-left: 10px;
+        cursor: pointer;
+      }
+      .ed{
+        font-size: 12px;
+        color: $textSecondary;
+      }
+      .truename{
+        display: block;
+        width: 80px;
+      }
+      input{
+        width: 80px;
+        color: $textSecondary;
+        padding-left: 2px;
+        line-height: 20px;
+        outline: none;
+        border-radius: 5px;
+        border:1px solid $textSecondary;
+      }
+    }
+  }
   .hamburger-container {
     line-height: 46px;
     height: 100%;

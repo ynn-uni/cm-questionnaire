@@ -1,30 +1,20 @@
 <template>
   <div class="upload-image">
     <el-upload
-      list-type="picture-card"
       name="image"
-      :multiple="false"
-      :limit="limit"
+      class="avatar-uploader"
       :action="actionUrl"
-      :before-upload="onBeforeUpload"
-      :on-preview="handlePictureCardPreview"
-      :on-remove="handleRemove"
-      :on-exceed="handleExceed"
+      :show-file-list="false"
       :on-success="handleSuccess"
-      :file-list="fileList"
+      :before-upload="onBeforeUpload"
     >
-      <div>
-        <i class="el-icon-plus" />
-      </div>
+      <img v-if="dialogVisible" :src="imageUrl" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon" />
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible" :modal="false" class="padding-60-b">
-      <img width="100%" :src="dialogImageUrl" alt>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import setting from '@/settings'
 export default {
   name: 'UploadImage',
   props: {
@@ -40,10 +30,6 @@ export default {
       type: Function,
       default: () => {}
     },
-    limit: {
-      type: Number,
-      default: 1
-    },
     disabled: {
       type: Boolean,
       default: false
@@ -52,23 +38,17 @@ export default {
   data() {
     return {
       dialogImageUrl: '',
+      imageUrl: null,
       dialogVisible: false,
-      fileList: [],
       actionUrl: `${process.env.VUE_APP_BASE_API}/Common/uploadImage`
     }
   },
-  computed: {
-    imageUrl() {
-      return this.value
-    }
-  },
+
   mounted() {
     setTimeout(() => {
       if (this.value) {
-        this.fileList.push({
-          // url: this.value
-          url: `${setting.staticUrl}${this.value}`
-        })
+        this.dialogVisible = true
+        this.imageUrl = process.env.VUE_APP_STATIC_IMG + this.value
       }
     }, 1000)
   },
@@ -77,22 +57,16 @@ export default {
       let path = ''
       if (response.status === 200) {
         path = response.data.path
+        this.handlePictureCardPreview(path)
       }
       this.emitInput(path)
-    },
-    handleRemove() {
-      this.emitInput('')
-      this.fileList = []
     },
     emitInput(val) {
       this.$emit('input', val)
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
+    handlePictureCardPreview(path) {
+      this.imageUrl = process.env.VUE_APP_STATIC_IMG + path
       this.dialogVisible = true
-    },
-    handleExceed() {
-      this.$message.warning(`当前限制选择 ${this.limit} 个文件`)
     },
     onBeforeUpload() {
       this.beforeUpload && this.beforeUpload()
@@ -100,3 +74,45 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.upload-image::v-deep{
+
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .avatar-uploader{
+      width: 100%;
+      height: 100%;
+      .el-upload {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;;
+        }
+      .el-upload:hover {
+        border-color: #409EFF;
+      }
+      .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+
+        text-align: center;
+      }
+      .avatar {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+  }
+}
+
+  // .avatar-uploader .el-upload {
+  //   border: 1px dashed #d9d9d9;
+  //   border-radius: 6px;
+  //   cursor: pointer;
+  //   position: relative;
+  //   overflow: hidden;
+  // }
+
+</style>

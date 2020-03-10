@@ -3,7 +3,7 @@
     <div class=" title flex justify-between">
       我的课程
       <el-link class="survey-add" type="primary" :underline="false" @click="handleAddCourse">
-        <i class="el-icon-plus" /> 添加问卷
+        <i class="el-icon-plus" /> 添加课程
       </el-link>
 
     </div>
@@ -14,7 +14,13 @@
       <div v-else class="nodata">
         暂无数据
       </div>
-
+      <Pagination
+        v-if="courseList.length>0"
+        :page-count="pageCount"
+        :page.sync="curPage"
+        :size.sync="size"
+        @pagination="getTeacherCourse"
+      />
     </div>
   </div>
 </template>
@@ -23,17 +29,27 @@
 import { mapGetters } from 'vuex'
 import { getTeacherCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'Home',
   components: {
-    CourseItem
+    CourseItem,
+    Pagination
   },
   data() {
     return {
       courseList: [],
-      date: '',
-      count: 50,
-      loading: false
+      // 分页
+      pageCount: 0,
+      curPage: 1,
+      size: 9,
+      column: {
+        xs: 24,
+        sm: 12,
+        md: 8,
+        lg: 8,
+        xl: 8
+      }
     }
   },
   computed: {
@@ -42,16 +58,17 @@ export default {
     ])
   },
   mounted() {
-    this.getTeacherCourse(1, 3)
+    this.getTeacherCourse()
   },
   methods: {
 
     handleAddCourse() {
       this.$router.push('/course/addcourse')
     },
-    getTeacherCourse(page, size) {
-      getTeacherCourseList({ page, size }).then((res) => {
+    getTeacherCourse() {
+      getTeacherCourseList({ page: this.curPage, size: this.size }).then((res) => {
         this.courseList = res.data
+        this.pageCount = res.page
       })
     }
   }
