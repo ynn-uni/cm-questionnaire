@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'hidden':hidden}" class="pagination-container">
+  <div v-if="pageCount" :class="{'hidden':hidden}" class="pagination-container">
     <el-pagination
       :background="background"
       :current-page.sync="currentPage"
@@ -21,8 +21,8 @@ export default {
   name: 'Pagination',
   props: {
     pageCount: {
-      required: true,
-      type: Number
+      type: Number,
+      default: 0
     },
     page: {
       type: Number,
