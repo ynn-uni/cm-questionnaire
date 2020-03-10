@@ -74,4 +74,8 @@
   .el-tabs__nav-wrap::after {
     content: none;
   }
+  .el-tabs__active-bar {
+    height: 4px;
+    border-radius: 2px;
+  }
 }
