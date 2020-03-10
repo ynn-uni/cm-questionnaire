@@ -81,6 +81,7 @@ import ContentEditor from '@/components/ContentEditor'
 import SurveyItem from './components/SurveyItem'
 import SurveySetting from './components/SurveySetting'
 import shortid from 'shortid'
+import { createSurvey } from '@/api/survey'
 
 export default {
   name: 'SurveyCreate',
@@ -111,6 +112,8 @@ export default {
             id: shortid.generate(),
             title: '单选题标题',
             type: 1,
+            required: true,
+            column: 1,
             options: [
               {
                 id: shortid.generate(),
@@ -130,6 +133,8 @@ export default {
             id: shortid.generate(),
             title: '多选题标题',
             type: 2,
+            required: true,
+            column: 1,
             options: [
               {
                 id: shortid.generate(),
@@ -150,7 +155,9 @@ export default {
             id: shortid.generate(),
             title: '填空题标题',
             placeholder: '提示内容',
-            type: 3
+            type: 3,
+            required: true,
+            nativetype: 'text'
           }
       }
       this.questions.push(question)
@@ -189,12 +196,21 @@ export default {
     handlePublishSurvey() {
       const { title, content, questions, suffix } = this
       const survey = {
+        cid: this.$route.query.id,
         title,
         content,
         suffix,
-        questions
+        questions,
+        status: 1,
+        start: '2020-03-20',
+        end: '2020-03-22',
+        sort: 0
+
       }
-      console.log(survey)
+      createSurvey(survey).then(res => {
+        console.log(res)
+        console.log(survey)
+      })
     }
   }
 }
