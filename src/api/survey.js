@@ -15,7 +15,14 @@ import { getAction, postAction } from '@/utils/request'
 export function createSurvey(data = {}) {
   return postAction('/Questionnaire/addQuestionnaire', data)
 }
-
+/**
+ * 获取问卷详情
+ * @param {*} data
+ * id 问卷id
+ */
+export function getSurveyDetail(data = {}) {
+  return getAction('/Questionnaire/getQuestionnaireDetails', data)
+}
 /**
  * 分享问卷
  * @param {*} data
