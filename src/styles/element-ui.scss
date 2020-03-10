@@ -15,7 +15,6 @@
   display: none;
 }
 
-
 // to fixed https://github.com/ElemeFE/element/issues/2461
 .el-dialog {
   transform: none;
@@ -39,7 +38,7 @@
 // dropdown
 .el-dropdown-menu {
   a {
-    display: block
+    display: block;
   }
 }
 
@@ -49,20 +48,30 @@
 }
 
 //重置默认按钮
-.el-button{
+.el-button {
   width: 120px;
   height: 40px;
- }
+}
 
- //卡片按钮（申请加入）
- .btn-enter{
-    padding: 0;
-    width: 80px;
-    height: 30px;
- }
- //卡片状态
- .el-tag{
-   text-align: center;
-   width: 80px;
-   line-height: 30px;
- }
+//卡片按钮（申请加入）
+.btn-enter {
+  padding: 0;
+  width: 80px;
+  height: 30px;
+}
+//卡片状态
+.el-tag {
+  text-align: center;
+  width: 80px;
+  line-height: 30px;
+}
+
+// tabs
+.el-tabs {
+  .el-tabs__item {
+    font-size: 18px;
+  }
+  .el-tabs__nav-wrap::after {
+    content: none;
+  }
+}
