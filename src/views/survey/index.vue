@@ -4,10 +4,10 @@
       <el-tab-pane label="我的问卷" name="my-survey" lazy>
         <MySurveyList v-if="activeName === 'my-survey'" />
       </el-tab-pane>
-      <el-tab-pane label="分享问卷" name="share-survey" lazy>
+      <el-tab-pane v-permission="1" label="分享问卷" name="share-survey" lazy>
         <ShareSurveyList v-if="activeName === 'share-survey'" />
       </el-tab-pane>
-      <el-tab-pane label="课程问卷" name="course-survey" lazy>
+      <el-tab-pane v-permission="1" label="课程问卷" name="course-survey" lazy>
         <CourseSurvey v-if="activeName === 'course-survey'" />
       </el-tab-pane>
     </el-tabs>
@@ -44,12 +44,5 @@ export default {
 <style lang="scss" scoped>
 .app-container::v-deep {
   overflow-y: scroll;
-
-  .el-tabs__item {
-    font-size: 18px;
-  }
-  .el-tabs__nav-wrap::after {
-    content: none;
-  }
 }
 </style>
