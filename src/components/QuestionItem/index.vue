@@ -25,7 +25,8 @@
       <div class="course">
         《{{ detail.ctitle }}》
       </div>
-      <div class="date">{{ detail.start }}-{{ detail.end }}</div>
+      <div v-if="!detail.start || !detail.end">不限时</div>
+      <div v-else class="date">{{ detail.start }}&nbsp;至&nbsp;{{ detail.end }}</div>
     </div>
   </div>
 </template>
@@ -140,7 +141,7 @@ export default {
     border-top: 1px solid rgba(181, 181, 181, 1);
     .course {
       @include ellipsis;
-      width: 300px;
+      width: 260px;
     }
     .data {
       width: 156px;
