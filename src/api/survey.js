@@ -44,11 +44,8 @@ export function getShareSurveyList(data = {}) {
 }
 /**
  * 获取所有课程的问卷列表
- * @param {*} data
- * page 当前页码
- * size 每页条数
  */
-export function getCourseSurveyList(data = {}) {
-  return postAction('/Questionnaire/getCourseQuestionnaireList', data)
+export function getCourseSurveyList() {
+  return getAction('/Questionnaire/getCourseQuestionnaireList')
 }
 
