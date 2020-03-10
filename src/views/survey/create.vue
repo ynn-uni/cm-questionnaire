@@ -16,6 +16,26 @@
         <el-card>
           <ContentEditor v-model="title" placeholder="点击编辑问卷标题" />
           <ContentEditor v-model="content" placeholder="点击编辑欢迎语及问卷描述" />
+          <div class="survey-date">
+            <el-date-picker
+              v-model="start"
+              type="date"
+              size="small"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              placeholder="选择问卷开始日期"
+            />
+            <span>&nbsp;-&nbsp;</span>
+            <el-date-picker
+              v-model="end"
+              type="date"
+              size="small"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              :picker-options="pickerOptions"
+              placeholder="选择问卷结束日期"
+            />
+          </div>
         </el-card>
 
         <el-divider />
@@ -57,11 +77,7 @@
 
         <el-card>
           <div class="survey-end">
-            <ContentEditor
-              v-model="suffix"
-              class="survey-end-content"
-              placeholder="点击填写结束语"
-            />
+            <ContentEditor v-model="suffix" class="survey-end-content" placeholder="点击填写结束语" />
             <el-button type="primary" size="small" @click="handlePublishSurvey">发布</el-button>
           </div>
         </el-card>
@@ -98,6 +114,15 @@ export default {
       content: '',
       suffix: '您已完成本次问卷，感谢您的帮助与支持',
       questions: [],
+      start: null,
+      end: null,
+      pickerOptions: {
+        disabledDate: time => {
+          if (this.start) {
+            return time.getTime() < new Date(this.start).getTime()
+          }
+        }
+      },
       disableTip: false,
       focusIndex: null
     }
@@ -194,7 +219,16 @@ export default {
 
     // 发布问卷
     handlePublishSurvey() {
-      const { title, content, questions, suffix } = this
+      if (!this.questions.length) {
+        this.$message.error('问卷题目不能为空！')
+        return
+      }
+      this.checkDateSetting().then(() => {
+        this.postSurvey()
+      })
+    },
+    postSurvey() {
+      const { title, content, questions, suffix, start, end } = this
       const survey = {
         cid: this.$route.query.id,
         title,
@@ -202,15 +236,42 @@ export default {
         suffix,
         questions,
         status: 1,
-        start: '2020-03-20',
-        end: '2020-03-22',
+        start,
+        end,
         sort: 0
-
       }
       createSurvey(survey).then(res => {
-        console.log(res)
-        console.log(survey)
+        this.$message({
+          type: 'success',
+          message: '发布成功!'
+        })
+        setTimeout(() => {
+          this.$router.replace({
+            path: '/survey/index'
+          })
+        })
       })
+    },
+    checkDateSetting() {
+      const { start, end } = this
+      if (!start || !end) {
+        return this.$confirm(
+          '您没有填写问卷的开始日期或结束日期, 是否继续?',
+          '提示',
+          {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }
+        )
+          .then(() => {
+            Promise.resolve()
+          })
+          .catch(() => {
+            return Promise.reject()
+          })
+      }
+      return Promise.resolve()
     }
   }
 }
@@ -253,6 +314,10 @@ export default {
       padding-right: 10px;
       overflow-x: hidden;
       overflow-y: scroll;
+    }
+    .survey-date {
+      text-align: right;
+      margin-top: 20px;
     }
 
     .el-divider {
