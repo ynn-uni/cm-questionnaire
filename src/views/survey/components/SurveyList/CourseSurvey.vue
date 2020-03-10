@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     getCourseSurveyList() {
-      getCourseSurveyList({ page: this.curPage, size: this.size }).then(res => {
+      getCourseSurveyList().then(res => {
         this.surveyList = res
       })
     }
