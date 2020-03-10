@@ -1,64 +1,23 @@
 <template>
   <div class="app-container course">
-    <div class=" flex justify-between">
-      <div class="title-tab flex">
-        <div class="tab" :class="status==0?'active':''" @click="activeTab(0)">
-          收藏课程
-        </div>
-        <div class="tab" :class="status==1?'active':''" @click="activeTab(1)">
-          收藏问卷
-        </div>
-      </div>
-      <SelectGroup v-permission="1" />
-    </div>
-
-    <div v-if="status==0" class="courselist">
-      <CourseList :type="'collect'" />
-    </div>
-    <div v-if="status==1" class="courselist">
-      <QuestionList />
-    </div>
-
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="收藏课程" name="collect-course" lazy />
+      <el-tab-pane label="收藏问卷" name="collect-survey" lazy />
+    </el-tabs>
   </div>
 </template>
 
 <script>
-import CourseList from '@/components/CourseList'
-import QuestionList from '@/components/QuestionList'
-import SelectGroup from '@/components/SelectGroup'
 export default {
-  components: {
-    CourseList,
-    QuestionList,
-    SelectGroup
-  },
-
+  name: 'Collect',
   data() {
     return {
-      status: 0
+      activeName: 'collect-course'
     }
   },
-  methods: {
-    // eslint-disable-next-line vue/no-dupe-keys
-    activeTab(status) {
-      this.status = status
-    }
-  }
+  methods: {}
 }
 </script>
+
 <style lang="scss" scoped>
-.course{
-  .title-tab{
-    font-size: 18px;
-    color: $textPrimary;
-    .tab{
-      margin-right: 100px;
-      padding-bottom: 10px;
-      cursor: pointer;
-    }
-    .active{
-      border-bottom: 4px solid $primaryColor;
-    }
-  }
-}
 </style>
