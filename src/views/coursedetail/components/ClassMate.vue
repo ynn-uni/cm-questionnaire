@@ -41,13 +41,7 @@ export default {
     }
   },
   mounted() {
-    // if (this.students.length > 0) {
-    //   for (var i = 0; i < this.students.length; i++) {
-    //     const { mobile } = this.students[i].user
-    //     this.students[i].user.mobile = 'data:image/png;base64,' + new Identicon('user' + mobile, 420)
-    //   }
-    // }
-    console.log('kkk')
+
   },
   methods: {
   }

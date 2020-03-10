@@ -67,6 +67,7 @@ export default {
     margin-top: 30px;
     flex-wrap: wrap;
     width: 100%;
+    padding-left: 6px;
     .el-row{
       width: 100%;
     }

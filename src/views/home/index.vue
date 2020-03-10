@@ -64,12 +64,6 @@ export default {
     ])
   },
   mounted() {
-    console.log(this.userInfo.type)
-    if (this.userInfo.type === 2) {
-      this.getTeacherCourse(1, 3)
-    } else if (this.userInfo.type === 1) {
-      this.getAllCourse(1, 3)
-    }
   },
   methods: {
 

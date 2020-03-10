@@ -1,12 +1,17 @@
 <template>
   <div class="teachercourse">
-    <div class=" title flex justify-between" @click="handelMore">
+    <div class=" title flex justify-between">
       我的课程
-      <div class="lookmore">
+      <!-- <div class="lookmore">
         查看更多
         <i class="iconfont icon-arrow-right" />
         <i class="iconfont icon-arrow-right" />
-      </div>
+      </div> -->
+      <el-link :underline="false" class="lookmore" @click="handelMore">
+        查看更多
+        <i class="iconfont icon-arrow-right" />
+        <i class="iconfont icon-arrow-right" />
+      </el-link>
     </div>
     <div class="courselist flex justify-between">
       <el-row v-if="courseList.length>0" :gutter="20">
@@ -49,7 +54,6 @@ export default {
     getTeacherCourse(page, size) {
       teacherGetCourse({ page, size }).then((res) => {
         this.courseList = res.data
-        console.log(this.courseList)
       })
     }
   }

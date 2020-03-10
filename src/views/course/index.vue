@@ -49,7 +49,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .course{
- .el-tabs__item::v-deep {
+ /deep/.el-tabs__item {
    font-size: 18px;
  }
 }

@@ -1,37 +1,6 @@
 <template>
   <div class="selectgroup flex align-center">
-    <!-- <el-select v-model="value" placeholder="授课老师">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-    <el-select v-model="value" placeholder="课时">
-      <el-option
-        v-for="item in options1"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-    <el-select v-model="value" placeholder="考核方式">
-      <el-option
-        v-for="item in options2"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-    <el-select v-model="value" placeholder="学分">
-      <el-option
-        v-for="item in options3"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select> -->
+
     <el-input
       v-model="value"
       placeholder="请输入课程名称"
@@ -76,7 +45,7 @@ export default {
   },
   methods: {
     handelAddCourse() {
-      this.$router.push('/course/addcourse')
+      this.$router.push('analysis')
     }
   }
 }
@@ -84,13 +53,7 @@ export default {
 
 <style lang="scss" scoped>
   .selectgroup{
-    // padding: 20px 0;
-    // flex-wrap: wrap;
-    // .el-select{
-    //   width: 10%;
-    //   margin-right: 80px;
-    //   @include response-selectGroup();
-    // }
+
     .el-input{
       width:200px;
       // @include response-selectGroupInput();

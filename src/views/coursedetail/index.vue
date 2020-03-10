@@ -67,7 +67,7 @@
               <el-button v-if="data.status==1" type="primary" class="btn-enter" @click="getCode">
                 邀请学生
               </el-button>
-              <el-button type="primary" class="btn-enter" @click="editCourse">
+              <el-button type="primary" class="btn-enter" @click="editCourse(data.id)">
                 编辑课程
               </el-button>
             </div>
@@ -162,15 +162,14 @@ export default {
   },
 
   mounted() {
-    console.log(this.$route.query.id)
-    getCourseDetails({ id: this.$route.query.id }).then((res) => {
-      console.log(res)
+    const id = this.$route.query.id
+    getCourseDetails({ id }).then((res) => {
       this.data = res
     })
   },
   methods: {
-    editCourse() {
-      this.$router.push({ path: '/course/editcourse', query: { id: this.data.id }})
+    editCourse(id) {
+      this.$router.push({ path: '/course/editcourse', query: { id }})
     },
     getCode() {
       this.dialogVisible = true

@@ -2,7 +2,10 @@
   <div class="teachercourse">
     <div class=" title flex justify-between" @click="handelMore">
       我的课程
-      <SelectGroup />
+      <el-link :underline="false" icon="iconfont icon-tj" class="add" @click="handelMore">
+        添加课程
+      </el-link>
+
     </div>
     <div class="courselist flex justify-between">
       <el-row v-if="courseList.length>0" :gutter="20">
@@ -11,25 +14,26 @@
       <div v-else class="nodata">
         暂无数据
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
-import SelectGroup from '@/components/SelectGroup'
 import { mapGetters } from 'vuex'
 import { teacherGetCourse } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
 export default {
   name: 'Home',
   components: {
-    CourseItem,
-    SelectGroup
+    CourseItem
   },
   data() {
     return {
       courseList: [],
-      date: ''
+      date: '',
+      count: 50,
+      loading: false
     }
   },
   computed: {
@@ -41,13 +45,13 @@ export default {
     this.getTeacherCourse(1, 3)
   },
   methods: {
+
     handelMore() {
-      this.$router.push('/course')
+      this.$router.push('/course/addcourse')
     },
     getTeacherCourse(page, size) {
       teacherGetCourse({ page, size }).then((res) => {
         this.courseList = res.data
-        console.log(this.courseList)
       })
     }
   }
@@ -69,6 +73,7 @@ export default {
         color: $primaryColor;
       }
     }
+
   }
   .courselist{
     margin-top: 30px;

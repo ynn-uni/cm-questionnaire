@@ -43,7 +43,6 @@ export default {
     },
     getAllCourse(page, size) {
       getCourseList({ page, size }).then((res) => {
-        console.log(res)
         this.courseList = res.data
       })
     }
