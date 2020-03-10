@@ -128,18 +128,18 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/collect',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Collect',
-        component: () => import('@/views/collect/index'),
-        meta: { title: '我的收藏', icon: 'iconfont icon-shoucang1' }
-      }
-    ]
-  },
+  // {
+  //   path: '/collect',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Collect',
+  //       component: () => import('@/views/collect/index'),
+  //       meta: { title: '我的收藏', icon: 'iconfont icon-shoucang1' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/analysis',
