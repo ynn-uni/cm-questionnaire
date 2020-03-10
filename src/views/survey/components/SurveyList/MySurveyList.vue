@@ -70,7 +70,7 @@ export default {
       })
     },
     handleCourseSelect() {
-      const role = this.$store.getters.type
+      const role = this.$store.getters.role
       const getCourseMethod = role === 2 ? getTeacherCourseList : getStudentCourseList
       getCourseMethod({ page: 1, size: 100 }).then(res => {
         this.courseList = res.data

@@ -37,10 +37,15 @@ export default {
   },
   methods: {
     getSurveyList() {
-      const getMethod = this.role === 1 ? getCourseSurveyList : getMySurveyList
-      getMethod().then(res => {
-        this.questionList = res.slice(0, 6)
-      })
+      if (this.role === 1) {
+        getCourseSurveyList().then(res => {
+          this.questionList = res.slice(0, 6)
+        })
+      } else {
+        getMySurveyList({ page: 1, size: 6 }).then(res => {
+          this.questionList = res.data
+        })
+      }
     }
   }
 }
