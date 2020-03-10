@@ -38,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters['role']
+    ...mapGetters(['role'])
   },
   mounted() {},
   methods: {}
