@@ -62,6 +62,7 @@ export default {
       getSmsCode({ 'mobile': this.tel }).then((res) => {
         this.cutDown(120)
         this.identifier = res.identifier
+        this.$message.success('短信验证码发送成功！')
       })
     },
     handleLogin() {
