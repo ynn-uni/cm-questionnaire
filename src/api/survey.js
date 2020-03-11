@@ -66,3 +66,13 @@ export function getCourseSurveyList() {
   return getAction('/Questionnaire/getCourseQuestionnaireList')
 }
 
+/**
+ * 提交问卷答案
+ * @param {Object} data
+ * uid 分享人ID
+ * qid 问卷ID
+ * answer String 答案
+ */
+export function postSurveyAnswer(data = {}) {
+  return postAction('/Questionnaire/addAnswer', data)
+}
