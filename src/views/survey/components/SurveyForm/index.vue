@@ -32,6 +32,10 @@ export default {
     survey: {
       type: Object,
       default: () => {}
+    },
+    preview: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -50,7 +54,8 @@ export default {
       if (!this.survey) return
       this.survey.questions.forEach(question => {
         const { id } = question
-        if (question.type === 2) { // checkbox
+        if (question.type === 2) {
+          // checkbox
           result[id] = []
         } else {
           result[id] = ''
@@ -60,9 +65,14 @@ export default {
     },
     submitForm() {
       this.$refs.formInfo.validate(valid => {
-        if (valid) {
+        if (!valid) return
+
+        if (this.preview) {
+          this.$message.success('您已完成本次问卷，感谢您的帮助与支持！')
+        } else {
           const data = this.formatResult(this.formInfo)
           alert(JSON.stringify(data))
+          // TODO 提交答案
         }
       })
     },
