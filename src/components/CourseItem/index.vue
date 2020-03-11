@@ -2,7 +2,7 @@
 
   <el-col :xl="8" :lg="12" :xs="24">
     <div class="item flex" @click.stop="handelDetail(info.id)">
-      <img class="ci-img" :src="baseUrl+info.cover" alt="">
+      <img class="ci-img" :src="info.cover&&baseUrl+info.cover" alt="">
       <div class="info">
         <div class="title flex justify-between align-center">
           <div class="title-text">
@@ -141,6 +141,7 @@ export default {
         joinCourse({ code: this.code }).then((res) => {
           this.$message.success('加入成功')
           this.info.join = 1
+          this.$emit('changelist')
         })
         this.dialogVisible1 = false
       } else {

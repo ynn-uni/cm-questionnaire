@@ -1,8 +1,8 @@
 <template>
   <div class="home app-container">
     <TeacherCourse v-permission="2" />
-    <AllCourse v-permission="1" />
-    <Questions />
+    <AllCourse v-permission="1" @changelist="handlChangeQuestionList" />
+    <Questions ref="ques" />
 
     <!-- <div class="title flex justify-between">
       问卷统计
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import TeacherCourse from './components/teacherCourse'
 import AllCourse from './components/allCourse'
 import Questions from './components/Questions'
@@ -51,8 +50,15 @@ export default {
     }
   },
 
-  mounted() {},
-  methods: {}
+  mounted() {
+    console.log(this.$refs.ques)
+  },
+  methods: {
+    handlChangeQuestionList() {
+      console.log('12')
+      this.$refs.ques.getSurveyList()
+    }
+  }
 }
 </script>
 

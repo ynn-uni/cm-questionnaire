@@ -5,34 +5,29 @@
     </div>
     <div class="courselist flex justify-between">
       <el-row v-if="courseList.length>0" :gutter="20">
-        <CourseItem v-for="(item,index) in courseList" :key="index" :info="item" />
+        <CourseItem v-for="(item,index) in courseList" :key="index" :info="item" @changelist="changeQuestionList" />
       </el-row>
-      <div v-else class="nodata">
-        暂无数据
-      </div>
+      <NoData v-else :text="'暂无数据'" />
+
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
+import NoData from '@/components/NoData'
 export default {
   name: 'Home',
   components: {
-    CourseItem
+    CourseItem,
+    NoData
   },
   data() {
     return {
       courseList: [],
       date: ''
     }
-  },
-  computed: {
-    ...mapGetters([
-      'userInfo'
-    ])
   },
   mounted() {
     this.getAllCourse(1, 3)
@@ -45,6 +40,9 @@ export default {
       getCourseList({ page, size }).then((res) => {
         this.courseList = res.data
       })
+    },
+    changeQuestionList() {
+      this.$emit('changelist')
     }
   }
 }
@@ -73,12 +71,7 @@ export default {
     .el-row{
       width: 100%;
     }
-    .nodata{
-      font-size: 16px;
-      color: $textPrimary;
-      text-align: center;
-      width: 100%;
-    }
+
   }
 }
 </style>

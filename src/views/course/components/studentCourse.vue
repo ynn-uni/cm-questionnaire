@@ -4,9 +4,7 @@
       <el-row v-if="courseList.length>0" :gutter="20">
         <CourseItem v-for="(item,index) in courseList" :key="index" :info="item" />
       </el-row>
-      <div v-else class="nodata">
-        暂无数据
-      </div>
+      <NoData v-else :text="'暂无数据'" />
       <Pagination
         v-if="courseList.length>0"
         :page-count="pageCount"
@@ -22,11 +20,13 @@
 import { getStudentCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
 import Pagination from '@/components/Pagination'
+import NoData from '@/components/NoData'
 export default {
   name: 'Home',
   components: {
     CourseItem,
-    Pagination
+    Pagination,
+    NoData
   },
   data() {
     return {
@@ -80,12 +80,6 @@ export default {
     width: 100%;
     padding-left: 6px;
     .el-row{
-      width: 100%;
-    }
-    .nodata{
-      font-size: 16px;
-      color: $textPrimary;
-      text-align: center;
       width: 100%;
     }
   }

@@ -17,32 +17,26 @@
       <el-row v-if="courseList.length>0" :gutter="20">
         <CourseItem v-for="(item,index) in courseList" :key="index" :info="item" />
       </el-row>
-      <div v-else class="nodata">
-        暂无数据
-      </div>
+      <NoData v-else :text="'暂无数据'" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getTeacherCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
+import NoData from '@/components/NoData'
 export default {
   name: 'Home',
   components: {
-    CourseItem
+    CourseItem,
+    NoData
   },
   data() {
     return {
       courseList: [],
       date: ''
     }
-  },
-  computed: {
-    ...mapGetters([
-      'userInfo'
-    ])
   },
   mounted() {
     this.getTeacherCourse(1, 3)
@@ -56,6 +50,7 @@ export default {
         this.courseList = res.data
       })
     }
+
   }
 }
 </script>
@@ -81,12 +76,6 @@ export default {
     flex-wrap: wrap;
     width: 100%;
     .el-row{
-      width: 100%;
-    }
-    .nodata{
-      font-size: 16px;
-      color: $textPrimary;
-      text-align: center;
       width: 100%;
     }
   }

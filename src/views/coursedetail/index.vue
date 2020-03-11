@@ -3,7 +3,7 @@
     <div class="title">课程详情</div>
     <div class="item flex">
       <div class="item-left flex">
-        <img class="ci-img" :src="baseUrl+data.cover" alt>
+        <img class="ci-img" :src="data.cover&&baseUrl+data.cover" alt>
         <div class="info">
           <div class="title flex justify-between align-center">
             <div class="title-text">{{ data.title }}</div>
@@ -81,7 +81,7 @@
     </div>
     <div v-if="data.questionnaires && data.questionnaires.length">
       <div class="title">课程问卷</div>
-      <el-row>
+      <el-row :gutter="20">
         <el-col v-for="item in data.questionnaires" :key="item.id" v-bind="column">
           <QuestionItem
             :detail="{
@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import QuestionItem from '@/components/QuestionItem'
 import ClassMate from './components/ClassMate'
 import { getCourseDetails, joinCourse } from '@/api/course'
@@ -128,17 +127,17 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters(['name'])
-  },
 
   mounted() {
-    const id = this.$route.query.id
-    getCourseDetails({ id }).then(res => {
-      this.data = res
-    })
+    this.getCourseInfo()
   },
   methods: {
+    getCourseInfo() {
+      const id = this.$route.query.id
+      getCourseDetails({ id }).then(res => {
+        this.data = res
+      })
+    },
     editCourse(id) {
       this.$router.push({ path: '/course/editcourse', query: { id }})
     },
@@ -163,6 +162,7 @@ export default {
         joinCourse({ code }).then(res => {
           this.data.join = 1
           this.$message.success('加入成功')
+          this.getCourseInfo()
         })
         this.dialogVisible1 = false
       } else {
@@ -199,7 +199,7 @@ export default {
       //  height: 200px;
       border-right: 2px solid #ebebeb;
       .ci-img {
-        width: 150px;
+        width: 170px;
         height: 230px;
         margin-right: 20px;
       }
