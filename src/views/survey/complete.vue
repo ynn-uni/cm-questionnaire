@@ -2,7 +2,7 @@
   <div class="complete">
     <div class="content">
       <img class="header-img" src="../../assets/images/fly.png">
-      <h3>您的答卷已经提交，感谢您的参与！</h3>
+      <h3>您的答卷已经提交，<wbr>感谢您的参与！</h3>
     </div>
   </div>
 </template>
