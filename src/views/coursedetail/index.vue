@@ -88,7 +88,7 @@
               ctitle: data.title,
               ...item
             }"
-            :actionable="data.join === 1"
+            :actionable="data.join === 1 || role === 2"
           />
         </el-col>
       </el-row>
@@ -104,6 +104,7 @@ import QuestionItem from '@/components/QuestionItem'
 import ClassMate from './components/ClassMate'
 import { getCourseDetails, joinCourse } from '@/api/course'
 import { addCousetOrCancleCollectrse } from '@/api/collect'
+import { mapGetters } from 'vuex'
 export default {
   name: 'CourseDetail',
   components: {
@@ -127,7 +128,9 @@ export default {
       }
     }
   },
-
+  computed: {
+    ...mapGetters(['role'])
+  },
   mounted() {
     this.getCourseInfo()
   },
