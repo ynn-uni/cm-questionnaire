@@ -2,7 +2,7 @@
   <div class="item flex align-center item">
     <div class="top flex align-center">
       <i class="iconfont icon-wenjuan my-icon" />
-      <el-link class="title" @click.stop="viewDetail">{{ detail.title }}</el-link>
+      <el-link class="title" @click.stop="previewDetail">{{ detail.title }}</el-link>
       <el-link
         v-if="deletable"
         class="delete-button"
@@ -22,7 +22,10 @@
       >
         <i class="iconfont icon-fenxiang share-icon" />分享问卷
       </el-link>
-      <el-link v-else type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
+      <div v-else>
+        <el-link type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
+        <el-link type="primary" :underline="false" @click.stop.prevent="viewResult">查看结果</el-link>
+      </div>
     </div>
     <div class="fromcourse flex align-center justify-between">
       <div class="course">课程：《{{ detail.ctitle }}》</div>
@@ -38,7 +41,10 @@
             <el-button slot="append" v-clipboard:copy="surveyUrl" v-clipboard:success="onCopy">复制</el-button>
           </el-input>
           <div class="survey-link-button">
-            <el-link class="download" :underline="false" @click="downloadQRCode">下载二维码</el-link>
+            <el-button class="download" @click="downloadQRCode">下载二维码</el-button>
+            <el-button class="download">
+              <a :href="surveyUrl" target="_blank">打开链接</a>
+            </el-button>
           </div>
         </div>
       </div>
@@ -49,6 +55,7 @@
 <script>
 import { shareSurvey } from '@/api/survey'
 import QRCode from 'qrcode'
+import { mapGetters } from 'vuex'
 export default {
   name: 'QuestionItem',
   props: {
@@ -72,19 +79,33 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     surveyUrl() {
       const hostname = window.location.hostname
       const port = window.location.port
-      return `http://${hostname}:${port}/#/survey/detail?id=${this.detail.id}`
+      const params = btoa(`id=${this.detail.id}&uid=${this.userInfo.id}`)
+      if (process.env.NODE_ENV === 'development') {
+        return `http://${hostname}:${port}/answer/${params}`
+      } else {
+        return `http://${hostname}/answer/${params}`
+      }
     }
   },
   methods: {
     handleDelete() {
       this.$emit('delete', this.detail)
     },
-    viewDetail() {
+    previewDetail() {
       this.$router.push({
         path: '/survey/detail',
+        query: {
+          id: this.detail.id
+        }
+      })
+    },
+    viewResult() {
+      this.$router.push({
+        path: '/survey/result',
         query: {
           id: this.detail.id
         }
@@ -216,10 +237,6 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-    }
-
-    .survey-link-button {
-      padding-bottom: 10px;
     }
   }
 }
