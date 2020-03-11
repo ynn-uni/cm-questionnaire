@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
-    <SurveyForm v-if="surveyData" :survey="surveyData" />
+    <el-alert type="info" title="当前为预览页面，答案不被记录。" center show-icon :closable="false" />
+    <SurveyForm v-if="surveyData" :survey="surveyData" preview />
   </div>
 </template>
 
@@ -43,6 +44,12 @@ export default {
 <style lang="scss" scoped>
 .app-container {
   background: #efefef;
-  overflow-y: scroll;
+  position: relative;
+  .el-alert {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
 }
 </style>
