@@ -28,7 +28,6 @@ export default {
   methods: {
     handleRouteQuery() {
       const { ids } = this.$route.params
-      console.log(atob(ids))
       const { id, uid } = querystring.parse(atob(ids))
       this.id = id
       this.uid = uid
