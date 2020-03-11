@@ -18,7 +18,8 @@ export default {
     return {
       id: null,
       uid: null,
-      surveyData: null
+      surveyData: null,
+      routeParams: ''
     }
   },
   mounted() {
@@ -28,7 +29,7 @@ export default {
   methods: {
     handleRouteQuery() {
       const { ids } = this.$route.params
-      console.log(atob(ids))
+      this.routeParams = ids
       const { id, uid } = querystring.parse(atob(ids))
       this.id = id
       this.uid = uid
@@ -47,6 +48,11 @@ export default {
       }).then(() => {
         // TODO 跳转完成页面
         this.$message.success('您的答卷已经提交，感谢您的参与！')
+        setTimeout(() => {
+          this.$router.replace({
+            path: `/complete/${this.routeParams}`
+          })
+        }, 1500)
       })
     }
   }

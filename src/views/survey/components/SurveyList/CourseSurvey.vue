@@ -1,19 +1,21 @@
 <template>
   <div class="course-survey">
-    <el-row :gutter="20">
+    <el-row v-if="surveyList && surveyList.length" :gutter="20">
       <el-col v-for="(item,index) in surveyList" :key="index" v-bind="column">
         <QuestionItem :detail="item" />
       </el-col>
     </el-row>
+    <NoData v-else text="暂无数据" />
   </div>
 </template>
 
 <script>
 import { getCourseSurveyList } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
+import NoData from '@/components/NoData'
 export default {
   name: 'CourseSurveyList',
-  components: { QuestionItem },
+  components: { QuestionItem, NoData },
   data() {
     return {
       // 分页

@@ -51,11 +51,9 @@ export default {
   },
 
   mounted() {
-    console.log(this.$refs.ques)
   },
   methods: {
     handlChangeQuestionList() {
-      console.log('12')
       this.$refs.ques.getSurveyList()
     }
   }

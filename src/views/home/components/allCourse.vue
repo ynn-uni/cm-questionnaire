@@ -17,6 +17,7 @@
 import { getCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
 import NoData from '@/components/NoData'
+import { listSortByKey } from '@/utils'
 export default {
   name: 'Home',
   components: {
@@ -30,7 +31,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllCourse(1, 3)
+    this.getAllCourse(1, 20)
   },
   methods: {
     handelMore() {
@@ -38,7 +39,7 @@ export default {
     },
     getAllCourse(page, size) {
       getCourseList({ page, size }).then((res) => {
-        this.courseList = res.data
+        this.courseList = listSortByKey(res.data, 'join', true).slice(0, 3)
       })
     },
     changeQuestionList() {

@@ -72,7 +72,7 @@ export default {
         } else {
           const data = this.formatResult(this.formInfo)
           this.$emit('answer', {
-            answer: JSON.stringify(data)
+            answer: data
           })
         }
       })

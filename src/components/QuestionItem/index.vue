@@ -14,17 +14,19 @@
     <div class="status flex align-center justify-between">
       <el-tag v-if="detail.status === 1" type="success" effect="dark">进行中</el-tag>
       <el-tag v-if="detail.status === 0" type="danger" effect="dark">已结束</el-tag>
-      <el-link
-        v-if="detail.share === 0"
-        type="primary"
-        :underline="false"
-        @click.stop.prevent="shareSurvey"
-      >
-        <i class="iconfont icon-fenxiang share-icon" />分享问卷
-      </el-link>
-      <div v-else>
-        <el-link type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
-        <el-link type="primary" :underline="false" @click.stop.prevent="viewResult">查看结果</el-link>
+      <div v-if="actionable">
+        <el-link
+          v-if="detail.share === 0"
+          type="primary"
+          :underline="false"
+          @click.stop.prevent="shareSurvey"
+        >
+          <i class="iconfont icon-fenxiang share-icon" />分享问卷
+        </el-link>
+        <div v-else>
+          <el-link type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
+          <el-link type="primary" :underline="false" @click.stop.prevent="viewResult">查看结果</el-link>
+        </div>
       </div>
     </div>
     <div class="fromcourse flex align-center justify-between">
