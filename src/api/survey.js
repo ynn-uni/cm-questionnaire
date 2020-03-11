@@ -23,6 +23,16 @@ export function createSurvey(data = {}) {
 export function getSurveyDetail(data = {}) {
   return getAction('/Questionnaire/getQuestionnaireDetails', data)
 }
+
+/**
+ * 删除问卷
+ * @param {*} data
+ * id 问卷id
+ */
+export function delSurveyItem(data = {}) {
+  return getAction('/Questionnaire/delQuestionnaire', data)
+}
+
 /**
  * 分享问卷
  * @param {*} data
