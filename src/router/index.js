@@ -128,6 +128,10 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/asnwer',
+    component: () => import('@/views/survey/answer')
+  },
   // {
   //   path: '/collect',
   //   component: Layout,
