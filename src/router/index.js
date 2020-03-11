@@ -129,7 +129,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/asnwer',
+    path: '/answer',
     component: () => import('@/views/survey/answer')
   },
   // {
@@ -163,7 +163,7 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
