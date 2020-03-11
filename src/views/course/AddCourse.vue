@@ -9,10 +9,12 @@
           <el-input v-model="sizeForm.title" />
         </el-form-item>
         <el-form-item label="课时">
-          <el-input v-model="sizeForm.hour" />
+          <el-input v-model="sizeForm.hour" type="number" min="0" />
         </el-form-item>
-        <el-form-item label="学分">
-          <el-input v-model="sizeForm.credit" />
+        <el-form-item
+          label="学分"
+        >
+          <el-input v-model="sizeForm.credit" type="number" min="0" />
         </el-form-item>
         <el-form-item label="考核方式">
           <el-input v-model="sizeForm.check" />
@@ -52,35 +54,45 @@ export default {
   },
   data() {
     return {
+      // sizeForm: {
+      //   title: 'test',
+      //   cover: '',
+      //   hour: '40',
+      //   check: '考核+笔试',
+      //   credit: '4',
+      //   describe: 'test',
+      //   status: '1',
+      //   sort: '1'
+      // }
       sizeForm: {
-        title: 'test',
+        title: '',
         cover: '',
-        hour: '40',
-        check: '考核+笔试',
-        credit: '4',
-        describe: 'test',
-        status: '1',
+        hour: '',
+        check: '',
+        credit: '',
+        describe: '',
+        status: '',
         sort: '1'
       }
 
     }
   },
   mounted() {
-    console.log(this.BASE_URL)
+
   },
   methods: {
     handelAddCourse() {
       if (this.sizeForm.title && this.sizeForm.cover && this.sizeForm.hour && this.sizeForm.check && this.sizeForm.credit && this.sizeForm.describe && this.sizeForm.status) {
         addCourse(this.sizeForm).then((res) => {
           this.$message.success('添加成功')
-          this.sizeForm = {
-            title: null,
-            cover: null,
-            hour: null,
-            check: null,
-            credit: null,
-            describe: null
-          }
+          // this.sizeForm = {
+          //   title: null,
+          //   cover: null,
+          //   hour: null,
+          //   check: null,
+          //   credit: null,
+          //   describe: null
+          // }
         })
       } else {
         this.$message.error('请输入完整的课程信息')

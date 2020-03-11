@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { getUserCensus } from '@/api/analysis'
 export default {
   name: 'StatisticAlanalysis',
   components: {
@@ -21,11 +22,21 @@ export default {
   },
   data() {
     return {
+      course: {},
+      question: {},
+      share: {}
 
     }
   },
+  mounted() {
+    this.getData()
+  },
   methods: {
+    getData() {
+      getUserCensus().then(() => {
 
+      })
+    }
   }
 }
 </script>

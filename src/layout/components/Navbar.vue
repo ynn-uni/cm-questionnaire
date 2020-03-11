@@ -50,7 +50,8 @@
 
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="saveTruename">保存</el-button>
+          <el-button v-if="isEdit" type="primary" @click="saveTruename">保存</el-button>
+          <el-button v-else type="primary" disabled="">保存</el-button>
         </span>
       </el-dialog>
     </div>

@@ -9,16 +9,16 @@
           <el-input v-model="sizeForm.title" />
         </el-form-item>
         <el-form-item label="课时">
-          <el-input v-model="sizeForm.hour" />
+          <el-input v-model="sizeForm.hour" type="number" />
         </el-form-item>
         <el-form-item label="学分">
-          <el-input v-model="sizeForm.credit" />
+          <el-input v-model="sizeForm.credit" type="number" />
         </el-form-item>
         <el-form-item label="考核方式">
           <el-input v-model="sizeForm.check" />
         </el-form-item>
         <el-form-item label="课程状态">
-          <el-select v-model="sizeForm.status" placeholder="">
+          <el-select v-model="status" placeholder="">
             <el-option label="进行中" value="1" />
             <el-option label="已结束" value="2" />
           </el-select>
@@ -51,26 +51,23 @@ export default {
   },
   data() {
     return {
-      sizeForm: {}
+      sizeForm: {},
+      status: null
 
     }
   },
   mounted() {
     getCourseDetails({ id: this.$route.query.id }).then((res) => {
       this.sizeForm = res
-      this.sizeForm.status = this.sizeForm.status === 1 ? '进行中' : '已结束'
+      this.status = this.sizeForm.status === 1 ? '进行中' : '已结束'
     })
   },
   methods: {
     handelEditCourse() {
-      var status = this.sizeForm.status
-      this.sizeForm.status = status === '进行中' ? 1 : status === '已结束' ? 2 : status
+      this.sizeForm.status = this.status === '进行中' ? 1 : this.status === '已结束' ? 2 : ''
       editCourse(this.sizeForm).then((res) => {
         this.$message.success('修改成功')
       })
-      // if (this.sizeForm.courseName && this.courseTimer && this.courseSource && this.courseType && this.courseStartTime && this.courseEndTime && this.courseDis) {
-      //   console.log('nnn')
-      // }
     },
     getImgPath(path) {
       this.sizeForm.cover = path

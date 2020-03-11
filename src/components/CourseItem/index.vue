@@ -1,6 +1,6 @@
 <template>
 
-  <el-col :xl="8" :lg="12" :xs="24">
+  <el-col v-bind="column">
     <div class="item flex" @click.stop="handelDetail(info.id)">
       <img class="ci-img" :src="info.cover&&baseUrl+info.cover" alt="">
       <div class="info">
@@ -110,7 +110,14 @@ export default {
       dialogVisible: false,
       dialogVisible1: false,
       code: '',
-      baseUrl: process.env.VUE_APP_STATIC_IMG
+      baseUrl: process.env.VUE_APP_STATIC_IMG,
+      column: {
+        xs: 24,
+        // sm: 12,
+        md: 12,
+        lg: 8
+        // xl: 8
+      }
     }
   },
   mounted() {

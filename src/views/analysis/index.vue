@@ -14,15 +14,15 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">20门</div>
+                <div class="val">{{ course.total }}门</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">进行中：</div>
-                <div class="val">2门</div>
+                <div class="val">{{ course.ongoing }}门</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">已完成：</div>
-                <div class="val">2门</div>
+                <div class="val">{{ course.complete }}门</div>
               </div>
             </div>
           </div>
@@ -37,15 +37,15 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">20份</div>
+                <div class="val">{{ question.total }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">进行中：</div>
-                <div class="val">2份</div>
+                <div class="val">{{ question.ongoing }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">已完成：</div>
-                <div class="val">2份</div>
+                <div class="val">{{ question.complete }}份</div>
               </div>
             </div>
           </div>
@@ -59,15 +59,15 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">20份</div>
+                <div class="val">{{ share.total }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">进行中：</div>
-                <div class="val">2份</div>
+                <div class="val">{{ share.ongoing }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">已完成：</div>
-                <div class="val">2份</div>
+                <div class="val">{{ share.complete }}份</div>
               </div>
             </div>
           </div>
@@ -81,15 +81,15 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">20人</div>
+                <div class="val">{{ anwser.total }}人</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">自发问卷：</div>
-                <div class="val">2人</div>
+                <div class="val">{{ anwser.owner }}人</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">转发问卷：</div>
-                <div class="val">2人</div>
+                <div class="val">{{ anwser.share }}人</div>
               </div>
             </div>
           </div>
@@ -102,6 +102,8 @@
       <el-date-picker
         v-model="date"
         type="month"
+        format="yyyy-MM"
+        value-format="yyyy-MM"
         placeholder="选择月"
       />
     </div>
@@ -125,6 +127,7 @@
 <script>
 import VeLine from 'v-charts/lib/line.common'
 import VePie from 'v-charts/lib/pie.common'
+import { getUserCensus } from '@/api/analysis'
 export default {
   components: {
     VeLine,
@@ -133,6 +136,10 @@ export default {
 
   data() {
     return {
+      course: {},
+      question: {},
+      share: {},
+      anwser: {},
       date: '',
       chartDataLine: {
         columns: ['日期', '问卷一', '问卷二', '问卷三'],
@@ -158,8 +165,23 @@ export default {
       }
     }
   },
+  watch: {
+    date() {
+      console.log(this.date)
+    }
+  },
+  mounted() {
+    this.getData()
+  },
   methods: {
-
+    getData() {
+      getUserCensus().then((res) => {
+        this.course = res.courses
+        this.question = res.questionnaires
+        this.share = res.shares
+        this.anwser = res.anwsers
+      })
+    }
   }
 }
 </script>

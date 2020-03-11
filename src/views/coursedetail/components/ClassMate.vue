@@ -1,6 +1,6 @@
 <template>
   <div class="list flex">
-    <el-row :gutter="100">
+    <el-row v-if="newstudents.length>0" :gutter="100">
       <el-col v-for="(item,index) in newstudents" :key="index" :lg="4" :md="6" :xs="8">
         <div class="classmate flex align-center">
           <img :src="item.user.mobile">
@@ -8,14 +8,19 @@
         </div>
       </el-col>
     </el-row>
+    <NoData v-else :text="'暂无学生加入'" />
   </div>
 
 </template>
 
 <script>
 import Identicon from 'identicon.js'
+import NoData from '@/components/NoData'
 export default {
   name: 'ClassMate',
+  components: {
+    NoData
+  },
   props: {
     students: {
       type: Array,
