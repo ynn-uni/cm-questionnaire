@@ -13,6 +13,7 @@
 <script>
 import QuestionItem from '@/components/QuestionItem'
 import { getMySurveyList, getCourseSurveyList } from '@/api/survey'
+import { listSortByKey } from '@/utils'
 import { mapGetters } from 'vuex'
 export default {
   name: 'HomeQuestions',
@@ -39,7 +40,7 @@ export default {
     getSurveyList() {
       if (this.role === 1) {
         getCourseSurveyList().then(res => {
-          this.questionList = res.slice(0, 6)
+          this.questionList = listSortByKey(res, 'share', true).slice(0, 6)
         })
       } else {
         getMySurveyList({ page: 1, size: 6 }).then(res => {
