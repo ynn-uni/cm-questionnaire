@@ -1,10 +1,11 @@
 <template>
   <div class="share-survey">
-    <el-row :gutter="20">
+    <el-row v-if="surveyList && surveyList.length" :gutter="20">
       <el-col v-for="(item,index) in surveyList" :key="index" v-bind="column">
         <QuestionItem :detail="item" />
       </el-col>
     </el-row>
+    <NoData v-else text="暂无数据" />
     <Pagination
       :page-count="pageCount"
       :page.sync="curPage"
@@ -18,9 +19,10 @@
 import { getShareSurveyList } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
 import Pagination from '@/components/Pagination'
+import NoData from '@/components/NoData'
 export default {
   name: 'ShareSurveyList',
-  components: { QuestionItem, Pagination },
+  components: { QuestionItem, Pagination, NoData },
   data() {
     return {
       // 分页

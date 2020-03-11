@@ -3,11 +3,13 @@
     <el-link class="survey-add" type="primary" :underline="false" @click="handleCourseSelect">
       <i class="el-icon-plus" /> 添加问卷
     </el-link>
-    <el-row :gutter="20">
+
+    <el-row v-if="surveyList && surveyList.length" :gutter="20">
       <el-col v-for="(item,index) in surveyList" :key="index" v-bind="column">
         <QuestionItem :detail="item" deletable @delete="handleDeleteSurvey" />
       </el-col>
     </el-row>
+    <NoData v-else text="暂无数据" />
     <Pagination
       :page-count="pageCount"
       :page.sync="curPage"
@@ -36,10 +38,11 @@
 import { getStudentCourseList, getTeacherCourseList } from '@/api/course'
 import { getMySurveyList, delSurveyItem } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
+import NoData from '@/components/NoData'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'MySurveyList',
-  components: { QuestionItem, Pagination },
+  components: { QuestionItem, Pagination, NoData },
   data() {
     return {
       courseId: '',
