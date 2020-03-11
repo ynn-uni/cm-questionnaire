@@ -33,7 +33,6 @@ export default {
     },
     getSurveyDetail() {
       getSurveyDetail({ id: this.id }).then(res => {
-        console.log(res)
         this.surveyData = res
       })
     }

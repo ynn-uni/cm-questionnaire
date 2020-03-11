@@ -69,7 +69,6 @@ export default {
   mounted() {},
   methods: {
     getPercentage(value) {
-      console.log(value, this.result.total)
       return (value / this.result.total).toFixed(2) * 100
     }
   }
