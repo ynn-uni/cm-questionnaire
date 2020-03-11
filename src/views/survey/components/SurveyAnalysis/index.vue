@@ -5,8 +5,8 @@
       {{ question.title }}
       <span>[ {{ question.type | questionType }} ]</span>
     </div>
-    <div class="survey-analysis-chart">
-      <el-table :data="tableData" border show-summary sum-text="本题有效填写人数">
+    <div v-if="question.type !== 3" class="survey-analysis-chart">
+      <el-table :data="tableData" border show-summary :summary-method="getSummaries">
         <el-table-column label="选项" prop="title" />
         <el-table-column label="小计" prop="count" sortable />
         <el-table-column label="比例">
@@ -14,6 +14,12 @@
             <el-progress :stroke-width="10" :percentage="getPercentage(row.count)" />
           </template>
         </el-table-column>
+      </el-table>
+    </div>
+    <div v-else>
+      <el-table :data="tableData" border>
+        <el-table-column label="序号" type="index" width="50" />
+        <el-table-column label="答案" prop="answer" />
       </el-table>
     </div>
   </div>
@@ -43,33 +49,66 @@ export default {
       type: Object,
       default: () => {}
     },
+    total: {
+      type: Number,
+      default: 0
+    },
     result: {
-      type: Object,
+      type: [Array, Object],
       default: () => {}
     }
   },
   data() {
     return {
-      tableData: [
-        {
-          title: '选项1',
-          count: 1
-        },
-        {
-          title: '选项2',
-          count: 3
-        },
-        {
-          title: '选项3',
-          count: 1
-        }
-      ]
+      tableData: []
     }
   },
-  mounted() {},
+  computed: {
+    defaultTableData() {
+      const options = this.question.options
+      if (!options) {
+        return []
+      }
+      return options.map(i => {
+        return {
+          title: i.label,
+          count: 0
+        }
+      })
+    },
+    getTableData() {
+      let table = []
+      const { id, type, options } = this.question
+      const questionResult = this.result && this.result[id]
+      if (!questionResult) return
+      if (type === 3) {
+        table = questionResult.map(i => {
+          return { answer: i }
+        })
+      } else {
+        table = options.map(i => {
+          return {
+            title: i.label,
+            count: questionResult[i.id] || 0
+          }
+        })
+      }
+      return table
+    }
+  },
+  mounted() {
+    this.tableData = this.total ? this.getTableData : this.defaultTableData
+  },
   methods: {
     getPercentage(value) {
-      return (value / this.result.total).toFixed(2) * 100
+      let res = 0
+      if (this.total) {
+        res = (value / this.total) * 100
+      }
+      return +res.toFixed(0)
+    },
+    getSummaries(param) {
+      return ['本题有效填写人数', this.total]
     }
   }
 }
@@ -78,6 +117,7 @@ export default {
 <style lang="scss" scoped>
 .survey-analysis::v-deep {
   .survey-analysis-title {
+    margin-top: 20px;
     margin-bottom: 20px;
     b {
       margin-right: 10px;

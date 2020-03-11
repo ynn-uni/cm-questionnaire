@@ -76,3 +76,12 @@ export function getCourseSurveyList() {
 export function postSurveyAnswer(data = {}) {
   return postAction('/Questionnaire/addAnswer', data)
 }
+
+/**
+ * 问卷的统计结果
+ * @param {*} data
+ * qid 问卷ID
+ */
+export function getSuveryAnalysis(data = {}) {
+  return getAction('/Questionnaire/getAnswerCensus', data)
+}
