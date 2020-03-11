@@ -2,7 +2,7 @@
   <div class="item flex align-center item">
     <div class="top flex align-center">
       <i class="iconfont icon-wenjuan my-icon" />
-      <el-link class="title" @click.stop="viewDetail">{{ detail.title }}</el-link>
+      <el-link class="title" @click.stop="previewDetail">{{ detail.title }}</el-link>
       <el-link
         v-if="deletable"
         class="delete-button"
@@ -75,14 +75,18 @@ export default {
     surveyUrl() {
       const hostname = window.location.hostname
       const port = window.location.port
-      return `http://${hostname}:${port}/#/survey/detail?id=${this.detail.id}`
+      if (process.env.NODE_ENV === 'production') {
+        return `http://${hostname}/answer?id=${this.detail.id}`
+      } else {
+        return `http://${hostname}:${port}/answer?id=${this.detail.id}`
+      }
     }
   },
   methods: {
     handleDelete() {
       this.$emit('delete', this.detail)
     },
-    viewDetail() {
+    previewDetail() {
       this.$router.push({
         path: '/survey/detail',
         query: {
