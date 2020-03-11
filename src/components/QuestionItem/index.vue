@@ -22,7 +22,10 @@
       >
         <i class="iconfont icon-fenxiang share-icon" />分享问卷
       </el-link>
-      <el-link v-else type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
+      <div v-else>
+        <el-link type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
+        <el-link type="primary" :underline="false" @click.stop.prevent="viewResult">查看结果</el-link>
+      </div>
     </div>
     <div class="fromcourse flex align-center justify-between">
       <div class="course">课程：《{{ detail.ctitle }}》</div>
@@ -38,7 +41,10 @@
             <el-button slot="append" v-clipboard:copy="surveyUrl" v-clipboard:success="onCopy">复制</el-button>
           </el-input>
           <div class="survey-link-button">
-            <el-link class="download" :underline="false" @click="downloadQRCode">下载二维码</el-link>
+            <el-button class="download" @click="downloadQRCode">下载二维码</el-button>
+            <el-button class="download">
+              <a :href="surveyUrl" target="_blank">打开链接</a>
+            </el-button>
           </div>
         </div>
       </div>
@@ -92,6 +98,14 @@ export default {
     previewDetail() {
       this.$router.push({
         path: '/survey/detail',
+        query: {
+          id: this.detail.id
+        }
+      })
+    },
+    viewResult() {
+      this.$router.push({
+        path: '/survey/result',
         query: {
           id: this.detail.id
         }
@@ -223,10 +237,6 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-    }
-
-    .survey-link-button {
-      padding-bottom: 10px;
     }
   }
 }
