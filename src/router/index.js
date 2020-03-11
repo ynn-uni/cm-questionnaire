@@ -132,6 +132,10 @@ export const constantRoutes = [
     path: '/answer/:ids',
     component: () => import('@/views/survey/answer')
   },
+  {
+    path: '/complete/:ids',
+    component: () => import('@/views/survey/complete')
+  },
   // {
   //   path: '/collect',
   //   component: Layout,
