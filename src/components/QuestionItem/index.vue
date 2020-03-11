@@ -16,7 +16,7 @@
       <el-tag v-if="detail.status === 0" type="danger" effect="dark">已结束</el-tag>
       <div v-if="actionable">
         <el-link
-          v-if="detail.share === 0 || role !== 1"
+          v-if="detail.share === 0 && role !== 2"
           type="primary"
           :underline="false"
           @click.stop.prevent="shareSurvey"

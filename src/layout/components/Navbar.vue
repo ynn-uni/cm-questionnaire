@@ -93,7 +93,6 @@ export default {
     },
     logout() {
       this.$store.dispatch('user/resetToken')
-      console.log('login')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     handleEditUser() {
