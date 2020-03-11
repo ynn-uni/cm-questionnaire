@@ -71,8 +71,9 @@ export default {
           this.$message.success('您已完成本次问卷，感谢您的帮助与支持！')
         } else {
           const data = this.formatResult(this.formInfo)
-          alert(JSON.stringify(data))
-          // TODO 提交答案
+          this.$emit('answer', {
+            answer: JSON.stringify(data)
+          })
         }
       })
     },
