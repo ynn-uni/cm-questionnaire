@@ -2,7 +2,14 @@
   <div class="item flex align-center item">
     <div class="top flex align-center">
       <i class="iconfont icon-wenjuan my-icon" />
-      <el-link @click.stop="viewDetail">{{ detail.title }}</el-link>
+      <el-link class="title" @click.stop="viewDetail">{{ detail.title }}</el-link>
+      <el-link
+        v-if="deletable"
+        class="delete-button"
+        icon="el-icon-delete"
+        :underline="false"
+        @click="handleDelete"
+      >删除</el-link>
     </div>
     <div class="status flex align-center justify-between">
       <el-tag v-if="detail.status === 1" type="success" effect="dark">进行中</el-tag>
@@ -52,6 +59,10 @@ export default {
     deletable: {
       type: Boolean,
       default: false
+    },
+    actionable: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -68,6 +79,9 @@ export default {
     }
   },
   methods: {
+    handleDelete() {
+      this.$emit('delete', this.detail)
+    },
     viewDetail() {
       this.$router.push({
         path: '/survey/detail',
@@ -78,8 +92,14 @@ export default {
     },
     shareSurvey() {
       shareSurvey({ qid: this.detail.id }).then(res => {
-        this.$message.success()
-        console.log(res)
+        this.$alert(
+          '恭喜您，成功分享该问卷，可在【我的问卷】中查看',
+          '分享成功',
+          {
+            confirmButtonText: '确定',
+            type: 'success'
+          }
+        )
       })
     },
     shareLink() {
@@ -129,13 +149,27 @@ export default {
   padding: 20px;
   border-radius: 4px;
   border: 1px solid #b5b5b5;
+
   .top {
+    position: relative;
     width: 100%;
     height: 100%;
+    .title {
+      margin-right: 50px;
+      @include ellipsis;
+    }
     .my-icon {
       color: $primaryColor;
       font-size: 44px;
       margin-right: 20px;
+    }
+    .delete-button {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: $textPrimary;
+      cursor: pointer;
     }
   }
   .status {
@@ -188,5 +222,9 @@ export default {
       padding-bottom: 10px;
     }
   }
+}
+
+.item:hover .delete-button {
+  display: inline-block;
 }
 </style>

@@ -5,7 +5,7 @@
     </el-link>
     <el-row :gutter="20">
       <el-col v-for="(item,index) in surveyList" :key="index" v-bind="column">
-        <QuestionItem :detail="item" />
+        <QuestionItem :detail="item" deletable @delete="handleDeleteSurvey" />
       </el-col>
     </el-row>
     <Pagination
@@ -34,7 +34,7 @@
 
 <script>
 import { getStudentCourseList, getTeacherCourseList } from '@/api/course'
-import { getMySurveyList } from '@/api/survey'
+import { getMySurveyList, delSurveyItem } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
 import Pagination from '@/components/Pagination'
 export default {
@@ -84,6 +84,20 @@ export default {
         query: {
           id: this.courseId
         }
+      })
+    },
+    handleDeleteSurvey(evt) {
+      const { id } = evt
+      this.$confirm('此操作将永久删除该问卷, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delSurveyItem({ id }).then(() => {
+          this.$message.success('删除成功！')
+          this.curPage = 1
+          this.getMySurveyList()
+        })
       })
     }
   }
