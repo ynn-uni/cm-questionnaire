@@ -105,3 +105,20 @@ export function param2Obj(url) {
       '"}'
   )
 }
+
+/**
+ * 很据key的值排序
+ * @param {Array} list
+ * @param {string} key
+ * @param {boolean} reverse
+ * @returns {Array}
+ */
+export function listSortByKey(list = [], key, reverse = false) {
+  return list.sort((a, b) => {
+    if (reverse) {
+      return a[key] - b[key]
+    } else {
+      return b[key] - a[key]
+    }
+  })
+}
