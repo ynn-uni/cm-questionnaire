@@ -79,17 +79,20 @@
         <div class="content">{{ data.describe }}</div>
       </div>
     </div>
-    <div v-if="data.questionnaires.length" class="title">课程问卷</div>
-    <el-row v-if="data.questionnaires.length">
-      <el-col v-for="item in data.questionnaires" :key="item.id" v-bind="column">
-        <QuestionItem
-          :detail="{
-            ctitle: data.title,
-            ...item
-          }"
-        />
-      </el-col>
-    </el-row>
+    <div v-if="data.questionnaires && data.questionnaires.length">
+      <div class="title">课程问卷</div>
+      <el-row>
+        <el-col v-for="item in data.questionnaires" :key="item.id" v-bind="column">
+          <QuestionItem
+            :detail="{
+              ctitle: data.title,
+              ...item
+            }"
+            :actionable="data.join === 1"
+          />
+        </el-col>
+      </el-row>
+    </div>
     <div v-permission="1" class="title">课程同学</div>
     <div v-permission="2" class="title">我的学生</div>
     <ClassMate :students="data.students" />
