@@ -49,6 +49,7 @@
 <script>
 import { shareSurvey } from '@/api/survey'
 import QRCode from 'qrcode'
+import { mapGetters } from 'vuex'
 export default {
   name: 'QuestionItem',
   props: {
@@ -72,13 +73,15 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     surveyUrl() {
       const hostname = window.location.hostname
       const port = window.location.port
-      if (process.env.NODE_ENV === 'production') {
-        return `http://${hostname}/answer?id=${this.detail.id}`
+      const params = btoa(`id=${this.detail.id}&uid=${this.userInfo.id}`)
+      if (process.env.NODE_ENV === 'development') {
+        return `http://${hostname}:${port}/answer/${params}`
       } else {
-        return `http://${hostname}:${port}/answer?id=${this.detail.id}`
+        return `http://${hostname}/answer/${params}`
       }
     }
   },
