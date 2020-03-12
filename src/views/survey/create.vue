@@ -15,7 +15,7 @@
       <div class="survey-main-inner">
         <el-card>
           <ContentEditor v-model="title" placeholder="点击编辑问卷标题" />
-          <ContentEditor v-model="content" placeholder="点击编辑欢迎语及问卷描述" />
+          <ContentEditor v-model="content" placeholder="点击编辑欢迎语及问卷描述" richtext />
           <div class="survey-date">
             <el-date-picker
               v-model="start"
@@ -77,7 +77,7 @@
 
         <el-card>
           <div class="survey-end">
-            <ContentEditor v-model="suffix" class="survey-end-content" placeholder="点击填写结束语" />
+            <ContentEditor v-model="suffix" class="survey-end-content" placeholder="点击填写结束语" richtext />
             <el-button type="primary" size="small" @click="handlePublishSurvey">发布</el-button>
           </div>
         </el-card>

@@ -1,7 +1,7 @@
 <template>
   <div class="upload-image">
     <el-upload
-      name="image"
+      name="file"
       class="avatar-uploader"
       :action="actionUrl"
       :show-file-list="false"

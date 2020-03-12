@@ -1,9 +1,9 @@
 <template>
   <el-card class="survey-item" :class="{'is-focus': isFocus}" @click.native="handleClick">
     <div class="survey-item-header">
-      <div class="flex">
+      <div class="survey-item-editor">
         <span class="survey-index">{{ sequence }}</span>
-        <ContentEditor v-model="question.title" class="survey-item-title" />
+        <ContentEditor v-model="question.title" class="survey-item-title" richtext />
       </div>
       <div class="survey-item-action">
         <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">
@@ -133,6 +133,8 @@ export default {
 <style lang="scss" scoped>
 .survey-item {
   border: 2px solid transparent;
+  overflow: unset;
+
   .survey-item-header {
     display: flex;
     justify-content: space-between;
@@ -141,8 +143,12 @@ export default {
       margin-right: 20px;
       line-height: 32px;
     }
+    .survey-item-editor {
+      width: calc(100% - 140px);
+    }
     .survey-item-title {
-      width: 400px;
+      display: inline-block;
+      width: calc(100% - 40px);
     }
     .survey-item-action {
       color: #666;

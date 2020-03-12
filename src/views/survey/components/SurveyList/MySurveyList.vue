@@ -82,6 +82,7 @@ export default {
       })
     },
     confirmCourse() {
+      if (!this.courseId) return
       this.dialogVisible = false
       this.$router.push({
         path: '/survey/create',
