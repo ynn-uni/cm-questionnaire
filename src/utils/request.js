@@ -45,26 +45,18 @@ service.interceptors.response.use(
    */
   response => {
     const res = response && response.data
-    // if the custom code is not 20000, it is judged as an error.
+    // if the custom code is not 200, it is judged as an error.
     if (res.status !== 200) {
-      Message({
-        message: res.msg || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-      return Promise.reject(res)
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+      // 错误处理
+      errorHandler(response)
+      return Promise.reject(response.data)
     } else {
       return res.data
     }
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
-      message: error.msg || '未知错误，请联系管理员！',
-      type: 'error',
-      duration: 5 * 1000
-    })
+    errorHandler(error.response)
     return Promise.reject(error)
   }
 )
@@ -86,3 +78,22 @@ export function postAction(url = '', data = {}) {
   })
 }
 export default service
+
+function errorHandler(response) {
+  const { status } = response
+  switch (status) {
+    case 404:
+      tip('您需要的资源没有找到！')
+      break
+    case 502:
+      tip('错误网关，请联系管理员')
+  }
+}
+
+function tip(msg = '未知错误，请联系管理员') {
+  Message({
+    message: msg,
+    type: 'error',
+    duration: 5 * 1000
+  })
+}

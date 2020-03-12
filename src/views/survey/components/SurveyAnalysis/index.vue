@@ -2,7 +2,7 @@
   <div class="survey-analysis">
     <div class="survey-analysis-title">
       <b>第{{ sequence }}题:</b>
-      {{ question.title }}
+      <span v-html="question.title" />
       <span>[ {{ question.type | questionType }} ]</span>
     </div>
     <div v-if="question.type !== 3" class="survey-analysis-chart">
