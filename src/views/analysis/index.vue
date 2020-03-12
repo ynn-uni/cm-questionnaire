@@ -14,15 +14,15 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">{{ course.total }}门</div>
+                <div class="val">{{ course.total || 0 }}门</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">进行中：</div>
-                <div class="val">{{ course.ongoing }}门</div>
+                <div class="val">{{ course.ongoing || 0 }}门</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">已完成：</div>
-                <div class="val">{{ course.complete }}门</div>
+                <div class="val">{{ course.complete || 0 }}门</div>
               </div>
             </div>
           </div>
@@ -37,15 +37,15 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">{{ question.total }}份</div>
+                <div class="val">{{ question.total || 0 }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">进行中：</div>
-                <div class="val">{{ question.ongoing }}份</div>
+                <div class="val">{{ question.ongoing || 0 }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">已完成：</div>
-                <div class="val">{{ question.complete }}份</div>
+                <div class="val">{{ question.complete || 0 }}份</div>
               </div>
             </div>
           </div>
@@ -60,15 +60,15 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">{{ share.total }}份</div>
+                <div class="val">{{ share.total || 0 }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">进行中：</div>
-                <div class="val">{{ share.ongoing }}份</div>
+                <div class="val">{{ share.ongoing || 0 }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">已完成：</div>
-                <div class="val">{{ share.complete }}份</div>
+                <div class="val">{{ share.complete || 0 }}份</div>
               </div>
             </div>
           </div>
@@ -82,16 +82,16 @@
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">{{ anwser.total }}份</div>
+                <div class="val">{{ anwser.total || 0 }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">自发问卷：</div>
-                <div class="val">{{ anwser.owner }}份</div>
+                <div class="val">{{ anwser.owner || 0 }}份</div>
               </div>
               <div class="in-item flex">
                 <div v-permission="1" class="ti">转发问卷：</div>
                 <div v-permission="2" class="ti">被转问卷：</div>
-                <div class="val">{{ anwser.share }}份</div>
+                <div class="val">{{ anwser.share || 0 }}份</div>
               </div>
             </div>
           </div>
