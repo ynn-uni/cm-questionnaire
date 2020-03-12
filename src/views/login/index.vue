@@ -12,7 +12,7 @@
       </div>
 
       <div class="input-Group flex justify-between">
-        <input v-model="code" type="text" placeholder="请输入您的手机验证码">
+        <input ref="smsCodeInput" v-model="code" type="text" placeholder="请输入您的手机验证码">
         <el-button @click="fetchSmsCode">{{ time>0?time+'秒':'发送验证码' }}</el-button>
       </div>
       <div class="checkbox flex">
@@ -63,6 +63,7 @@ export default {
         this.cutDown(120)
         this.identifier = res.identifier
         this.$message.success('短信验证码发送成功！')
+        this.$refs.smsCodeInput.focus()
       })
     },
     handleLogin() {
