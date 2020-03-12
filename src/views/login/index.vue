@@ -41,7 +41,7 @@ export default {
       loading: false,
       passwordType: 'password',
       redirect: undefined,
-      tel: '17318413017', // 173 1841 3017
+      tel: '',
       check: true,
       code: null,
       identifier: null,
