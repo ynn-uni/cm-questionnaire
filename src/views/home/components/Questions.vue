@@ -2,22 +2,24 @@
   <div class="home-questions">
     <div class="title">{{ role == 1 ? '推荐问卷' : '我的问卷' }}</div>
 
-    <el-row :gutter="20">
+    <el-row v-if="questionList && questionList.length" :gutter="20">
       <el-col v-for="item in questionList" :key="item.id" v-bind="column">
         <QuestionItem :detail="item" />
       </el-col>
     </el-row>
+    <NoData v-else :text="'暂无数据'" />
   </div>
 </template>
 
 <script>
+import NoData from '@/components/NoData'
 import QuestionItem from '@/components/QuestionItem'
 import { getMySurveyList, getCourseSurveyList } from '@/api/survey'
 import { listSortByKey } from '@/utils'
 import { mapGetters } from 'vuex'
 export default {
   name: 'HomeQuestions',
-  components: { QuestionItem },
+  components: { QuestionItem, NoData },
   data() {
     return {
       questionList: [],
