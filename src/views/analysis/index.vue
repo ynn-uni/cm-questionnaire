@@ -210,11 +210,12 @@ export default {
             if (count === 1) {
               this.chartDataLine.columns.push(val.title)
             }
-            row[val.title] = val.total
+            if (val.title) {
+              row[val.title] = val.total
+            }
           })
           count++
           this.chartDataLine.rows.push(row)
-          // console.log(row)
         }
       })
     },
