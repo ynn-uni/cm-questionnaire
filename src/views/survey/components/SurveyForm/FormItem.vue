@@ -1,7 +1,7 @@
 <template>
   <el-form-item v-if="question.type" class="form-item" :prop="question.id" :rules="rules">
     <template slot="label">
-      <h3>{{ question.title }}</h3>
+      <h3 v-html="question.title" />
     </template>
     <div v-if="question.type === 1">
       <el-radio-group v-model="provideData.formInfo[question.id]">

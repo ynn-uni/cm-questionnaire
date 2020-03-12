@@ -1,7 +1,7 @@
 <template>
   <div class="survey-form">
     <h2>{{ survey.title }}</h2>
-    <div v-if="survey.content" class="form-tips">{{ survey.content }}</div>
+    <div v-if="survey.content" class="form-tips" v-html="survey.content" />
     <el-divider />
     <el-form v-if="formInfo" ref="formInfo" :model="formInfo">
       <el-row v-for="question in survey.questions" :key="question.id" class="survey-section">
@@ -9,7 +9,7 @@
       </el-row>
     </el-form>
     <el-divider />
-    <div v-if="survey.suffix" class="form-tips">{{ survey.suffix }}</div>
+    <div v-if="survey.suffix" class="form-tips" v-html="survey.suffix" />
     <div class="survey-form-action">
       <el-button type="primary" size="medium" @click="submitForm">提交</el-button>
     </div>
