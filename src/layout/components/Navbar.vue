@@ -36,8 +36,8 @@
     >
 
       <el-alert
-        v-if="name"
-        title="(如您还未填写个人真实姓名请主动填写,方便老师查看学生情况)"
+        v-if="!name"
+        title="您还未填写真实姓名，请填写姓名，方便老师查看学生情况"
         type="error"
       />
       <div class="userinfo flex justify-center align-center">
