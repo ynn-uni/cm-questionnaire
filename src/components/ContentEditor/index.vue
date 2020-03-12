@@ -15,6 +15,7 @@
         height: 80,
         menubar: false,
         language: 'zh_CN',
+        language_url : '/langs/zh_CN.js',
         statusbar: false,
         plugins: plugins,
         toolbar: 'image | openRichtext',
@@ -37,6 +38,7 @@
           height: 500,
           menubar: false,
           language: 'zh_CN',
+          language_url : '/langs/zh_CN.js',
           plugins: plugins,
           toolbar: toolbar,
           images_upload_handler: imagesUploadHandler
@@ -52,6 +54,12 @@
 </template>
 
 <script>
+/**
+ * 说明：
+ * 使用了bootcdn的文件，所有依赖自动加载
+ * https://www.bootcdn.cn/tinymce/
+ * 本地化文件需要手动引入，路径：public/langs/zh_CN.js
+ */
 import Editor from '@tinymce/tinymce-vue'
 export default {
   name: 'ContentEditor',
@@ -80,14 +88,13 @@ export default {
   computed: {
     plugins() {
       return [
-        'advlist autolink lists link image charmap print preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table paste code help wordcount'
+        'advlist autolink lists link image preview',
+        'fullscreen media table paste wordcount'
       ]
     },
     toolbar() {
       return `undo redo | formatselect | bold italic backcolor |
-        alignleft aligncenter alignright alignjustify | image imageUpload | embed
+        alignleft aligncenter alignright alignjustify | image |
         bullist numlist outdent indent | removeformat`
     }
   },
