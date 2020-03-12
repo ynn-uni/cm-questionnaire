@@ -225,10 +225,10 @@ export default {
     },
     getAnalysisData() {
       getUserCensus().then((res) => {
-        this.course = res.courses
-        this.question = res.questionnaires
-        this.share = res.shares
-        this.anwser = res.anwsers
+        this.course = res.courses ? res.courses : {}
+        this.question = res.questionnaires ? res.questionnaires : {}
+        this.share = res.shares ? res.shares : {}
+        this.anwser = res.anwsers ? res.anwsers : {}
       })
     },
     getMonth() {
