@@ -26,9 +26,9 @@
       <div class="quick-action-item" @click="handleAddOption">
         <i class="el-icon-plus" />添加单个选项
       </div>
-      <div class="quick-action-item">
+      <!-- <div class="quick-action-item">
         <i class="el-icon-document" />批量添加选项
-      </div>
+      </div> -->
     </div>
   </el-card>
 </template>
