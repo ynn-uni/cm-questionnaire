@@ -144,7 +144,7 @@
 import VeLine from 'v-charts/lib/line.common'
 import VePie from 'v-charts/lib/pie.common'
 import NoData from '@/components/NoData'
-import { getUserCensus, getAnswerCakeCensus } from '@/api/analysis'
+import { getUserCensus, getAnswerCakeCensus, getAnswerLineCensus } from '@/api/analysis'
 export default {
   components: {
     VeLine,
@@ -158,6 +158,7 @@ export default {
         show: false
       }
     }
+
     return {
       course: {},
       question: {},
@@ -198,8 +199,28 @@ export default {
         })
       })
     },
+    getLineData(month) {
+      getAnswerLineCensus({ month }).then((res) => {
+        this.chartDataLine.columns = ['日期']
+        this.chartDataLine.rows = []
+        var count = 1
+        for (var i in res) {
+          var row = { '日期': i.split('-')[1] + '.' + i.split('-')[2] }
+          res[i].forEach(val => {
+            if (count === 1) {
+              this.chartDataLine.columns.push(val.title)
+            }
+            row[val.title] = val.total
+          })
+          count++
+          this.chartDataLine.rows.push(row)
+          // console.log(row)
+        }
+      })
+    },
     changeDate() {
       this.getPieData(this.date)
+      this.getLineData(this.date)
     },
     getAnalysisData() {
       getUserCensus().then((res) => {
@@ -218,6 +239,7 @@ export default {
       }
       this.date = year + '-' + month
       this.getPieData(this.date)
+      this.getLineData(this.date)
     }
   }
 }

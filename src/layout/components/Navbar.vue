@@ -26,35 +26,42 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-dialog
-        title="个人资料"
-        :visible.sync="dialogVisible"
-        width="30%"
-        :before-close="handleClose"
-        :close-on-click-modal="false"
-      >
-        <div class="userinfo flex justify-center align-center">
-          <img :src="getHashAvatar" class="user-avatar">
-          <div class="info">
-            <div class="name">账户角色：{{ userInfo.type==1?'学生':'老师' }}</div>
-            <div class="name">手机号：{{ userInfo.mobile }}</div>
-            <div class="name flex justify-center align-center">
-              真实姓名：<span v-if="!isEdit" class="truename">{{ userInfo.truename }}</span>
-              <input v-if="isEdit" v-model="name" type="text">
-              <i class="el-icon-edit edit" @click="changeEdit" />
-              <span class="ed">({{ isEdit?'取消编辑':'点击编辑' }})</span>
-            </div>
-
-          </div>
-        </div>
-
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button v-if="isEdit" type="primary" @click="saveTruename">保存</el-button>
-          <el-button v-else type="primary" disabled="">保存</el-button>
-        </span>
-      </el-dialog>
     </div>
+    <el-dialog
+      title="个人资料"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+      :close-on-click-modal="false"
+    >
+
+      <el-alert
+        v-if="name"
+        title="(如您还未填写个人真实姓名请主动填写,方便老师查看学生情况)"
+        type="error"
+      />
+      <div class="userinfo flex justify-center align-center">
+        <img :src="getHashAvatar" class="user-avatar">
+        <div class="info">
+          <div class="name">账户角色：{{ userInfo.type==1?'学生':'老师' }}</div>
+          <div class="name">手机号：{{ userInfo.mobile }}</div>
+          <div class="name flex justify-center align-center">
+            真实姓名：<span v-if="!isEdit" class="truename">{{ userInfo.truename }}</span>
+            <input v-if="isEdit" v-model="name" type="text">
+            <i class="el-icon-edit edit" @click="changeEdit" />
+            <span class="ed">({{ isEdit?'取消编辑':'点击编辑' }})</span>
+          </div>
+
+        </div>
+      </div>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button v-if="isEdit" type="primary" @click="saveTruename">保存</el-button>
+        <el-button v-else type="primary" disabled="">保存</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -130,6 +137,7 @@ export default {
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   .userinfo{
+    line-height: 50px;
     img{
       width: 144px;
       height: 144px;
@@ -137,6 +145,7 @@ export default {
       margin-right: 60px;
     }
     .info{
+
       .edit{
         margin-left: 10px;
         cursor: pointer;
@@ -160,6 +169,7 @@ export default {
       }
     }
   }
+
   .hamburger-container {
     line-height: 46px;
     height: 100%;
