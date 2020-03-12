@@ -17,7 +17,7 @@
 import { getCourseList } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
 import NoData from '@/components/NoData'
-import { listSortByKey } from '@/utils'
+import { listSortByKey, filterStatus } from '@/utils'
 export default {
   name: 'Home',
   components: {
@@ -39,7 +39,8 @@ export default {
     },
     getAllCourse(page, size) {
       getCourseList({ page, size }).then((res) => {
-        this.courseList = listSortByKey(res.data, 'join', true).slice(0, 3)
+        var list = filterStatus(res.data, 'status', 1)
+        this.courseList = listSortByKey(list, 'join', true).slice(0, 3)
       })
     },
     changeQuestionList() {

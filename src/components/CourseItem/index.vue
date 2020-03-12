@@ -34,8 +34,8 @@
             进行中
           </el-tag>
           <el-tag
-            v-if="info.status==2"
-            type="info"
+            v-if="info.status==0"
+            type="danger"
             effect="dark"
           >
             已结束

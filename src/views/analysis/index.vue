@@ -54,7 +54,8 @@
           <div class="item flex">
             <div class="left">
               <i class="iconfont icon-fenxiang" />
-              <div class="text">转发问卷</div>
+              <div v-permission="1" class="text">转发问卷</div>
+              <div v-permission="2" class="text">学生转发</div>
             </div>
             <div class="right">
               <div class="in-item flex">
@@ -76,20 +77,21 @@
           <div class="item flex">
             <div class="left">
               <i class="el-icon-user-solid" />
-              <div class="text">调研人数</div>
+              <div class="text">问卷结果</div>
             </div>
             <div class="right">
               <div class="in-item flex">
                 <div class="ti">总计：</div>
-                <div class="val">{{ anwser.total }}人</div>
+                <div class="val">{{ anwser.total }}份</div>
               </div>
               <div class="in-item flex">
                 <div class="ti">自发问卷：</div>
-                <div class="val">{{ anwser.owner }}人</div>
+                <div class="val">{{ anwser.owner }}份</div>
               </div>
               <div class="in-item flex">
-                <div class="ti">转发问卷：</div>
-                <div class="val">{{ anwser.share }}人</div>
+                <div v-permission="1" class="ti">转发问卷：</div>
+                <div v-permission="2" class="ti">被转问卷：</div>
+                <div class="val">{{ anwser.share }}份</div>
               </div>
             </div>
           </div>
@@ -105,19 +107,33 @@
         format="yyyy-MM"
         value-format="yyyy-MM"
         placeholder="选择月"
+        @change="changeDate"
       />
     </div>
     <div class="charts">
-      <el-row :gutter="20">
-        <el-col :lg="10">
+      <el-row>
+        <el-col :lg="12">
+          <div class="title charttitle flex justify-center">
+            问卷曲线统计图
+
+          </div>
           <VeLine
+            :legend-visible="false"
             :data="chartDataLine"
           />
         </el-col>
-        <el-col :lg="10">
+        <el-col :lg="12">
+          <div class="title charttitle flex justify-center">
+            问卷扇形统计图
+
+          </div>
           <VePie
+            v-if="chartDataPie.rows.length>0"
+            :settings="chartSettings"
+            :legend-visible="false"
             :data="chartDataPie"
           />
+          <NoData v-else :text="'本月无问卷统计数据'" />
         </el-col>
       </el-row>
     </div>
@@ -127,14 +143,21 @@
 <script>
 import VeLine from 'v-charts/lib/line.common'
 import VePie from 'v-charts/lib/pie.common'
-import { getUserCensus } from '@/api/analysis'
+import NoData from '@/components/NoData'
+import { getUserCensus, getAnswerCakeCensus } from '@/api/analysis'
 export default {
   components: {
     VeLine,
-    VePie
+    VePie,
+    NoData
   },
 
   data() {
+    this.chartSettings = {
+      label: {
+        show: false
+      }
+    }
     return {
       course: {},
       question: {},
@@ -142,7 +165,10 @@ export default {
       anwser: {},
       date: '',
       chartDataLine: {
-        columns: ['日期', '问卷一', '问卷二', '问卷三'],
+        columns: ['日期',
+          '问卷一',
+          '问卷二',
+          '问卷三'],
         rows: [
           { '日期': '3.1', '问卷一': 1393, '问卷二': 1093, '问卷三': 500 },
           { '日期': '3.2', '问卷一': 3530, '问卷二': 3230, '问卷三': 689 },
@@ -154,82 +180,97 @@ export default {
       },
       chartDataPie: {
         columns: ['问卷名称', '访问用户'],
-        rows: [
-          { '问卷名称': '问卷1', '访问用户': 1393 },
-          { '问卷名称': '问卷2', '访问用户': 3530 },
-          { '问卷名称': '问卷3', '访问用户': 2923 },
-          { '问卷名称': '问卷4', '访问用户': 1723 },
-          { '问卷名称': '问卷5', '访问用户': 3792 },
-          { '问卷名称': '问卷6', '访问用户': 4593 }
-        ]
+        rows: []
       }
     }
   },
-  watch: {
-    date() {
-      console.log(this.date)
-    }
-  },
+
   mounted() {
-    this.getData()
+    this.getAnalysisData()
+    this.getMonth()
   },
   methods: {
-    getData() {
+    getPieData(month) {
+      getAnswerCakeCensus({ month }).then((res) => {
+        this.chartDataPie.rows = []
+        res.forEach(val => {
+          this.chartDataPie.rows.push({ '问卷名称': val.title, '访问用户': val.count })
+        })
+      })
+    },
+    changeDate() {
+      this.getPieData(this.date)
+    },
+    getAnalysisData() {
       getUserCensus().then((res) => {
         this.course = res.courses
         this.question = res.questionnaires
         this.share = res.shares
         this.anwser = res.anwsers
       })
+    },
+    getMonth() {
+      var day1 = new Date()
+      var year = day1.getFullYear()
+      var month = day1.getMonth() + 1
+      if (month < 10) {
+        month = '0' + month
+      }
+      this.date = year + '-' + month
+      this.getPieData(this.date)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.analysis{
-  .title{
-    font-size: 18px;
-    color: $textPrimary;
-    margin-bottom: 30px;
-    }
+  .analysis{
+    .title{
+        font-size: 18px;
+        color: $textPrimary;
+      }
     .list{
-      .item{
-        box-shadow:2px 2px 8px 2px rgba(217,224,227,0.5);
-        border-radius:5px;
-        width: 100%;
-        height: 120px;
-        padding: 20px;
-        margin-bottom: 30px;
+      margin-top: 30px;
+        .item{
+          box-shadow:2px 2px 8px 2px rgba(217,224,227,0.5);
+          border-radius:5px;
+          width: 100%;
+          height: 120px;
+          padding: 20px;
+          margin-bottom: 30px;
 
-        .left{
-          display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        i{
-          font-size: 50px;
-          color: $primaryColor;
-        }
-        .text{
-          font-size: 16px;
-          color: $textPrimary;
-        }
-        }
-        .right{
-        margin-left: 30px;
-        line-height: 24px;
-        .in-item{
-          .ti{
-            font-size: 14px;
-            color: $textSecondary;
+            .left{
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+                i{
+                  font-size: 50px;
+                  color: $primaryColor;
+                }
+                .text{
+                  font-size: 16px;
+                  color: $textPrimary;
+                }
             }
-            .val{
-              font-size: 16px;
-              color: $textPrimary;
-              }
+            .right{
+              margin-left: 30px;
+              line-height: 24px;
+                .in-item{
+                  .ti{
+                    font-size: 14px;
+                    color: $textSecondary;
+                    }
+                    .val{
+                      font-size: 16px;
+                      color: $textPrimary;
+                      }
+                }
+            }
         }
-        }
-        }
-        }
-}
+    }
+    .charttitle{
+      font-size: 14px;
+      color: $textSecondary;
+    }
+  }
 </style>

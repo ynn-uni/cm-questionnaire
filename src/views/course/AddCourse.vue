@@ -22,7 +22,7 @@
         <el-form-item label="课程状态">
           <el-select v-model="sizeForm.status" placeholder="">
             <el-option label="进行中" value="1" />
-            <el-option label="已结束" value="2" />
+            <el-option label="已结束" value="0" />
           </el-select>
         </el-form-item>
         <div class="uplode">

@@ -122,3 +122,19 @@ export function listSortByKey(list = [], key, reverse = false) {
     }
   })
 }
+/**
+ * 过滤状态
+ * @param {Array} list
+ * @param {string} status
+ * @param {int} value
+ * @returns {Array}
+ */
+export function filterStatus(list = [], status, value) {
+  var res = []
+  list.forEach((val) => {
+    if (val[status] === value) {
+      res.push(val)
+    }
+  })
+  return res
+}

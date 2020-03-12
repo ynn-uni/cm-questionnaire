@@ -40,6 +40,7 @@ import { getMySurveyList, delSurveyItem } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
 import NoData from '@/components/NoData'
 import Pagination from '@/components/Pagination'
+import { filterStatus } from '@/utils'
 export default {
   name: 'MySurveyList',
   components: { QuestionItem, Pagination, NoData },
@@ -76,7 +77,7 @@ export default {
       const role = this.$store.getters.role
       const getCourseMethod = role === 2 ? getTeacherCourseList : getStudentCourseList
       getCourseMethod({ page: 1, size: 100 }).then(res => {
-        this.courseList = res.data
+        this.courseList = filterStatus(res.data, 'status', 1)
         this.dialogVisible = true
       })
     },

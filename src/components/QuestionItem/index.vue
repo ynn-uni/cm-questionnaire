@@ -24,7 +24,7 @@
           <i class="iconfont icon-fenxiang share-icon" />分享问卷
         </el-link>
         <div v-else>
-          <el-link type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
+          <el-link v-if="detail.status === 1" type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
           <el-link type="primary" :underline="false" @click.stop.prevent="viewResult">查看结果</el-link>
         </div>
       </div>
@@ -58,6 +58,7 @@
 import { shareSurvey } from '@/api/survey'
 import QRCode from 'qrcode'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'QuestionItem',
   props: {

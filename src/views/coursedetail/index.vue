@@ -18,9 +18,9 @@
           <div class="info-item">学 分：{{ data.credit }}</div>
           <div v-permission="1" class="other-option flex justify-between">
             <el-tag v-if="data.status==1" type="success" effect="dark">进行中</el-tag>
-            <el-tag v-if="data.status==2" type="info" effect="dark">已结束</el-tag>
+            <el-tag v-if="data.status==0" type="info" effect="dark">已结束</el-tag>
             <el-button
-              v-if="data.join==0"
+              v-if="data.join==0&&data.status==1"
               v-permission="1"
               type="primary"
               class="btn-enter"
@@ -29,7 +29,7 @@
           </div>
           <div v-permission="2" class="other-option">
             <el-tag v-if="data.status==1" type="success" effect="dark">进行中</el-tag>
-            <el-tag v-if="data.status==2" type="info" effect="dark">已结束</el-tag>
+            <el-tag v-if="data.status==0" type="info" effect="dark">已结束</el-tag>
             <div v-permission="2" class="other-option flex justify-between">
               <el-button
                 v-if="data.status==1"

@@ -40,7 +40,7 @@
             <div class="name">手机号：{{ userInfo.mobile }}</div>
             <div class="name flex justify-center align-center">
               真实姓名：<span v-if="!isEdit" class="truename">{{ userInfo.truename }}</span>
-              <input v-if="isEdit" v-model="userInfo.truename" type="text">
+              <input v-if="isEdit" v-model="name" type="text">
               <i class="el-icon-edit edit" @click="changeEdit" />
               <span class="ed">({{ isEdit?'取消编辑':'点击编辑' }})</span>
             </div>
@@ -63,6 +63,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Identicon from 'identicon.js'
+import { setUserInfo } from '@/api/user'
 export default {
   components: {
     Breadcrumb,
@@ -71,7 +72,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      isEdit: false
+      isEdit: false,
+      name: null
     }
   },
   computed: {
@@ -82,6 +84,13 @@ export default {
         return 'data:image/png;base64,' + new Identicon('user' + mobile, 420)
       }
       return 'http://dummyimage.com/80x80'
+    }
+  },
+  mounted() {
+    if (!this.userInfo.truename) {
+      this.dialogVisible = true
+    } else {
+      this.name = this.userInfo.truename
     }
   },
   methods: {
@@ -102,7 +111,12 @@ export default {
       this.dialogVisible = false
     },
     saveTruename() {
-
+      setUserInfo({ truename: this.name }).then((res) => {
+        this.isEdit = false
+        this.userInfo.truename = this.name
+        this.$message.success('修改成功')
+        this.dialogVisible = false
+      })
     }
   }
 }

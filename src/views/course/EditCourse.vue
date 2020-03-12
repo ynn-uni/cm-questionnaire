@@ -20,7 +20,7 @@
         <el-form-item label="课程状态">
           <el-select v-model="status" placeholder="">
             <el-option label="进行中" value="1" />
-            <el-option label="已结束" value="2" />
+            <el-option label="已结束" value="0" />
           </el-select>
         </el-form-item>
         <div class="uplode">
@@ -64,7 +64,8 @@ export default {
   },
   methods: {
     handelEditCourse() {
-      this.sizeForm.status = this.status === '进行中' ? 1 : this.status === '已结束' ? 2 : ''
+      this.sizeForm.status = this.status === '进行中' ? 1 : this.status === '已结束' ? 0 : this.status
+
       editCourse(this.sizeForm).then((res) => {
         this.$message.success('修改成功')
       })
