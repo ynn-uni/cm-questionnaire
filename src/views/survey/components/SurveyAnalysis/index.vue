@@ -2,8 +2,8 @@
   <div class="survey-analysis">
     <div class="survey-analysis-title">
       <b>第{{ sequence }}题:</b>
-      <span v-html="question.title" />
       <span>[ {{ question.type | questionType }} ]</span>
+      <span v-html="question.title" />
     </div>
     <div v-if="question.type !== 3" class="survey-analysis-chart">
       <el-table :data="tableData" border show-summary :summary-method="getSummaries">
