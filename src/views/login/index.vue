@@ -69,15 +69,19 @@ export default {
     handleLogin() {
       if (!this.check) return
 
-      if (this.tel && this.code && this.identifier) {
+      if (!this.tel) {
+        this.$message.error('请输入手机号')
+      } else if (!this.code) {
+        this.$message.error('请输入验证码')
+      } else if (!this.identifier) {
+        this.$message.error('请重新获取手机验证码')
+      } else {
         checkSmsCode({ 'mobile': this.tel, 'code': this.code, 'identifier': this.identifier }).then((res) => {
           const token = 'Bearer ' + res.token
           this.$store.commit('user/updateToken', token)
           setToken(token)
           this.$router.push({ path: this.redirect || '/' })
         })
-      } else {
-        this.$message.error('请输入电话号和验证码')
       }
     },
     cutDown(time) {
