@@ -54,17 +54,18 @@
 
     </div>
     <el-dialog
-      title="请复制您的验证码"
+      title="请复制您的邀请码和链接"
       :visible.sync="dialogVisible"
       width="30%"
       :show-close="false"
       :close-on-click-modal="false"
     >
-      <div class="code">{{ info.code }}</div>
+      <div class="code">课程：《{{ info.title }}》</div>
+      <div class="code">邀请码：{{ info.code }}</div>
       <span slot="footer" class="dialog-footer">
         <el-button @click.stop="dialogVisible = false">取 消</el-button>
         <el-button
-          v-clipboard:copy="info.code"
+          v-clipboard:copy="copyInfo"
           v-clipboard:success="onCopy"
           v-clipboard:error="onError"
           type="primary"
@@ -106,6 +107,7 @@ export default {
   },
   data() {
     return {
+      url: null,
       collect: false,
       dialogVisible: false,
       dialogVisible1: false,
@@ -120,11 +122,17 @@ export default {
       }
     }
   },
-  mounted() {
-    // this.info.cover = process.env.VUE_APP_STATIC_IMG + this.info.cover
+  computed: {
+    copyInfo() {
+      const port = window.location.port
+      const url = 'http://' + window.location.hostname + ':' + port + '/course/coursedetail?id=' + this.info.id
+      return `欢迎加入《${this.info.title}》,\n链接地址：${url},\n邀请码：${this.info.code}`
+    }
   },
+
   methods: {
     getCode() {
+      console.log('jj')
       this.dialogVisible = true
     },
     onCopy(e) {
@@ -219,10 +227,12 @@ export default {
   }
   .code{
     margin: 0 auto;
-    width: 200px;
-    text-align: center;
+    width: 400px;
+    // text-align: center;
+    font-size: 16px;
+    line-height: 30px;
     padding-bottom: 2px;
-    border-bottom: 1px solid $textSecondary;
+    // border-bottom: 1px solid $textSecondary;
   }
   .addcode{
     width: 200px;

@@ -48,7 +48,7 @@ service.interceptors.response.use(
     // if the custom code is not 200, it is judged as an error.
     if (res.status !== 200) {
       // 错误处理
-      errorHandler(response)
+      errorHandler(res)
       return Promise.reject(response.data)
     } else {
       return res.data
@@ -80,13 +80,15 @@ export function postAction(url = '', data = {}) {
 export default service
 
 function errorHandler(response) {
-  const { status } = response
+  const { status, msg } = response
   switch (status) {
     case 404:
       tip('您需要的资源没有找到！')
       break
     case 502:
       tip('错误网关，请联系管理员')
+      break
+    default:tip(msg)
   }
 }
 

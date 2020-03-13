@@ -67,11 +67,8 @@ export default {
       })
     },
     handleLogin() {
-      // const token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTYwNzM0NjBlZTJkIiwiaWF0IjoxNTgzMzc5MjcwLCJuYmYiOjE1ODMzNzkyNzAsImV4cCI6MTU4MzM4NjQ3MCwiaWQiOjIsInR5cGUiOjEsIm1vYmlsZSI6IjE4Njg2MTIzNDkyIiwidHJ1ZW5hbWUiOm51bGx9.4uEwpXQByrmMaEdezcxui_J7flt5tkqp3_OuCrocPhQ'
-      // this.$store.commit('user/updateToken', token)
-      // setToken(token)
-      // this.$router.push({ path: '/' })
       if (!this.check) return
+
       if (this.tel && this.code && this.identifier) {
         checkSmsCode({ 'mobile': this.tel, 'code': this.code, 'identifier': this.identifier }).then((res) => {
           const token = 'Bearer ' + res.token

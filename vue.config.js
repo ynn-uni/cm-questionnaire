@@ -38,11 +38,11 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://192.168.1.65:9501`,
+        target: `http://47.107.151.209:9301`,
         changeOrigin: true
       },
       [process.env.VUE_APP_STATIC_IMG]: {
-        target: `http://192.168.1.65:9501`,
+        target: `http://ygf.artopcq.com`,
         changeOrigin: true
       }
     }

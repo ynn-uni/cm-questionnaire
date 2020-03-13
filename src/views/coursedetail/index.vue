@@ -53,7 +53,7 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click.stop="dialogVisible = false">取 消</el-button>
           <el-button
-            v-clipboard:copy="data.code"
+            v-clipboard:copy="copyInfo"
             v-clipboard:success="onCopy"
             v-clipboard:error="onError"
             type="primary"
@@ -90,6 +90,7 @@
             }"
             :actionable="data.join === 1 || role === 2"
           />
+
         </el-col>
       </el-row>
     </div>
@@ -129,9 +130,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['role'])
+    ...mapGetters(['role']),
+    copyInfo() {
+      const port = window.location.port
+      const url = 'http://' + window.location.hostname + ':' + port + '/course/coursedetail?id=' + this.data.id
+      return `欢迎加入《${this.data.title}》,\n链接地址：${url},\n邀请码：${this.data.code}`
+    }
   },
   mounted() {
+    // console.log(this.$route.query.id)
     this.getCourseInfo()
   },
   methods: {

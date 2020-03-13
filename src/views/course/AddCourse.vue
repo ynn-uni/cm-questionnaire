@@ -4,37 +4,36 @@
       新增课程
     </div>
     <div class="content">
-      <el-form ref="form" :model="sizeForm" label-width="80px" size="mini">
-        <el-form-item label="课程名称">
+      <el-form ref="sizeForm" :rules="rules" :model="sizeForm" label-width="80px" size="mini">
+        <el-form-item label="课程名称" prop="title">
           <el-input v-model="sizeForm.title" />
         </el-form-item>
-        <el-form-item label="课时">
+        <el-form-item label="课时" prop="hour">
           <el-input v-model="sizeForm.hour" type="number" min="0" />
         </el-form-item>
-        <el-form-item
-          label="学分"
-        >
+        <el-form-item label="学分" prop="credit">
           <el-input v-model="sizeForm.credit" type="number" min="0" />
         </el-form-item>
-        <el-form-item label="考核方式">
+        <el-form-item label="考核方式" prop="check">
           <el-input v-model="sizeForm.check" />
         </el-form-item>
-        <el-form-item label="课程状态">
+        <el-form-item label="课程状态" prop="status">
           <el-select v-model="sizeForm.status" placeholder="">
-            <el-option label="进行中" value="1" />
-            <el-option label="已结束" value="0" />
+            <el-option label="进行中" :value="1" />
+            <el-option label="已结束" :value="0" />
           </el-select>
         </el-form-item>
-        <div class="uplode">
-          <upload v-model="sizeForm.cover" @input="getImgPath" />
-        </div>
-
-        <el-form-item label="课程简介" prop="desc">
+        <el-form-item prop="cover" label-width="0px" class="uplode">
+          <div class="uplodeinner">
+            <upload v-model="sizeForm.cover" @input="getImgPath" />
+          </div>
+        </el-form-item>
+        <el-form-item label="课程简介" prop="describe">
           <el-input v-model="sizeForm.describe" type="textarea" />
         </el-form-item>
         <el-form-item size="large">
-          <el-button type="primary" @click="handelAddCourse">提交</el-button>
-          <el-button>取消</el-button>
+          <el-button type="primary" @click="handelAddCourse('sizeForm')">提交</el-button>
+          <el-button @click="resetForm(sizeForm)">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -54,16 +53,7 @@ export default {
   },
   data() {
     return {
-      // sizeForm: {
-      //   title: 'test',
-      //   cover: '',
-      //   hour: '40',
-      //   check: '考核+笔试',
-      //   credit: '4',
-      //   describe: 'test',
-      //   status: '1',
-      //   sort: '1'
-      // }
+      status: null,
       sizeForm: {
         title: '',
         cover: '',
@@ -71,32 +61,54 @@ export default {
         check: '',
         credit: '',
         describe: '',
-        status: '',
-        sort: '1'
+        status: 1,
+        sort: 1
+      },
+      rules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: 'blur' }
+        ],
+        cover: [
+          { required: true, message: '请上传图片', trigger: 'blur' }
+        ],
+        hour: [
+          { required: true, message: '请输入课时', trigger: 'blur' }
+        ],
+        check: [
+          { required: true, message: '请输入考核方式', trigger: 'blur' }
+        ],
+        credit: [
+          { required: true, message: '请输入学分', trigger: 'blur' }
+        ],
+        describe: [
+          { required: true, message: '请输入课程相关描述', trigger: 'blur' }
+        ],
+        status: [
+          { required: true, message: '请选择课程状态', trigger: 'blur' }
+        ]
       }
 
     }
   },
-  mounted() {
 
-  },
   methods: {
-    handelAddCourse() {
-      if (this.sizeForm.title && this.sizeForm.cover && this.sizeForm.hour && this.sizeForm.check && this.sizeForm.credit && this.sizeForm.describe && this.sizeForm.status) {
-        addCourse(this.sizeForm).then((res) => {
-          this.$message.success('添加成功')
-          // this.sizeForm = {
-          //   title: null,
-          //   cover: null,
-          //   hour: null,
-          //   check: null,
-          //   credit: null,
-          //   describe: null
-          // }
-        })
-      } else {
-        this.$message.error('请输入完整的课程信息')
-      }
+    handelAddCourse(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          addCourse(this.sizeForm).then((res) => {
+            this.$message.success('添加成功')
+            setTimeout(() => {
+              this.$router.push('/course')
+            }, 300)
+          })
+        } else {
+          return false
+        }
+      })
+    },
+
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
     },
     getImgPath(path) {
       this.sizeForm.cover = path
@@ -131,8 +143,6 @@ export default {
       height: 300px;
     }
      .el-input__inner{
-      // border:none;
-      // border-radius: 0px;
       border: 1px solid #d8d8d8;
       width: 220px;
     }
@@ -140,10 +150,12 @@ export default {
       position: absolute;
       top: 30px;
       right: 200px;
-      width: 178px;
-      height: 178px;
-      border: 1px dashed $textSecondary;
-      border-radius: 5px;
+      .uplodeinner{
+        width: 178px;
+        height: 178px;
+        border: 1px dashed $textSecondary;
+        border-radius: 5px;
+      }
     }
 
   }
