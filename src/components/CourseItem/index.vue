@@ -124,8 +124,7 @@ export default {
   },
   computed: {
     copyInfo() {
-      const port = window.location.port
-      const url = 'http://' + window.location.hostname + ':' + port + '/course/coursedetail?id=' + this.info.id
+      const url = 'http://' + window.location.hostname + '/course/coursedetail?id=' + this.info.id
       return `欢迎加入《${this.info.title}》,\n链接地址：${url},\n邀请码：${this.info.code}`
     }
   },

@@ -49,7 +49,8 @@
         :show-close="false"
         :close-on-click-modal="false"
       >
-        <div class="code">{{ data.code }}</div>
+        <div class="code">课程：《{{ data.title }}》</div>
+        <div class="code">邀请码：{{ data.code }}</div>
         <span slot="footer" class="dialog-footer">
           <el-button @click.stop="dialogVisible = false">取 消</el-button>
           <el-button
@@ -132,8 +133,7 @@ export default {
   computed: {
     ...mapGetters(['role']),
     copyInfo() {
-      const port = window.location.port
-      const url = 'http://' + window.location.hostname + ':' + port + '/course/coursedetail?id=' + this.data.id
+      const url = 'http://' + window.location.hostname + '/course/coursedetail?id=' + this.data.id
       return `欢迎加入《${this.data.title}》,\n链接地址：${url},\n邀请码：${this.data.code}`
     }
   },
@@ -253,7 +253,8 @@ export default {
       width: 200px;
       text-align: center;
       padding-bottom: 2px;
-      border-bottom: 1px solid $textSecondary;
+      font-size: 16px;
+      line-height: 30;
     }
     .addcode {
       width: 200px;
