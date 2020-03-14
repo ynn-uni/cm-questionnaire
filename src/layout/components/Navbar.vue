@@ -130,7 +130,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.navbar {
+.navbar::v-deep {
   height: 50px;
   overflow: hidden;
   position: relative;
@@ -237,6 +237,9 @@ export default {
         }
       }
     }
+  }
+  .el-dialog{
+    width: 576px !important;
   }
 }
 </style>

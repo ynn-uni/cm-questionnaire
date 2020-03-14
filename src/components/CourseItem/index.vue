@@ -115,10 +115,8 @@ export default {
       baseUrl: process.env.VUE_APP_STATIC_IMG,
       column: {
         xs: 24,
-        // sm: 12,
-        md: 12,
-        lg: 8
-        // xl: 8
+        lg: 12,
+        xl: 8
       }
     }
   },
@@ -179,6 +177,7 @@ export default {
     margin-bottom: 30px;
     padding: 20px;
     width: 100%;
+    min-width: 380px;
     height: 240px;
     box-shadow:2px 2px 8px 2px rgba(217,224,227,0.5);
     .ci-img{

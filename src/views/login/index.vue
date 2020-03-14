@@ -1,32 +1,41 @@
 <template>
-  <div class="login-container">
-    <el-form ref="loginForm" class="login-form flex" auto-complete="on" label-position="left">
+  <div class="login-container flex">
 
-      <div class="title-container">
-        <div class="title">欢迎使用可用性量表数据分析平台</div>
-      </div>
+    <img src="@/assets/images/logo.png" alt="" class="logo">
 
-      <div class="input-group flex align-center">
-        <span>+86</span>
-        <input v-model="tel" type="text" placeholder="请输入您的手机号">
-      </div>
+    <el-row :gutter="20">
+      <el-col v-bind="column" class=" flex justify-center">
+        <div class="loginimg">
+          <img src="@/assets/images/login.png" alt="">
+        </div>
+      </el-col>
+      <el-col v-bind="column" class="flex justify-center">
+        <el-form ref="loginForm" class="login-form flex" auto-complete="on" label-position="left">
 
-      <div class="input-Group flex justify-between">
-        <input ref="smsCodeInput" v-model="code" type="text" placeholder="请输入您的手机验证码">
-        <el-button @click="fetchSmsCode">{{ time>0?time+'秒':'发送验证码' }}</el-button>
-      </div>
-      <div class="checkbox flex">
-        <el-checkbox v-model="check" name="type" />
-        <span>我已阅读并同意云坊服务协议和隐私政策</span>
-      </div>
+          <div class="title-container">
+            <div class="title">欢迎使用可用性量表数据分析平台</div>
+          </div>
 
-      <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">下一步</el-button>
+          <div class="input-group flex align-center">
+            <span>+86</span>
+            <input v-model="tel" type="text" placeholder="请输入您的手机号">
+          </div>
 
-    </el-form>
-    <img src="@/assets/images/logo.png" alt="">
-    <div class="loginimg">
-      <img src="@/assets/images/login.png" alt="">
-    </div>
+          <div class="input-Group flex justify-between">
+            <input ref="smsCodeInput" v-model="code" type="text" placeholder="请输入您的手机验证码">
+            <el-button @click="fetchSmsCode">{{ time>0?time+'秒':'发送验证码' }}</el-button>
+          </div>
+          <div class="checkbox flex">
+            <el-checkbox v-model="check" name="type" />
+            <span>我已阅读并同意云坊服务协议和隐私政策</span>
+          </div>
+
+          <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">下一步</el-button>
+
+        </el-form>
+      </el-col>
+    </el-row>
+
     <!-- <img src="@/assets/images/login.png" alt=""> -->
   </div>
 </template>
@@ -45,7 +54,13 @@ export default {
       check: true,
       code: null,
       identifier: null,
-      time: 0
+      time: 0,
+      column: {
+        xs: 24,
+        sm: 12
+        // md: 12
+        // xl: 8
+      }
     }
   },
   watch: {
@@ -110,6 +125,13 @@ $light_gray:#eee;
   overflow: hidden;
   padding-top: 60px;
   padding-left: 114px;
+  flex-direction: column;
+  // justify-content: space-around;
+  .logo{
+    width: 325px;
+    height: 105px;
+    margin-bottom: 150px;
+  }
   .input-group{
     width: 400px;
     background-color: #fff;
@@ -169,9 +191,9 @@ $light_gray:#eee;
     }
   }
   .login-form {
-    position: fixed;
-    right: 200px;
-    bottom: 200px;
+    // position: fixed;
+    // right: 200px;
+    // bottom: 200px;
     width: 600px;
     flex-direction: column;
     align-items: center;
@@ -197,8 +219,9 @@ $light_gray:#eee;
     }
   }
   .loginimg{
-    margin-top: 100px;
-    margin-left: 80px;
+    margin-bottom: 30px;
+    // margin-top: 100px;
+    // margin-left: 80px;
     //  @media #{$md} {
     //   width: 50%;
     // }

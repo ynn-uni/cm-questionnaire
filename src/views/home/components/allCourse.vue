@@ -40,7 +40,7 @@ export default {
     getAllCourse(page, size) {
       getCourseList({ page, size }).then((res) => {
         var list = filterStatus(res.data, 'status', 1)
-        this.courseList = listSortByKey(list, 'join', true).slice(0, 3)
+        this.courseList = listSortByKey(list, 'join', true).slice(0, 4)
       })
     },
     changeQuestionList() {

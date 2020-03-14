@@ -39,7 +39,7 @@ export default {
     }
   },
   mounted() {
-    this.getTeacherCourse(1, 3)
+    this.getTeacherCourse(1, 4)
   },
   methods: {
     handelMore() {
