@@ -21,7 +21,7 @@
             </el-radio-group>
           </div>
         </div>
-        <div class="setting-item column">
+        <div v-if="type === 2" class="setting-item column">
           <div>可选范围</div>
           <div class="margin-top-10">
             <span>最少</span>
@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-      <div v-else class="setting-section">
+      <div v-if="type === 3" class="setting-section">
         <div class="setting-label">填写限制</div>
         <div class="setting-item">
           <div>内容限制</div>
