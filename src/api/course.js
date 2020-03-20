@@ -31,3 +31,7 @@ export function getStudentCourseList(data = {}) {
 export function joinCourse(data = {}) {
   return getAction('/Course/joinCourse', data)
 }
+// 删除课程
+export function delCourse(data = {}) {
+  return getAction('/Course/delCourse', data)
+}

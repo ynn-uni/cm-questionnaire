@@ -9,7 +9,7 @@
     </div>
     <div class="courselist flex justify-between">
       <el-row v-if="courseList.length>0" :gutter="20">
-        <CourseItem v-for="(item,index) in courseList" :key="index" :info="item" />
+        <CourseItem v-for="(item,index) in courseList" :key="index" :deletable="true" :info="item" @delete="handleDeleteSurvey" />
       </el-row>
       <NoData v-else :text="'暂无数据'" />
       <Pagination
@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getTeacherCourseList } from '@/api/course'
+import { getTeacherCourseList, delCourse } from '@/api/course'
 import CourseItem from '@/components/CourseItem'
 import Pagination from '@/components/Pagination'
 import NoData from '@/components/NoData'
@@ -61,7 +61,20 @@ export default {
     this.getTeacherCourse()
   },
   methods: {
-
+    handleDeleteSurvey(evt) {
+      const id = evt
+      this.$confirm('此操作将删除该课程及相关问卷, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delCourse({ id }).then(() => {
+          this.$message.success('删除成功！')
+          this.curPage = 1
+          this.getTeacherCourse()
+        })
+      })
+    },
     handleAddCourse() {
       this.$router.push('/course/addcourse')
     },
