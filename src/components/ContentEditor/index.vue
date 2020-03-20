@@ -134,7 +134,7 @@ export default {
           return
         }
 
-        success(`${process.env.VUE_APP_STATIC_IMG}/${json.path}`)
+        success(`${process.env.VUE_APP_STATIC_IMG}${json.path}`)
       }
 
       const formData = new FormData()
