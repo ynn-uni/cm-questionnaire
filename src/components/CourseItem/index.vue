@@ -8,6 +8,12 @@
           <div class="title-text">
             {{ info.title }}
           </div>
+          <!-- <el-link
+            v-permission="2"
+            icon="el-icon-delete"
+            :underline="false"
+            @click="handleDelete"
+          >删除</el-link> -->
           <!-- <div v-permission="1" class="collect" :class="info.collect?'active':''" @click.stop="handelCollect(info.id)">
             <i class="iconfont icon-shoucang1" />
             {{ info.collect==1?'取消收藏':'收藏' }}
@@ -128,8 +134,10 @@ export default {
   },
 
   methods: {
+    handleDelete() {
+      console.log('delete')
+    },
     getCode() {
-      console.log('jj')
       this.dialogVisible = true
     },
     onCopy(e) {
@@ -189,10 +197,20 @@ export default {
      flex-grow: 1;
      color:$textPrimary;
      line-height: 30px;
+     position: relative;
       .title{
         width: 100%;
         .title-text{
           font-size: 16px;
+        }
+        .delete-button {
+          position: absolute;
+          width: 100px;
+          height: 40px;
+          top: 0;
+          right: 0;
+          color: $textPrimary;
+          cursor: pointer;
         }
         .collect{
           font-size: 14px;

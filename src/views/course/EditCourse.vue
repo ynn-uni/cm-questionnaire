@@ -104,7 +104,8 @@ export default {
           editCourse(this.sizeForm).then((res) => {
             this.$message.success('修改成功')
             setTimeout(() => {
-              this.$router.push('/course')
+              const id = this.$route.query.id
+              this.$router.push({ path: '/course/coursedetail', query: { id }})
             }, 300)
           })
         } else {
