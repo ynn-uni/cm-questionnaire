@@ -47,8 +47,10 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-
-    if (whiteList.indexOf(to.path) !== -1) {
+    const isWhiteRoute = whiteList.some(white => {
+      return to.path.includes(white)
+    })
+    if (isWhiteRoute) {
       // in the free login whitelist, go directly
       next()
     } else {
