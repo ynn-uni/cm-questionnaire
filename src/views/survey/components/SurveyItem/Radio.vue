@@ -10,7 +10,12 @@
       <transition-group>
         <el-col v-for="(option, index) in options" :key="option.id" :span="24 / column">
           <el-radio :label="option.id" disabled>
-            <ContentEditor v-model="option.label" class="option-label" placeholder="请填写选项" />
+            <ContentEditor
+              v-model="option.label"
+              class="option-label"
+              placeholder="请填写选项"
+              @enter="handleEnter(index)"
+            />
             <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">
               <i class="option-action el-icon-rank" />
             </el-tooltip>
@@ -54,6 +59,9 @@ export default {
     handleDeleteOption(evt) {
       // hack，操作prop的options
       this.options.splice(evt, 1)
+    },
+    handleEnter(index) {
+      this.$emit('enter', index)
     }
   }
 }

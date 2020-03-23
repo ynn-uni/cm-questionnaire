@@ -6,6 +6,7 @@
       :placeholder="placeholder"
       size="small"
       @change="handleChange"
+      @keypress.native.enter="handlePressEnter"
     />
     <editor
       v-else
@@ -112,6 +113,10 @@ export default {
         // this.tempValue = this.value
         // this.$emit('input', this.value)
       }
+    },
+    handlePressEnter(e) {
+      // 仅对input有效, 富文本保持默认换行行为
+      this.$emit('enter', e)
     },
     handleRichtextConfirm() {
       this.dialogVisible = false

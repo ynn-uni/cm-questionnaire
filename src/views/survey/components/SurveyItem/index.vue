@@ -18,8 +18,8 @@
       </div>
     </div>
     <div class="question-content">
-      <SurveyRadio v-if="question.type === 1" :options="question.options" :column="question.column" />
-      <SurveyCheckbox v-if="question.type === 2" :options="question.options" :column="question.column" />
+      <SurveyRadio v-if="question.type === 1" :options="question.options" :column="question.column" @enter="handleAddOption" />
+      <SurveyCheckbox v-if="question.type === 2" :options="question.options" :column="question.column" @enter="handleAddOption" />
       <SurveyInput v-if="question.type === 3" :placeholder="question.placeholder" />
     </div>
     <div v-if="isFocus && (question.type === 1 || question.type === 2)" class="quick-action">
@@ -86,13 +86,18 @@ export default {
         this.$emit('blur', this.sequence - 1)
       }
     },
-    handleAddOption() {
-      const length = this.question.options.length
-      this.question.options.push({
-        id: shortid.generate(),
-        label: `选项${length + 1}`,
-        has_open: false
-      })
+    handleAddOption(index) {
+      if (typeof index === 'number') {
+        this.question.options.splice(index + 1, 0, {
+          id: shortid.generate(),
+          label: ''
+        })
+      } else {
+        this.question.options.push({
+          id: shortid.generate(),
+          label: ''
+        })
+      }
     },
     handleDelete() {
       this.$confirm('删除后题目无法恢复, 是否继续?', '提示', {
