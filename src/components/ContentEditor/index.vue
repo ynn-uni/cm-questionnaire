@@ -18,6 +18,7 @@
         language_url : '/langs/zh_CN.js',
         statusbar: false,
         plugins: plugins,
+        placeholder: placeholder,
         toolbar: 'image | openRichtext',
         images_upload_handler: imagesUploadHandler,
         setup: (editor) => {
@@ -41,6 +42,7 @@
           language_url : '/langs/zh_CN.js',
           plugins: plugins,
           toolbar: toolbar,
+          placeholder,
           images_upload_handler: imagesUploadHandler
         }"
         @onChange="handleChange"
@@ -107,8 +109,8 @@ export default {
         this.$emit('input', this.tempValue)
       } else {
         // hack, 当空值时，使用原有值
-        this.tempValue = this.value
-        this.$emit('input', this.value)
+        // this.tempValue = this.value
+        // this.$emit('input', this.value)
       }
     },
     handleRichtextConfirm() {
@@ -180,6 +182,12 @@ export default {
   }
   *[contentEditable='true']:hover {
     border: 1px solid #ebeef5;
+  }
+  .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+    color: #c0c4cc;
+    font-size: 14px;
+    line-height: 32px;
+    left: 14px;
   }
   .el-dialog__wrapper {
     z-index: 1100 !important;
