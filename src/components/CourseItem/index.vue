@@ -8,12 +8,13 @@
           <div class="title-text">
             {{ info.title }}
           </div>
-          <!-- <el-link
+          <el-link
+            v-if="deletable"
             v-permission="2"
             icon="el-icon-delete"
             :underline="false"
-            @click="handleDelete"
-          >删除</el-link> -->
+            @click.stop="handleDelete(info.id)"
+          >删除</el-link>
           <!-- <div v-permission="1" class="collect" :class="info.collect?'active':''" @click.stop="handelCollect(info.id)">
             <i class="iconfont icon-shoucang1" />
             {{ info.collect==1?'取消收藏':'收藏' }}
@@ -108,6 +109,10 @@ export default {
     info: {
       type: Object,
       default: () => {}
+    },
+    deletable: {
+      type: Boolean,
+      default: false
     }
 
   },
@@ -134,8 +139,8 @@ export default {
   },
 
   methods: {
-    handleDelete() {
-      console.log('delete')
+    handleDelete(id) {
+      this.$emit('delete', id)
     },
     getCode() {
       this.dialogVisible = true

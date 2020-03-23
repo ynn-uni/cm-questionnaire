@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: '可用性量表数据分析平台',
 
   /**
    * @type {boolean} true | false

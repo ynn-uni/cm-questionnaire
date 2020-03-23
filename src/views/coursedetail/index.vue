@@ -42,39 +42,7 @@
           </div>
         </div>
       </div>
-      <el-dialog
-        title="请复制您的验证码"
-        :visible.sync="dialogVisible"
-        width="30%"
-        :show-close="false"
-        :close-on-click-modal="false"
-      >
-        <div class="code">课程：《{{ data.title }}》</div>
-        <div class="code">邀请码：{{ data.code }}</div>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click.stop="dialogVisible = false">取 消</el-button>
-          <el-button
-            v-clipboard:copy="copyInfo"
-            v-clipboard:success="onCopy"
-            v-clipboard:error="onError"
-            type="primary"
-            @click.stop="dialogVisible = false"
-          >复制</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog
-        title="请输入课程邀请码"
-        :visible.sync="dialogVisible1"
-        width="30%"
-        :show-close="false"
-        :close-on-click-modal="false"
-      >
-        <input v-model="code" type="text" class="addcode">
-        <span slot="footer" class="dialog-footer">
-          <el-button @click.stop="dialogVisible1 = false">取 消</el-button>
-          <el-button type="primary" @click.stop="handelAddCourse">申请加入</el-button>
-        </span>
-      </el-dialog>
+
       <div class="bref">
         <div class="dis-title">课程介绍</div>
         <div class="content">{{ data.describe }}</div>
@@ -98,6 +66,39 @@
     <div v-permission="1" class="title">课程同学</div>
     <div v-permission="2" class="title">我的学生</div>
     <ClassMate :students="data.students" />
+    <el-dialog
+      title="请复制您的验证码"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :show-close="false"
+      :close-on-click-modal="false"
+    >
+      <div class="code">课程：《{{ data.title }}》</div>
+      <div class="code">邀请码：{{ data.code }}</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click.stop="dialogVisible = false">取 消</el-button>
+        <el-button
+          v-clipboard:copy="copyInfo"
+          v-clipboard:success="onCopy"
+          v-clipboard:error="onError"
+          type="primary"
+          @click.stop="dialogVisible = false"
+        >复制</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="请输入课程邀请码"
+      :visible.sync="dialogVisible1"
+      width="30%"
+      :show-close="false"
+      :close-on-click-modal="false"
+    >
+      <input v-model="code" type="text" class="addcode">
+      <span slot="footer" class="dialog-footer">
+        <el-button @click.stop="dialogVisible1 = false">取 消</el-button>
+        <el-button type="primary" @click.stop="handelAddCourse">申请加入</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -248,24 +249,7 @@ export default {
         }
       }
     }
-    .code {
-      margin: 0 auto;
-      width: 200px;
-      text-align: center;
-      padding-bottom: 2px;
-      font-size: 16px;
-      line-height: 30;
-    }
-    .addcode {
-      width: 200px;
-      height: 40px;
-      border-radius: 5px;
-      border: 1px solid $textSecondary;
-      display: block;
-      margin: 0 auto;
-      padding-left: 5px;
-      outline: none;
-    }
+
     .bref {
       @include response-courseDetailWidth();
       height: 200px;
@@ -284,5 +268,22 @@ export default {
       }
     }
   }
+  .code{
+    margin: 0 auto;
+    width: 400px;
+    font-size: 16px;
+    line-height: 30px;
+    padding-bottom: 2px;
+  }
+    .addcode {
+      width: 200px;
+      height: 40px;
+      border-radius: 5px;
+      border: 1px solid $textSecondary;
+      display: block;
+      margin: 0 auto;
+      padding-left: 5px;
+      outline: none;
+    }
 }
 </style>
