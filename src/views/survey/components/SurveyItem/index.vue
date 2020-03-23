@@ -3,7 +3,7 @@
     <div class="survey-item-header">
       <div class="survey-item-editor">
         <span class="survey-index">{{ sequence }}</span>
-        <ContentEditor v-model="question.title" class="survey-item-title" richtext />
+        <ContentEditor v-model="question.title" class="survey-item-title" richtext placeholder="请填写标题" />
       </div>
       <div class="survey-item-action">
         <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">

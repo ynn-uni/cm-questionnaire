@@ -10,7 +10,7 @@
       <transition-group>
         <el-col v-for="(option, index) in options" :key="option.id" :span="24 / column">
           <el-radio :label="option.id" disabled>
-            <ContentEditor v-model="option.label" class="option-label" />
+            <ContentEditor v-model="option.label" class="option-label" placeholder="请填写选项" />
             <el-tooltip content="长按拖动" placement="top" effect="light" :disabled="disableTip">
               <i class="option-action el-icon-rank" />
             </el-tooltip>

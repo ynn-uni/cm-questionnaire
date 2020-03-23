@@ -28,8 +28,8 @@ survey: {
         {
           id: '选项id',
           label: 'String, 选项内容',
-          has_open: 'Boolean, 选项是否包含开放属性',
-          exclusive: 'Boolean, 选项排他'
+          // has_open: 'Boolean, 选项是否包含开放属性',
+          // exclusive: 'Boolean, 选项排他'
         }
       ]
     }

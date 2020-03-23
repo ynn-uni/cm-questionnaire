@@ -135,20 +135,18 @@ export default {
         case 1:
           question = {
             id: shortid.generate(),
-            title: '单选题标题',
+            title: '',
             type: 1,
             required: true,
             column: 1,
             options: [
               {
                 id: shortid.generate(),
-                label: '选项1',
-                has_open: false
+                label: ''
               },
               {
                 id: shortid.generate(),
-                label: '选项2',
-                has_open: false
+                label: ''
               }
             ]
           }
@@ -156,20 +154,18 @@ export default {
         case 2:
           question = {
             id: shortid.generate(),
-            title: '多选题标题',
+            title: '',
             type: 2,
             required: true,
             column: 1,
             options: [
               {
                 id: shortid.generate(),
-                label: '选项1',
-                has_open: false
+                label: ''
               },
               {
                 id: shortid.generate(),
-                label: '选项2',
-                has_open: false
+                label: ''
               }
             ]
           }
@@ -178,8 +174,8 @@ export default {
         case 3:
           question = {
             id: shortid.generate(),
-            title: '填空题标题',
-            placeholder: '提示内容',
+            title: '',
+            placeholder: '',
             type: 3,
             required: true,
             nativetype: 'text'
