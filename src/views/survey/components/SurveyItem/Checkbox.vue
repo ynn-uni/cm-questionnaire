@@ -11,6 +11,7 @@
         <el-col v-for="(option, index) in options" :key="option.id" :span="24 / column">
           <el-checkbox :label="option.id" disabled>
             <ContentEditor
+              ref="option"
               v-model="option.label"
               class="option-label"
               placeholder="请填写选项"
@@ -62,6 +63,15 @@ export default {
     },
     handleEnter(index) {
       this.$emit('enter', index)
+      this.focusLastOption()
+    },
+    focusLastOption() {
+      // hack 当添加选项时，ref默认添加到数组最后，因此聚焦最后一个
+      this.$nextTick(() => {
+        const options = this.$refs.option
+        const length = options.length
+        options[length - 1].focus()
+      })
     }
   }
 }

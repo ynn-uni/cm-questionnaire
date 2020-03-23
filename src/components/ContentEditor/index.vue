@@ -2,6 +2,7 @@
   <div class="content-editor">
     <el-input
       v-if="!richtext"
+      ref="input"
       v-model.trim="tempValue"
       :placeholder="placeholder"
       size="small"
@@ -10,6 +11,7 @@
     />
     <editor
       v-else
+      ref="input"
       v-model.trim="tempValue"
       :inline="true"
       :init="{
@@ -148,6 +150,14 @@ export default {
       formData.append('file', file, file.name)
 
       xhr.send(formData)
+    },
+    focus() {
+      // TODO 需要兼容富文本
+      this.$refs.input.focus()
+    },
+    blur() {
+      // TODO 需要兼容富文本
+      this.$refs.input.blur()
     }
   }
 }

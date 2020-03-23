@@ -18,8 +18,8 @@
       </div>
     </div>
     <div class="question-content">
-      <SurveyRadio v-if="question.type === 1" :options="question.options" :column="question.column" @enter="handleAddOption" />
-      <SurveyCheckbox v-if="question.type === 2" :options="question.options" :column="question.column" @enter="handleAddOption" />
+      <SurveyRadio v-if="question.type === 1" ref="item" :options="question.options" :column="question.column" @enter="handleAddOption" />
+      <SurveyCheckbox v-if="question.type === 2" ref="item" :options="question.options" :column="question.column" @enter="handleAddOption" />
       <SurveyInput v-if="question.type === 3" :placeholder="question.placeholder" />
     </div>
     <div v-if="isFocus && (question.type === 1 || question.type === 2)" class="quick-action">
@@ -97,6 +97,8 @@ export default {
           id: shortid.generate(),
           label: ''
         })
+        // 将最后一个选项聚焦
+        this.$refs.item.focusLastOption()
       }
     },
     handleDelete() {
