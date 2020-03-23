@@ -183,11 +183,11 @@ export default {
   *[contentEditable='true']:hover {
     border: 1px solid #ebeef5;
   }
-  .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+  .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before{
     color: #c0c4cc;
     font-size: 14px;
     line-height: 32px;
-    left: 14px;
+    left: 14px !important;
   }
   .el-dialog__wrapper {
     z-index: 1100 !important;
