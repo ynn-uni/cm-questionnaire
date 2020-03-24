@@ -103,6 +103,15 @@ export default {
         bullist numlist outdent indent | removeformat`
     }
   },
+  watch: {
+    // 监听value的变化，使value和tempValue同步
+    value(val) {
+      if (val !== this.tempValue) {
+        console.log(val, this.tempValue)
+        this.tempValue = val
+      }
+    }
+  },
   mounted() {
     this.tempValue = this.value
   },
