@@ -6,7 +6,13 @@
 
     <el-row v-if="surveyList && surveyList.length" :gutter="20">
       <el-col v-for="(item,index) in surveyList" :key="index" v-bind="column">
-        <QuestionItem :detail="item" deletable @delete="handleDeleteSurvey" />
+        <QuestionItem
+          :detail="item"
+          deletable
+          @edit="handleEditSurvey(item.id)"
+          @release="handleReleaseSurvey(item.id)"
+          @delete="handleDeleteSurvey"
+        />
       </el-col>
     </el-row>
     <NoData v-else text="暂无数据" />
@@ -36,7 +42,7 @@
 
 <script>
 import { getStudentCourseList, getTeacherCourseList } from '@/api/course'
-import { getMySurveyList, delSurveyItem } from '@/api/survey'
+import { getMySurveyList, releaseSurveyItem, delSurveyItem } from '@/api/survey'
 import QuestionItem from '@/components/QuestionItem'
 import NoData from '@/components/NoData'
 import Pagination from '@/components/Pagination'
@@ -88,8 +94,22 @@ export default {
       this.$router.push({
         path: '/survey/create',
         query: {
-          id: this.courseId
+          cid: this.courseId
         }
+      })
+    },
+    handleEditSurvey(id) {
+      this.$router.push({
+        path: '/survey/edit',
+        query: {
+          qid: id
+        }
+      })
+    },
+    handleReleaseSurvey(id) {
+      releaseSurveyItem({ qid: id }).then(() => {
+        this.$message.success('问卷发布成功')
+        this.getMySurveyList()
       })
     },
     handleDeleteSurvey(evt) {
