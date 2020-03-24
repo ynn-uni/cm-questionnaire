@@ -3,18 +3,16 @@
     <div class="top flex align-center">
       <i class="iconfont icon-wenjuan my-icon" />
       <el-link class="title" @click.stop="previewDetail">{{ detail.title }}</el-link>
-      <el-link
-        v-if="deletable"
-        class="delete-button"
-        icon="el-icon-delete"
-        :underline="false"
-        @click="handleDelete"
-      >删除</el-link>
+      <div v-if="deletable" class="action-button">
+        <el-link v-if="detail.status === -1" icon="el-icon-edit" :underline="false" @click="handleEdit" />
+        <el-link icon="el-icon-delete" type="danger" :underline="false" @click="handleDelete" />
+      </div>
     </div>
     <div class="status flex align-center justify-between">
+      <el-tag v-if="detail.status === -1" type="warning" effect="dark">未发布</el-tag>
       <el-tag v-if="detail.status === 1" type="success" effect="dark">进行中</el-tag>
       <el-tag v-if="detail.status === 0" type="danger" effect="dark">已结束</el-tag>
-      <div v-if="actionable">
+      <div v-if="actionable && detail.status !== -1">
         <el-link
           v-if="detail.share === 0 && role !== 2"
           type="primary"
@@ -24,9 +22,17 @@
           <i class="iconfont icon-fenxiang share-icon" />分享问卷
         </el-link>
         <div v-else>
-          <el-link v-if="detail.status === 1" type="primary" :underline="false" @click.stop.prevent="shareLink">复制链接</el-link>
+          <el-link
+            v-if="detail.status === 1"
+            type="primary"
+            :underline="false"
+            @click.stop.prevent="shareLink"
+          >复制链接</el-link>
           <el-link type="primary" :underline="false" @click.stop.prevent="viewResult">查看结果</el-link>
         </div>
+      </div>
+      <div v-if="actionable && detail.status === -1">
+        <el-link type="primary" :underline="false" @click.stop.prevent="handleRelease">发布问卷</el-link>
       </div>
     </div>
     <div class="fromcourse flex align-center justify-between">
@@ -95,6 +101,12 @@ export default {
     }
   },
   methods: {
+    handleRelease() {
+      this.$emit('release', this.detail)
+    },
+    handleEdit() {
+      this.$emit('edit', this.detail)
+    },
     handleDelete() {
       this.$emit('delete', this.detail)
     },
@@ -178,22 +190,32 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    .title {
-      margin-right: 50px;
-      @include ellipsis;
+    .title::v-deep {
+      justify-content: start;
+      max-width: calc(100% - 120px);
+      margin-right: 60px;
+
+      .el-link--inner {
+        @include ellipsis;
+      }
     }
+
     .my-icon {
       color: $primaryColor;
       font-size: 44px;
       margin-right: 20px;
     }
-    .delete-button {
+    .action-button {
       display: none;
       position: absolute;
       top: 0;
       right: 0;
       color: $textPrimary;
       cursor: pointer;
+
+      .el-link + .el-link {
+        margin-left: 8px;
+      }
     }
   }
   .status {
@@ -244,7 +266,7 @@ export default {
   }
 }
 
-.item:hover .delete-button {
+.item:hover .action-button {
   display: inline-block;
 }
 </style>

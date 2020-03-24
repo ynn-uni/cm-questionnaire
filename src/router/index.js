@@ -113,6 +113,13 @@ export const constantRoutes = [
         meta: { title: '创建问卷' }
       },
       {
+        path: 'edit',
+        name: 'Survey Edit',
+        hidden: true,
+        component: () => import('@/views/survey/edit'),
+        meta: { title: '编辑问卷' }
+      },
+      {
         path: 'detail',
         name: 'Survey Detail',
         hidden: true,
