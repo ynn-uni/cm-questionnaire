@@ -4,7 +4,7 @@
 
     <el-row v-if="questionList && questionList.length" :gutter="20">
       <el-col v-for="item in questionList" :key="item.id" v-bind="column">
-        <QuestionItem :detail="item" />
+        <QuestionItem :detail="item" @release="handleReleaseSurvey(item.id)" />
       </el-col>
     </el-row>
     <NoData v-else :text="'暂无数据'" />
@@ -14,7 +14,7 @@
 <script>
 import NoData from '@/components/NoData'
 import QuestionItem from '@/components/QuestionItem'
-import { getMySurveyList, getCourseSurveyList } from '@/api/survey'
+import { getMySurveyList, getCourseSurveyList, releaseSurveyItem } from '@/api/survey'
 import { listSortByKey } from '@/utils'
 import { mapGetters } from 'vuex'
 export default {
@@ -49,6 +49,12 @@ export default {
           this.questionList = res.data
         })
       }
+    },
+    handleReleaseSurvey(id) {
+      releaseSurveyItem({ qid: id }).then(() => {
+        this.$message.success('问卷发布成功')
+        this.getSurveyList()
+      })
     }
   }
 }
