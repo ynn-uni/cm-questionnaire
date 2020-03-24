@@ -75,7 +75,8 @@ export default {
     },
     handleCourseSelect() {
       const role = this.$store.getters.role
-      const getCourseMethod = role === 2 ? getTeacherCourseList : getStudentCourseList
+      const getCourseMethod =
+        role === 2 ? getTeacherCourseList : getStudentCourseList
       getCourseMethod({ page: 1, size: 100 }).then(res => {
         this.courseList = filterStatus(res.data, 'status', 1)
         this.dialogVisible = true
