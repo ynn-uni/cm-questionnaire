@@ -78,7 +78,7 @@
         <el-card>
           <div class="survey-end">
             <ContentEditor v-model="suffix" class="survey-end-content" placeholder="点击填写结束语" richtext />
-            <el-button type="primary" size="small" @click="handlePublishSurvey">发布</el-button>
+            <el-button type="primary" size="small" @click="handlePublishSurvey">添加问卷</el-button>
           </div>
         </el-card>
       </div>
